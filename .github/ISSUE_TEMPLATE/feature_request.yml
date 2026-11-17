@@ -1,0 +1,22 @@
+name: Feature idea
+description: Suggest something new. Bigger ideas are best started in Discussions.
+labels: [idea]
+body:
+  - type: markdown
+    attributes:
+      value: Check the [roadmap](https://github.com/chiragd03/nightcap/blob/main/ROADMAP.md) first; it may already be planned.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What would you like to do that you can't today?
+    validations: { required: true }
+  - type: textarea
+    id: idea
+    attributes:
+      label: How do you picture it working?
+  - type: dropdown
+    id: part
+    attributes:
+      label: Which part?
+      multiple: true
+      options: [Setup, Server, Web app, Android TV, Samsung, LG, Not sure]
