@@ -1,0 +1,42 @@
+name: Bug report
+description: Something in Nightcap doesn't work as it should.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for reporting. Please check the open issues first, and never paste keys, passwords or your owner key.
+  - type: dropdown
+    id: part
+    attributes:
+      label: Which part?
+      options: [Setup (nightcap command), Server, Web app, Android TV, Samsung, LG, Not sure]
+    validations: { required: true }
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: For the setup run `nightcap --version`; for the apps see their settings.
+      placeholder: e.g. setup 1.0.0, server 1.0, Android TV 1.0.0
+    validations: { required: true }
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where does the server run?
+      options: [This computer (Docker), Kubernetes, Google Cloud, Another machine]
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what did you expect?
+    validations: { required: true }
+  - type: textarea
+    id: steps
+    attributes:
+      label: How can we make it happen again?
+      placeholder: "1. Open …\n2. Press …\n3. See …"
+    validations: { required: true }
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      description: Server logs are in `nightcap` → your server → Logs. Remove anything private.
+      render: text
