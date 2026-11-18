@@ -19,8 +19,9 @@
   <a href="#what-you-get">What you get</a> ·
   <a href="#where-your-films-come-from">Sources</a> ·
   <a href="ROADMAP.md">Roadmap</a> ·
-  <a href="https://github.com/chiragd03/nightcap/releases">Releases</a>
-  <!-- WEBSITE LINK: add the website (with Docs) here once the domain is set -->
+  <a href="https://github.com/chiragd03/nightcap/releases">Releases</a> ·
+  <a href="https://mynightcap.tv">Website</a> ·
+  <a href="https://mynightcap.tv/docs">Docs</a>
 </p>
 
 ---
@@ -28,7 +29,7 @@
 ## Install
 
 ```sh
-curl -fsSL https://github.com/chiragd03/nightcap/releases/download/setup-v1.0.0/install.sh | sh
+curl -fsSL https://mynightcap.tv/install.sh | sh
 ```
 
 Then run `nightcap` and answer a few questions. On Windows, download the `.exe` from [Releases](https://github.com/chiragd03/nightcap/releases).
@@ -55,8 +56,8 @@ Run `nightcap` again any time to see the server's status and logs, and to update
 | TV | How |
 |---|---|
 | **Android TV / Google TV** (Android 9+) | Install the `.apk` from the newest `tv-v…` [release](https://github.com/chiragd03/nightcap/releases). It updates itself from your server. |
-| **LG** (webOS 5+, 2020 on) | Install the `.ipk` from the newest `lg-v…` [release](https://github.com/chiragd03/nightcap/releases) with LG's Developer Mode. Extend the Developer Mode session in LG's app now and then, or the TV removes the app. |
-| **Samsung** (Tizen 5.5+, 2020 on) | Download the package from the newest `samsung-v…` [release](https://github.com/chiragd03/nightcap/releases), sign it once for your TV with Tizen Studio (free), then install it in Developer Mode. Samsung only installs apps signed for that TV. |
+| **LG** (webOS 5+, 2020 on) | Install the `.ipk` from the newest `lg-v…` [release](https://github.com/chiragd03/nightcap/releases) with LG's Developer Mode. Extend the Developer Mode session in LG's app now and then, or the TV removes the app. [Step by step](https://mynightcap.tv/tv#lg) |
+| **Samsung** (Tizen 5.5+, 2020 on) | Download the package from the newest `samsung-v…` [release](https://github.com/chiragd03/nightcap/releases), sign it once for your TV with Tizen Studio (free), then install it in Developer Mode. Samsung only installs apps signed for that TV. [Step by step](https://mynightcap.tv/tv#samsung) |
 
 **Joining a household.** At home, the Android TV app finds your server on the Wi-Fi and shows your households: pick one and you're in. Samsung and LG type the server's address once. For a server in the cloud, each TV joins once with an 8-character join code from the web app.
 

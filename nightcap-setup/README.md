@@ -11,7 +11,7 @@ Most people install the ready-built program from [Releases](https://github.com/c
 Mac and Linux:
 
 ```sh
-curl -fsSL https://github.com/chiragd03/nightcap/releases/download/setup-v1.0.0/install.sh | sh
+curl -fsSL https://mynightcap.tv/install.sh | sh
 ```
 
 It installs the newest `setup-v…` release as `nightcap` in `~/.local/bin`, after checking it against the release's checksums. Windows: download `nightcap-setup-windows-amd64.exe` from the newest `setup-v…` release.
