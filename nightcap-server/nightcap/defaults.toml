@@ -1,0 +1,342 @@
+# Nightcap server settings, with their defaults.
+#
+# To change any of them, write your own file with only the ones you change (same sections and names)
+# and point NIGHTCAP_CONFIG at it, e.g. NIGHTCAP_CONFIG=/etc/nightcap/nightcap.toml. A name the
+# server doesn't know, or a value of the wrong kind, stops it from starting (so a typo can't be
+# silently ignored). Some settings also take an environment variable, which wins over the file:
+# its name is given next to the setting.
+#
+# Secrets never go here: TMDB_API_KEY, DATABASE_URL, SECRETS_KEY and OWNER_KEY stay environment
+# variables (Cloud Run secrets). What differs between households (add-ons, AI key, place, spend
+# limit) is in the database, set in the web app.
+
+# ---------- The server ----------
+
+[server]
+name = "Nightcap"            # SERVER_NAME: what TVs show for it
+# MODE: "home" (on a home network: TVs find it, devices join any household without a code) or
+# "cloud" (on the internet: joining takes an invite's code; served over https). Anything else is cloud.
+mode = "cloud"
+port = 7171                  # PORT
+discovery_port = 7171        # DISCOVERY_PORT: at home, the UDP port TVs ask on
+advertise_port = 0           # ADVERTISE_PORT: the port TVs are told to use (a NodePort); 0 = same as port
+public_url = ""              # PUBLIC_URL: "https://nightcap.example.com"; empty = worked out per request
+timezone = "UTC"             # TZ: for a household that hasn't set its own
+country = "US"               # DEFAULT_COUNTRY: for a household that hasn't set its own (release dates, Top 10, streaming)
+trusted_proxy = false        # TRUSTED_PROXY: behind a load balancer that adds X-Forwarded-For
+max_body_bytes = 524288      # MAX_BODY_BYTES: the largest request (thumbnails are the big ones)
+max_import_bytes = 104857600 # MAX_IMPORT_BYTES: the largest households file to import (the apps are told)
+
+# ---------- Households ----------
+# The apps get these from the server (GET /limits.json), so they always match.
+
+[household]
+max_profiles = 6             # a household that has more already keeps them
+max_devices = 15             # TVs and browsers; one joining again in place of its old entry doesn't count twice
+max_addons = 20              # stream add-ons, and subtitle add-ons, each
+invite_hours = 24            # how long an invite's code works
+max_open_invites = 10
+invite_code_length = 8
+finished_invites_kept_days = 7   # used and expired invites stay on the list this long
+recent_searches = 8          # kept per profile
+sent_links_shown = 20        # links sent to a profile ("Send to TV") listed for it
+
+[names]
+# The most characters a name may have.
+profile = 20                 # a profile's name (the admin profile's too)
+household = 40
+device = 40
+invite_label = 40            # who or what an invite is for (the device that joins with it gets it as its name)
+
+[security]
+admin_session_minutes = 30   # how long the admin PIN keeps admin unlocked on a device, renewed as it's used
+pin_min_digits = 4
+pin_max_digits = 8
+pin_tries_before_lock = 5    # wrong PINs in a row before admin locks
+pin_lock_minutes = 15        # the first lock; each further one is twice as long
+export_password_min = 8      # characters in a households file's password
+owner_key_min = 32           # characters in OWNER_KEY
+tries_window_minutes = 10    # wrong join codes and owner keys are counted over this long
+join_tries_per_address = 20
+join_tries_total = 200       # from everyone
+owner_tries_per_address = 10
+
+# ---------- AI ----------
+
+[ai]
+# Each household picks its AI (Anthropic, OpenAI, OpenRouter, or an OpenAI-compatible address of its own),
+# its model and its key in Settings.
+model = "claude-haiku-5-5"   # AI_MODEL: the model offered first for Anthropic
+monthly_limit_max_usd = 10000    # the highest monthly limit a household may set
+most_output_plain = 16384    # the most an OpenAI-compatible model that doesn't reason is asked to write
+                             # (many stop at 16,384, and asking for more is refused)
+
+[ai.prices]
+# US dollars per million tokens: [input, output], for Anthropic's and OpenAI's own models (by their
+# model id). Used for the spend shown and the monthly limit. OpenRouter says what each answer cost; any
+# other model needs its price from the household (or "free"), or no AI calls are made for it.
+"claude-haiku-5-5" = [0.10, 0.50]   # (prompts over 100K tokens cost more; Nightcap's stay under)
+"claude-sonnet-5-5" = [2.00, 10.00]
+"claude-opus-5-5" = [4.00, 20.00]
+"claude-fable-5-1" = [10.00, 50.00]
+
+[ai.max_tokens]
+# The most each kind of AI call may write (thinking included).
+rebuild = 32000              # For you and Because you watched
+similar = 4000               # More like this
+search_plan = 4000           # an AI search, working out what's asked
+search_picks = 6000          # an AI search, picking the results
+
+[recommendations]
+# A profile's rows are rebuilt as its app refreshes Home; each rebuild is a paid AI call.
+rebuild_min_hours = 36       # MIN_REBUILD_HOURS: new watches rebuild no more often than this
+rebuild_max_hours = 72       # MAX_AGE_HOURS: and at least this often (if the app is opened)
+because_rows = 4             # BECAUSE_ROWS: Because you watched rows built
+
+# ---------- Home ----------
+
+[home]
+# Defaults for every profile (each profile, or its household, can change them in Settings).
+rows = 30                    # Home's rows at most
+page_rows = 25               # the Shows and Movies pages' rows at most
+featured = 6                 # titles in the big picture at the top
+continue_watching = 12
+
+[home.language_rows]
+# The language rows a profile can pick (TMDB language codes; "anime" is Japanese animation).
+hi = "Hindi"
+ko = "Korean"
+anime = "Anime"
+ja = "Japanese"
+ta = "Tamil"
+te = "Telugu"
+ml = "Malayalam"
+es = "Spanish"
+fr = "French"
+tr = "Turkish"
+zh = "Chinese"
+
+[home.countries]
+# Countries a household can pick, for its Top 10 rows (as they read in "Top 10 in …").
+CA = "Canada"
+IN = "India"
+US = "the US"
+GB = "the UK"
+AU = "Australia"
+
+# ---------- Playback ----------
+
+[playback]
+# LOOKUP_BUDGET_S: looking up a title's sources finishes inside this. Keep it under 60: the TV
+# waits 60 seconds for the list.
+lookup_budget_seconds = 55
+link_extra_hours = 2         # a play link works for the title's running time plus this
+link_min_hours = 3           # and for at least this long, however short the title
+
+# ---------- App updates ----------
+# The Android TV app's releases: the newest release of this GitHub repository (owner/name) whose tag
+# starts with tag_prefix holds its version.json and an APK per processor kind (see appupdate.py); the
+# repository's other releases (the setup tool's) are ignored. TVs ask this server, never GitHub.
+
+[app]
+releases = "chiragd03/nightcap"  # APP_RELEASES: "" = TVs are never offered an update
+tag_prefix = "tv-v"              # the app's release tags: tv-v1.4
+check_minutes = 60               # how long the newest app release's details are kept before GitHub is asked again
+
+# ---------- Live TV ----------
+
+[livetv]
+# Channels from the household's own channel lists (M3U), added in Settings.
+max_lists = 5
+max_list_bytes = 10485760    # a list larger than this (10 MB) isn't read
+max_channels = 20000         # lines read from one list; the rest are left out
+refresh_hours = 24           # a list is read again when Live TV is opened and it's older than this
+min_refresh_hours = 0.25     # the least a list's Advanced settings may set
+refresh_choices_minutes = [15, 60, 360, 1440]   # what a list's Advanced settings offer
+rows = 6                     # rows of a kind of channel (News, Music…) on the Live TV page, after My channels
+row_size = 20
+fails_to_hide = 2            # a channel that failed to play this many times in a row is hidden…
+hidden_days = 7              # …for this long, then tried again (one that plays is back at once)
+failure_gap_minutes = 60     # failures closer together than this count once
+languages_said_share = 0.6   # the language filter is shown only when this share of the channels say their language
+
+# =====================================================================================================
+# ADVANCED
+#
+# WARNING: these tune how the server works inside. The defaults are worked out to fit together and
+# with the apps; changing one can break things in ways that aren't obvious. Where a value depends on
+# another, it says so next to it. Change one only if you know why.
+# =====================================================================================================
+
+[advanced.cache]
+entries = 20000              # CACHE_ENTRIES: kept in memory at most (memory use grows with it)
+browse_hours = 6             # a Browse page (language, genre)
+title_minutes = 60           # a title's page
+person_hours = 24
+preview_hours = 12           # a setting's preview posters
+quick_search_minutes = 60
+ai_search_hours = 24
+similar_ai_days = 7          # More like this, as the AI picked it (each is a paid AI call)
+similar_pool_hours = 6
+discover_hours = 6           # TMDB's lists
+cinemeta_hours = 6
+title_details_hours = 24
+title_recheck_days = 7       # a watched title's saved details (name, poster, episodes) are looked up again after this
+title_rechecks_at_once = 3   # of those, at most this many each time Home is brought up to date (in the background)
+trailers_days = 7
+genre_lists_days = 7
+original_language_days = 30
+found_days = 120             # a title's TMDB match (id, language): it doesn't change
+imdb_ids_days = 30
+netflix_lookup_days = 30
+no_match_hours = 12          # a chart title or IMDb id TMDB doesn't have (yet: new shows get added): asked again after this
+netflix_top10_hours = 12
+weather_minutes = 20         # the TV asks every 10 minutes
+air_times_hours = 12
+air_times_retry_minutes = 30 # after a lookup that failed
+season_length_days = 7
+account_settings_seconds = 60
+account_of_hours = 24
+device_key_seconds = 300     # a removed device's key keeps working up to this long
+sources_minutes = 20         # a title's sources; also how long "Look for more sources" remembers its extras
+plugin_minutes = 20
+extras_only_minutes = 2      # sources from the extra add-ons alone, or none verified, are asked again after this
+not_found_seconds = 60
+new_episode_recheck_minutes = 30  # an episode out (or maybe out early): its add-ons are asked again after this…
+new_episode_check_days = 2   # …for this long after it's out (until then it doesn't count as new)
+new_episode_early_hour = 12  # an episode with only an air date: looked for from this hour (UTC) of its day, and out once found
+
+[advanced.timeouts]
+# Seconds unless named otherwise. Keep lookup_budget_seconds (above) > aiostreams_setup_wait_seconds
+# and > plugin_seconds, and link_resolve_seconds under the players' 30-second start timeout.
+http_seconds = 20            # any outside service, unless named here
+http_retries = 2
+addon_manifest_seconds = 8
+cinemeta_search_seconds = 8
+tvmaze_seconds = 10
+tvmaze_episodes_seconds = 15
+netflix_seconds = 60
+aiostreams_seconds = 30
+aiostreams_setup_wait_seconds = 40
+aiostreams_repair_every_seconds = 300
+addon_test_seconds = 10
+addon_test_sleeping_seconds = 30   # for an add-on on a free host that sleeps
+link_resolve_seconds = 15
+link_max_hops = 3
+link_resolved_minutes = 60
+length_check_seconds = 5      # reading the first sources' lengths as a play is answered (none kept waiting longer)
+audio_check_seconds = 12      # reading the versions' track lists when a viewer picks another language
+database_connect_seconds = 10
+ai_key_check_seconds = 30     # a key is tested with one small answer from the model
+plugin_seconds = 42          # under lookup_budget_seconds
+plugin_min_seconds = 5
+plugin_retry_seconds = 3
+thin_retry_seconds = 3
+livetv_list_seconds = 20     # reading a channel list
+
+[advanced.pools]
+# How many at once. More database connections need a database that allows them.
+database_connections = 6
+database_idle_seconds = 120  # a database connection unused this long is closed (below Neon's 5 minutes)
+addon_requests = 12
+source_lookups = 4
+more_sources = 4
+
+[advanced.devices]
+last_used_save_minutes = 5   # a device's "last used" is saved at most this often
+# Watching now: its player reported in this long and its position moved. The players report
+# every 30 seconds, so keep it over 60.
+watching_seconds = 75
+tv_off_after_minutes = 10    # Play on TV: a TV not used this long is off (keep it over last_used_save_minutes)
+play_on_tv_pickup_seconds = 25   # the TV checks every 10 seconds, so keep it over 10
+play_on_tv_kept_hours = 24
+
+[advanced.progress]
+finished_at = 0.92           # this share watched counts as finished
+session_gap_minutes = 30     # a play carries on if it's reported again within this
+
+[advanced.refresh]
+home_fresh_minutes = 5
+min_rebuild_seconds = 60
+
+[advanced.tmdb]
+retries = 5                  # a "too many requests" answer is waited out (as long as TMDB says) this many times
+most_wait_seconds = 10       # and never longer than this at a time
+
+[advanced.home_rows]
+# Home's rows (see home.launcher_feed).
+list_themes = 12             # themed rows from themes.toml offered each day (the best fits; the AI adds its own)
+page_list_themes = 10        # on the Shows or Movies page, of that kind
+genre_rows = 4               # the Shows or Movies page's genre rows (the genres the profile watches most)
+min_titles = 6               # a row left with fewer titles (after the rows above it) isn't shown
+build_workers = 6            # rows worked out at once while Home is built (cards: twice this)
+latest_days = [120, 240, 365] # a language's Latest shows: from this far back, further if that's too few
+anime_top_hours = 12         # "Top 10 anime airing now" (AniList's trending) is asked for again this often
+anime_airing_days = 30       # (without AniList: had an episode out within this)
+anime_min_votes = 20
+
+[advanced.catalogue]
+# The titles recommendations are picked from (see catalogue.py). TMDB calls: about 35 per language
+# and kind once a day, shared by every household.
+language_pages = 15          # pages (of 20) of a language's most voted and most popular on its streaming
+english_pages = 5            # the same for English (there's far more of it, and its related lists work)
+anywhere_pages = 5           # most popular anywhere
+list_hours = 24              # a language's list is worked out again this often
+taste_titles = 40            # recent watches that make a profile's taste
+taste_decay = 0.93
+seed_slice = 30              # titles from each Because row's title
+recent_slice = 12            # from each other recent watch
+language_slice = 30          # best fits from each language's list, films and series each
+trending_slice = 15
+shortlist = 420              # the most the AI is shown (about 50 tokens each): enough for Home and the Shows and Movies pages
+
+[advanced.recommendations]
+history_titles = 40          # recent watches the AI is told about
+skip_titles = 150            # watched titles never offered again (by their TMDB key; all are, by IMDb id)
+related_titles = 10          # recent watches (besides the Because rows') whose related titles are offered
+loved_seeds = 2              # Because rows from titles rated Love it first, among the latest
+loved_seed_within = 30
+for_you_size = 30            # without the AI: Top picks for you
+page_picks = 25              # without the AI: the Shows and Movies pages' own picks
+because_size = 12            # without the AI: a Because row
+because_same_language = 9    # without the AI: of those, in its title's language
+theme_min_titles = 6         # an AI themed row with fewer left (after the rows above it) isn't shown
+plot_chars = 100             # of each candidate's plot the AI is shown
+ai_effort = "low"            # how hard the AI works at its answer
+min_ai_picks = 15             # an AI answer with fewer For You picks is asked again, then ranked in code
+ai_thinking = true           # whether it thinks first. Thinking is 3/4 of a rebuild's cost, but without it
+                             # answers often come back nearly empty
+not_interested_titles = 40
+fingerprint_titles = 30      # recent watches that, changed, mean there are new watches
+language_min_votes = 50
+less_known_votes = [200, 3000]   # "highly rated, less known": between these many votes
+vote_cap = 500               # votes count up to this in the pool's ranking
+
+[advanced.pages]
+list_size = 20               # titles in a list on a Browse page
+new_days = 120               # "New" on a language or genre page
+popular_years = 3
+best_years = 15
+rated_film_votes = [300, 40] # Highly rated films: the well voted first, then these many
+rated_series_votes = [150, 10]
+serial_episodes = 30         # a series with longer seasons is a daily serial (not on language pages)
+genre_votes = [100, 50]      # films, series on a genre page
+genre_best_votes = [1000, 300]
+new_release_days = [60, 45]  # films, series in New releases
+new_release_votes = [20, 5]
+coming_soon_days = 90
+ignored_after_days = 14      # a row shown this long and never opened comes up less
+taste_titles = 30            # recent watches that make a profile's taste
+taste_decay = 0.92           # each older watch counts this much less
+rotating_row_size = 16
+language_pages = 3           # of TMDB's list for a language's Latest and Popular (daily serials are left out after)
+convert_titles = 30          # of a TMDB list's results, those turned into IMDb ids (a row shows at most list_size)
+
+[advanced.search]
+quick_titles = 20
+like_enough = 0.84           # how alike a name must be to count as a match, 0 to 1
+like_from = 3                # letters typed before names are matched by likeness
+known_first = 6
+known_titles_minutes = 10
+filter_min_votes = 20
+ai_results = 50

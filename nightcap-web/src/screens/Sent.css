@@ -1,0 +1,94 @@
+/* Sent to TV: a heading, the send bar, and the links as 16:9 tiles (as episode stills). */
+
+.sent { padding: clamp(36px, 7vh, 72px) var(--gutter) 80px; max-width: 1240px; }
+
+.sent-head .eyebrow { color: var(--lamp); letter-spacing: 0.16em; }
+.sent-head h1 { margin: 10px 0 0; font: 800 clamp(44px, 5vw, 72px)/0.95 'Big Shoulders', 'Big Shoulders Fallback', sans-serif; text-transform: uppercase; }
+.sent-head p { margin: 12px 0 0; max-width: 560px; color: var(--muted); line-height: 1.5; }
+
+.sent-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 860px;
+  margin-top: 28px;
+  padding: 6px 6px 6px 20px;
+  border-radius: 30px;
+  background: rgba(19, 26, 40, 0.82);
+  box-shadow: inset 0 0 0 1px rgba(238, 241, 247, 0.12);
+}
+.sent-bar:focus-within { box-shadow: inset 0 0 0 1.5px rgba(238, 241, 247, 0.5); }
+.sent-bar input { flex: 1; min-width: 0; height: 46px; border: 0; background: none; color: var(--text); font: 500 16px 'Hanken', 'Hanken Fallback', sans-serif; }
+.sent-bar input:focus { outline: none; }
+.sent-bar input::placeholder { color: var(--muted); }
+.sent-bar .sent-name { flex: 0 1 200px; padding-left: 14px; border-left: 1px solid rgba(238, 241, 247, 0.12); }
+.sent-bar .btn { flex: none; }
+.sent-bar .btn[disabled] { opacity: 0.45; cursor: default; filter: none; }
+.sent-hint { margin: 8px 0 0 20px; color: #ff9b8a; font-size: 13px; }
+.sent-empty { margin-top: 40px; color: var(--muted); }
+
+.sent-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 26px 18px; margin-top: 40px; }
+.sent-tile { display: flex; flex-direction: column; gap: 10px; min-width: 0; animation: sent-in var(--dur) cubic-bezier(0.2, 0, 0, 1) both; animation-delay: calc(min(var(--i), 6) * 30ms); }
+@keyframes sent-in { from { opacity: 0; transform: translateY(10px); } }
+
+.sent-still {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: linear-gradient(135deg, hsl(var(--hue) 35% 26%), hsl(calc(var(--hue) + 40) 30% 14%));
+  color: var(--text);
+  cursor: pointer;
+  transition: transform var(--dur) cubic-bezier(0.3, 1.4, 0.5, 1), box-shadow var(--dur);
+}
+.sent-still img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.sent-still::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(9, 13, 22, 0.7), rgba(9, 13, 22, 0) 55%); }
+.sent-still img.sent-mark { position: static; width: 34%; height: auto; object-fit: contain; opacity: 0.85; }
+.sent-play {
+  position: absolute;
+  z-index: 1;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: var(--lamp);
+  color: #1b1305;
+  font-weight: 700;
+  font-size: 14px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity var(--dur), transform var(--dur);
+}
+.sent-still:hover,
+.sent-still:focus-visible { transform: scale(1.03); box-shadow: 0 0 0 2px var(--lamp); outline: none; }
+.sent-still:hover .sent-play,
+.sent-still:focus-visible .sent-play { opacity: 1; transform: none; }
+.sent-progress { position: absolute; z-index: 1; left: 10px; right: 10px; bottom: 10px; height: 4px; border-radius: 2px; overflow: hidden; background: rgba(255, 255, 255, 0.25); }
+.sent-progress span { display: block; height: 100%; background: var(--lamp); }
+
+.sent-info { display: flex; align-items: flex-start; gap: 8px; }
+.sent-text { flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.sent-text b { font-size: 15px; font-weight: 650; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sent-text small { color: var(--muted); font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sent-remove {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(238, 241, 247, 0.08);
+  color: var(--muted);
+  font-weight: 800;
+  cursor: pointer;
+}
+.sent-remove:hover { background: var(--text); color: var(--ink); }
+
+@media (max-width: 700px) {
+  .sent { padding-bottom: 110px; }
+  .sent-bar { flex-wrap: wrap; border-radius: 22px; padding: 8px 8px 8px 16px; }
+  .sent-bar input { flex-basis: 100%; }
+  .sent-bar .sent-name { flex: 1; padding-left: 0; border-left: 0; border-top: 1px solid rgba(238, 241, 247, 0.12); }
+  .sent-play { opacity: 1; transform: none; }
+}

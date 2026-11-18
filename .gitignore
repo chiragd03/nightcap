@@ -1,0 +1,28 @@
+# Secrets and local settings
+.env
+*.env
+!*.env.example
+secrets.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+cache.json
+
+# Node
+node_modules/
+dist/
+
+# Optional extension, never part of this repository
+nightcap-server/nightcap/private/
+
+# Server notes stay out: only the README
+nightcap-server/**/*.md
+!nightcap-server/README.md
+
+# Editors and OS
+.DS_Store
+.idea/
+.vscode/

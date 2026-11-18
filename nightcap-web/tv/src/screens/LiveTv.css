@@ -1,0 +1,198 @@
+/* Live TV on the TV, as the Android TV's layouts: 1rem is the Android TV's dp.
+   Written for Chrome 68 (Tizen 5.5, webOS 5): no gap in flex rows, no inset, no aspect-ratio, no
+   conic gradients. */
+
+.live-dot { display: inline-block; flex: none; width: 6rem; height: 6rem; margin-right: 7rem; border-radius: 50%; background: #ff5a64; }
+
+/* ---------- The page ---------- */
+
+/* Top right: the channel's colour and logo, then its live picture fading in over them. */
+.live-art-frame { position: absolute; top: 0; right: 0; width: 670rem; height: 377rem; overflow: hidden; }
+.live-art-glow { position: absolute; top: 0; right: 0; bottom: 0; left: 0; border-radius: 10rem; }
+.live-art-logo { position: absolute; top: 132.5rem; left: 295rem; width: 200rem; height: 112rem; object-fit: contain; opacity: 0.9; }
+.live-preview { position: absolute; top: 0; right: 0; bottom: 0; left: 0; opacity: 0; transition: opacity 600ms; }
+.live-preview.on { opacity: 1; }
+.live-preview-video { width: 100%; height: 100%; object-fit: cover; background: #000; }
+
+.live-hero { position: absolute; top: 92rem; left: 48rem; display: flex; flex-direction: column; width: 460rem; height: 200rem; overflow: hidden; animation: hero-in 240ms var(--ease) both; }
+.live-hero-eyebrow { display: flex; align-items: center; color: var(--lamp); font-size: 11rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+.live-hero-title { display: -webkit-box; margin-top: 8rem; overflow: hidden; font: 800 50rem/0.9 'Big Shoulders', sans-serif; text-transform: uppercase; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.live-hero-meta { margin-top: 9rem; color: var(--muted); font-size: 13rem; }
+.live-hero-reason { display: -webkit-box; margin-top: 7rem; overflow: hidden; font-size: 14rem; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+
+.rows.live-rows { top: 300rem; }
+
+/* A channel: its logo, or its short name on a tint of its own colour, on dark
+   glass; its name under it. The whole of it grows when focused; the ring is the tile's. */
+.card.live-card { margin-right: 13rem; }
+.lc { display: flex; flex-direction: column; width: 168rem; text-align: left; }
+.lc-tile { position: relative; display: block; height: 96rem; overflow: hidden; border-radius: 10rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.086), rgba(255, 255, 255, 0.035)); box-shadow: inset 0 0 0 0.8rem rgba(255, 255, 255, 0.12); }
+.card:focus .lc-tile, .lp-strip-item.picked .lc-tile { background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)); box-shadow: inset 0 0 0 1.2rem rgba(255, 255, 255, 0.85); }
+.lc-tint { position: absolute; top: 0; right: 0; bottom: 0; left: 0; }
+.lc-logo { position: absolute; top: 22rem; left: 34rem; width: 100rem; height: 52rem; object-fit: contain; }
+.lc-mono { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: flex; align-items: center; justify-content: center; color: rgba(238, 241, 247, 0.92);
+  font: 800 29rem/1 'Big Shoulders', sans-serif; letter-spacing: 0.02em; }
+.lc-badge { position: absolute; top: 7rem; left: 7rem; padding: 3rem 6rem; border-radius: 4rem; background: rgba(18, 23, 34, 0.8); color: #f5f7fa;
+  font-size: 8rem; font-weight: 700; letter-spacing: 0.04em; line-height: 1; white-space: pre; }
+.lc-badge.live { background: #e5362b; }
+.lc-star { position: absolute; top: 7rem; right: 7rem; display: flex; align-items: center; justify-content: center; width: 15rem; height: 15rem; border-radius: 50%;
+  background: rgba(16, 22, 36, 0.45); box-shadow: inset 0 0 0 1rem rgba(255, 255, 255, 0.2); color: var(--lamp); }
+.lc-sheen { position: absolute; top: 0; right: 0; bottom: 0; left: 0; border-radius: 10rem; opacity: 0; transition: opacity 260ms;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.06) 35%, rgba(255, 255, 255, 0)); }
+.card:focus .lc-sheen { opacity: 1; }
+.lc-name { margin-top: 7rem; overflow: hidden; color: var(--muted); font-size: 11rem; font-weight: 600; white-space: nowrap; text-overflow: ellipsis; transition: color 200ms; }
+.card:focus .lc-name, .lp-strip-item.picked .lc-name { color: var(--text); }
+.lc-sub { overflow: hidden; color: #647087; font-size: 8.5rem; white-space: nowrap; text-overflow: ellipsis; }
+.card.live-card:focus { transform: scale(1.1); }
+
+/* A tile that isn't a channel: a row's Browse all (how many it has), or a kind (its
+   name on its tint, six of its logos dimmed behind). */
+.lc-mosaic { position: absolute; top: 6rem; right: 6rem; bottom: 6rem; left: 6rem; display: flex; flex-wrap: wrap; opacity: 0.3; }
+.lc-mosaic img { width: 33.33%; height: 50%; padding: 8rem; box-sizing: border-box; object-fit: contain; }
+.lc-more-shade { position: absolute; top: 0; right: 0; bottom: 0; left: 0; border-radius: 10rem;
+  background: radial-gradient(circle 90rem at 50% 50%, rgba(10, 14, 24, 0.85), rgba(10, 14, 24, 0.55) 50%, rgba(10, 14, 24, 0.2)); }
+.lc-more { position: absolute; top: 0; right: 14rem; bottom: 0; left: 14rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.lc-more b { display: -webkit-box; max-width: 100%; overflow: hidden; color: var(--text); font: 800 28rem/1 'Big Shoulders', sans-serif; text-transform: uppercase;
+  text-shadow: 0 0 8rem rgba(0, 0, 0, 0.6); -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.lc-more b.name { font-size: 21rem; }
+.lc-more small { margin-top: 3rem; color: #c3cad8; font-size: 7.5rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap; }
+.lc-go { position: absolute; right: 8rem; bottom: 8rem; display: flex; opacity: 0.7; }
+
+/* Search every channel: one wide glass panel across the page; behind it two lines
+   of logos drift slowly opposite ways (dim, brighter when focused); on it a search disc and words. */
+.card.every-card:focus { transform: scale(1.03); }
+.lc-every { position: relative; display: block; width: 864rem; height: 136rem; overflow: hidden; border-radius: 16rem; text-align: left;
+  background: linear-gradient(90deg, rgba(26, 34, 50, 0.1), rgba(255, 255, 255, 0.05)); box-shadow: inset 0 0 0 1rem rgba(255, 255, 255, 0.14); }
+.card:focus .lc-every { background: linear-gradient(90deg, rgba(42, 36, 20, 0.18), rgba(255, 255, 255, 0.08)); box-shadow: inset 0 0 0 1.2rem rgba(255, 255, 255, 0.85); }
+.every-wall { position: absolute; top: 0; bottom: 0; left: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0.2; transition: opacity 300ms; }
+.card:focus .every-wall { opacity: 0.4; }
+.every-line { display: flex; height: 50rem; }
+.every-line + .every-line { margin-top: 12rem; }
+.every-logo { flex: none; width: 84rem; height: 50rem; margin-right: 12rem; padding: 8rem 10rem; box-sizing: border-box; border-radius: 10rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.086), rgba(255, 255, 255, 0.035)); box-shadow: inset 0 0 0 0.8rem rgba(255, 255, 255, 0.12); }
+.every-logo img { width: 100%; height: 100%; object-fit: contain; }
+.every-line.left { -webkit-animation: drift-left 90s linear infinite; animation: drift-left 90s linear infinite; }
+.every-line.right { -webkit-animation: drift-right 90s linear infinite; animation: drift-right 90s linear infinite; }
+@keyframes drift-left { from { transform: translateX(0); } to { transform: translateX(-1152rem); } }
+@keyframes drift-right { from { transform: translateX(-1152rem); } to { transform: translateX(0); } }
+.every-shade { position: absolute; top: 0; right: 0; bottom: 0; left: 0; border-radius: 16rem;
+  background: linear-gradient(90deg, rgba(10, 14, 24, 0.94), rgba(10, 14, 24, 0.7) 42%, rgba(10, 14, 24, 0.15)); }
+.every-body { position: absolute; top: 0; bottom: 0; left: 30rem; display: flex; align-items: center; }
+.every-disc { display: flex; flex: none; align-items: center; justify-content: center; width: 62rem; height: 62rem; border-radius: 50%; color: #f2f4f8;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0)), rgba(16, 22, 36, 0.6); box-shadow: inset 0 0 0 1rem rgba(255, 255, 255, 0.22); }
+.card:focus .every-disc { background: rgba(255, 255, 255, 0.97); color: #0b0f17; box-shadow: none; }
+.every-text { display: flex; flex-direction: column; margin-left: 22rem; }
+.every-text small { color: var(--lamp); font-size: 8.5rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
+.every-text b { margin-top: 4rem; color: var(--text); font: 800 32rem/1 'Big Shoulders', sans-serif; text-transform: uppercase; white-space: nowrap; }
+.every-text span { margin-top: 5rem; color: #a9b2c3; font-size: 10.5rem; }
+
+/* No channel list yet. */
+.live-empty { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.live-empty-title { color: var(--text); font: 700 34rem/1 'Big Shoulders', sans-serif; letter-spacing: 0.02em; }
+.live-empty-hint { width: 520rem; margin: 10rem 0 0; color: var(--muted); font-size: 10.5rem; line-height: 1.3; text-align: center; white-space: pre-line; }
+.live-empty-tiles { margin-top: 34rem; }
+.live-empty-tiles > span { display: flex; }
+
+/* ---------- Browse all ---------- */
+
+.live-browse { overflow: hidden; background: var(--ink); }
+.lb-glow { position: absolute; top: 0; right: 0; bottom: 0; left: 0; }
+.lb-main { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: flex; flex-direction: column; }
+.lb-head { position: relative; z-index: 3; display: flex; align-items: flex-end; margin: 30rem 48rem 0; }
+.lb-titles { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.lb-eyebrow { color: var(--muted); font-size: 8rem; font-weight: 700; letter-spacing: 0.16em; }
+.lb-title { margin-top: 4rem; overflow: hidden; font: 800 42rem/1 'Big Shoulders', sans-serif; text-transform: uppercase; white-space: nowrap; text-overflow: ellipsis; }
+.lb-count { margin-bottom: 4rem; color: var(--muted); font-size: 11rem; }
+.lb-search { position: relative; z-index: 3; display: flex; align-items: center; flex: none; width: 460rem; height: 44rem; margin: 18rem 0 0 48rem; padding: 0 18rem; box-sizing: border-box;
+  border-radius: 22rem; background: linear-gradient(180deg, #1a2130, #121826); box-shadow: inset 0 0 0 1rem rgba(255, 255, 255, 0.18); color: var(--text); }
+.lb-search:focus-within { background: linear-gradient(180deg, #283041, #1c2331); box-shadow: inset 0 0 0 1.4rem rgba(255, 255, 255, 0.9); }
+.lb-search input { flex: 1; min-width: 0; height: 100%; margin-left: 12rem; border: 0; background: none; color: var(--text); font: inherit; font-size: 14rem; font-weight: 500; outline: none; }
+.lb-search input::placeholder { color: #8c97a8; }
+.lb-pills { position: relative; z-index: 3; flex: none; margin-top: 12rem; overflow: hidden; }
+.lb-pills-track { display: flex; height: 30rem; align-items: center; padding: 0 48rem; transition: transform 260ms var(--ease); }
+.lb-pill { flex: none; height: 30rem; margin-right: 8rem; padding: 0 14rem; border: 0; border-radius: 15rem; outline: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.043)); box-shadow: inset 0 0 0 0.8rem rgba(255, 255, 255, 0.14);
+  color: rgba(238, 241, 247, 0.9); font-size: 11rem; font-weight: 600; white-space: pre; }
+.lb-pill.lit { color: var(--lamp); font-weight: 750; }
+.lb-pill:focus { background: rgba(255, 255, 255, 0.96); box-shadow: none; color: var(--ink); }
+.lb-note { position: relative; z-index: 3; margin: 10rem 48rem 0; color: var(--muted); font-size: 10rem; }
+.lb-grid-wrap { position: relative; flex: 1; min-height: 0; margin-top: 6rem; }
+.lb-grid { padding: 14rem 48rem 40rem; transition: transform 300ms var(--ease); }
+.lb-line { display: flex; margin-bottom: 18rem; transition: opacity 300ms var(--ease); }
+.lb-line.above { opacity: 0; }
+/* (Five to a line: (960 − 96) ÷ 5, less 13 between.) */
+.card.lb-card { margin-right: 13rem; }
+.lb-card .lc { width: 159.8rem; }
+.lb-card .lc-logo { left: 30rem; width: 99.8rem; }
+.card.lb-card:focus { transform: scale(1.08); }
+.lb-status { position: absolute; top: 50%; left: 50%; width: 420rem; margin: 20rem 0 0 -210rem; color: var(--muted); font-size: 13rem; line-height: 1.3; text-align: center; }
+
+/* ---------- The player ---------- */
+
+.lp { background: #05070d; }
+.lp-box { background: #05070d; }
+.lp-info { position: absolute; top: 0; right: 0; bottom: 0; left: 0; opacity: 0; transition: opacity 400ms; }
+.lp-info.on { opacity: 1; transition-duration: 200ms; }
+.lp-top-shade { position: absolute; top: 0; right: 0; left: 0; height: 140rem; background: linear-gradient(180deg, rgba(5, 7, 13, 0.75), rgba(5, 7, 13, 0)); }
+.lp-name { position: absolute; top: 32rem; left: 48rem; display: flex; align-items: center; }
+.lp-name-tile { position: relative; flex: none; width: 48rem; height: 48rem; overflow: hidden; border-radius: 10rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.086), rgba(255, 255, 255, 0.035)); box-shadow: inset 0 0 0 0.8rem rgba(255, 255, 255, 0.12); }
+.lp-name-tile img { position: absolute; top: 8rem; left: 8rem; width: 32rem; height: 32rem; object-fit: contain; }
+.lp-name-tile b { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: flex; align-items: center; justify-content: center; font: 800 18rem/1 'Big Shoulders', sans-serif; }
+.lp-name-text { display: flex; flex-direction: column; margin-left: 13rem; }
+.lp-state { display: flex; align-items: center; color: var(--lamp); font-size: 9rem; font-weight: 800; letter-spacing: 0.14em; }
+.lp-state .live-dot { width: 5rem; height: 5rem; margin-right: 5rem; }
+.lp-title { max-width: 560rem; margin-top: 3rem; overflow: hidden; font: 800 32rem/1 'Big Shoulders', sans-serif; text-transform: uppercase; white-space: nowrap; text-overflow: ellipsis; }
+.lp-meta { margin-top: 4rem; color: #a9b2c3; font-size: 11rem; white-space: pre; }
+.lp-clock .clock { top: 36rem; right: 48rem; left: auto; }
+.lp-clock .clock-time { font-size: 26rem; text-shadow: 0 0 8rem rgba(0, 0, 0, 0.6); }
+.lp-clock .clock-date { display: none; }
+
+/* The buttons in the middle: glass discs, solid white when focused with a soft light round them. */
+.lp-actions { position: absolute; top: 50%; left: 50%; display: flex; margin-top: 20rem; transform: translate(-50%, -50%); }
+.lp-act { display: flex; flex-direction: column; align-items: center; width: 132rem; padding: 0; border: 0; background: none; outline: none; }
+.lp-act-box { position: relative; display: flex; align-items: center; justify-content: center; width: 96rem; height: 96rem; }
+.lp-halo { position: absolute; top: 0; right: 0; bottom: 0; left: 0; border-radius: 50%; opacity: 0; transition: opacity 240ms;
+  background: radial-gradient(circle 48rem at 50% 50%, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0)); }
+.lp-act:focus .lp-halo { opacity: 1; }
+.lp-disc { position: relative; display: flex; align-items: center; justify-content: center; width: 62rem; height: 62rem; border-radius: 50%; color: #f2f4f8;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0)), rgba(16, 22, 36, 0.6); box-shadow: inset 0 0 0 1rem rgba(255, 255, 255, 0.22);
+  transition: transform 240ms var(--ease), background 180ms, color 180ms; }
+.lp-act:focus .lp-disc { transform: scale(1.14); background: rgba(255, 255, 255, 0.97); box-shadow: none; color: #0b0f17; }
+.lp-disc.gold, .lp-act:focus .lp-disc.gold { color: var(--lamp); }
+.lp-act-label { max-width: 128rem; margin-top: -6rem; overflow: hidden; color: rgba(220, 226, 236, 0.7); font-size: 8.5rem; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; white-space: nowrap; text-overflow: ellipsis; text-shadow: 0 0 6rem rgba(0, 0, 0, 0.7); }
+.lp-act:focus .lp-act-label { color: #fff; }
+
+/* The row's channels at the bottom. */
+.lp-strip { position: absolute; right: 0; bottom: 0; left: 0; display: flex; flex-direction: column; justify-content: flex-end; height: 260rem; padding-bottom: 12rem; box-sizing: border-box;
+  background: linear-gradient(0deg, rgba(5, 7, 13, 0.98), rgba(5, 7, 13, 0.85) 50%, rgba(5, 7, 13, 0)); opacity: 0; visibility: hidden; transition: opacity 400ms, visibility 0s 400ms; }
+.lp-strip.on { opacity: 1; visibility: visible; transition: opacity 220ms; }
+.lp-strip-title { margin-left: 48rem; color: #c3cad8; font-size: 12rem; font-weight: 600; white-space: pre; }
+.lp-strip-scroll { margin-top: 10rem; padding: 10rem 0; overflow: hidden; }
+.lp-strip-items { display: flex; padding: 0 48rem; transition: transform 300ms var(--ease); }
+.lp-strip-item { flex: none; margin-right: 10rem; opacity: 0.55; transition: opacity 200ms, transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+.lp-strip-item.picked { opacity: 1; }
+.lp-strip-item.lifted { transform: scale(1.1); }
+.lc.small { width: 118rem; }
+.lc.small .lc-tile { height: 66rem; }
+.lc.small .lc-logo { top: 15rem; left: 24rem; width: 70rem; height: 36rem; }
+.lc.small .lc-mono { font-size: 21rem; }
+.lc.small .lc-sub { display: none; }
+.lp-strip-keys { margin-top: 8rem; color: var(--muted); font-size: 9.5rem; text-align: center; white-space: pre; visibility: hidden; }
+.lp-strip-keys.on { visibility: visible; }
+
+.lp-panel { width: 300rem; }
+
+/* Not playing (starting, not on yet, off air): in the middle, over a glow of the channel's colour. */
+.lp-stage { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: flex; align-items: center; justify-content: center; background: #05070d; animation: fade-in 250ms both; }
+.lp-stage-glow { position: absolute; top: 50%; left: 50%; width: 560rem; height: 300rem; margin: -150rem 0 0 -280rem; }
+.lp-stage-body { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.lp-stage.nothing .lp-stage-body { transform: translateY(-40rem); }
+.lp-spinner { width: 46rem; height: 46rem; margin-bottom: 16rem; box-sizing: border-box; border-radius: 50%; border: 2.6rem solid rgba(255, 255, 255, 0.08);
+  border-top-color: rgba(255, 255, 255, 0.95); border-right-color: rgba(255, 255, 255, 0.4); -webkit-animation: lp-spin 0.9s linear infinite; animation: lp-spin 0.9s linear infinite; }
+@keyframes lp-spin { to { transform: rotate(360deg); } }
+.lp-stage-eyebrow { color: var(--lamp); font-size: 9rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
+.lp-stage-title { max-width: 640rem; margin-top: 6rem; color: var(--text); font: 800 40rem/1 'Big Shoulders', sans-serif; text-transform: uppercase; text-shadow: 0 0 10rem rgba(0, 0, 0, 0.6); }
+.lp-stage-sub { margin-top: 10rem; color: #a9b2c3; font-size: 11rem; }

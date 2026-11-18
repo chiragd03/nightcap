@@ -1,0 +1,155 @@
+/* Who's watching, after the TV's. */
+
+@property --glow {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #2e3a4a;
+}
+
+.who {
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  /* Centred when it fits; scrolls when it doesn't (tiles stacked on a phone). Auto margins on the
+     content centre it without cutting off its top when it's taller than the window. */
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0 calc(24px + env(safe-area-inset-bottom, 0px));
+  background: var(--ink);
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  /* The glow eases from one avatar's colour to the next. */
+  transition: --glow var(--dur-slow) ease, opacity var(--dur) ease;
+}
+.who.leaving { opacity: 0; transition-delay: 0ms, 70ms; }
+
+/* Three soft pools of light: centre, low left, high right. Fixed, so the glow stays
+   put while the page scrolls. */
+.who-aura {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 52%, color-mix(in srgb, var(--glow) 40%, transparent) 0, transparent 48vw),
+    radial-gradient(circle at 10% 105%, color-mix(in srgb, var(--glow) 29%, transparent) 0, transparent 42vw),
+    radial-gradient(circle at 95% -5%, color-mix(in srgb, var(--glow) 25%, transparent) 0, transparent 38vw);
+}
+
+.who-content {
+  position: relative;
+  margin: auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 var(--gutter);
+}
+
+.who h1 {
+  margin: 0;
+  font: 700 clamp(40px, 4.6vw, 64px)/1 'Big Shoulders', 'Big Shoulders Fallback', sans-serif;
+  letter-spacing: 0.02em;
+  animation: who-in var(--dur) var(--ease) both;
+}
+.who-note { color: var(--muted); }
+
+.who-people {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: clamp(36px, 5vh, 60px);
+  padding: 14px 24px;
+}
+
+.who-person {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 clamp(12px, 1.6vw, 26px) 16px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  outline: none;
+  animation: who-in var(--dur) var(--ease) both;
+  animation-delay: calc(60ms + min(var(--i), 6) * 30ms);
+}
+@keyframes who-in { from { opacity: 0; transform: translateY(14px); } }
+
+/* The avatar's colour, lit softly from the top, with a fine light edge. */
+.who-disc {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(104px, 9vw, 150px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(0, 0, 0, 0.2)),
+    var(--tint);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+  transition: transform var(--dur) var(--ease), opacity var(--dur);
+}
+.who-disc img { width: 67%; }
+.who-add { display: grid; place-items: center; color: var(--text); opacity: 0.85; }
+
+/* The white ring round the one you're on. */
+.who-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px #fff;
+  opacity: 0;
+  transition: opacity var(--dur);
+}
+
+.who-name {
+  width: 140px;
+  margin-top: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--muted);
+  transition: transform var(--dur) var(--ease), color var(--dur);
+}
+
+.who-person.on .who-disc { transform: scale(1.16); }
+.who-person.on .who-ring { opacity: 1; }
+.who-person.on .who-name { color: var(--text); font-weight: 700; transform: translateY(8px); }
+/* The others step back a little, so the one you're on stands out. */
+.who-people.has-focus .who-person:not(.on) .who-disc { opacity: 0.6; }
+.who-person.picked .who-disc { transform: scale(1.23); transition-duration: var(--dur); }
+
+.who-manage {
+  margin-top: 30px;
+  height: 38px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 19px;
+  background: rgba(238, 241, 247, 0.08);
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  animation: who-in var(--dur) var(--ease) 200ms both;
+  transition: background var(--dur), color var(--dur);
+}
+.who-manage:hover,
+.who-manage:focus-visible { background: var(--text); color: var(--ink); outline: none; }
+
+.who-hint {
+  position: relative;
+  margin: 30px 0 10px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+@media (max-width: 700px) {
+  .who-disc { width: 92px; }
+  .who-name { width: 104px; font-size: 15px; }
+  .who-person { margin: 0 10px 20px; }
+}

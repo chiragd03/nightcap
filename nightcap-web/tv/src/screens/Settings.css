@@ -1,0 +1,146 @@
+/* Settings. */
+.settings { position: absolute; top: 0; right: 0; bottom: 0; left: 0; overflow: hidden; }
+.set-body { position: relative; height: 100%; transition: transform 320ms var(--ease), opacity 320ms var(--ease); }
+.set-body.behind { transform: scale(0.96); opacity: 0.55; }
+.set-body.hidden-for-editor { transform: scale(0.94); opacity: 0; transition-duration: 260ms; }
+/* Between the eyebrow (ends 54 dp down) and the server link (starts 496 dp down). The profile card
+   (408 dp, from 71 dp) grows a little less than the others on focus (1.02, about 4 dp each way),
+   so it stays clear of both, with room to breathe. */
+.set-cards { position: absolute; top: 62rem; left: 50%; display: flex; align-items: flex-start; margin-left: -394rem; }
+
+.set-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 180rem;
+  height: 138rem;
+  margin: 9rem;
+  padding: 16rem;
+  border: 0;
+  border-radius: 22rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.04));
+  box-shadow: inset 0 0 0 0.8rem rgba(255, 255, 255, 0.12);
+  text-align: left;
+  outline: none;
+  transition: transform 240ms var(--ease), background 180ms, box-shadow 240ms var(--ease);
+}
+.set-card:focus {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.13));
+  box-shadow: inset 0 0 0 1.2rem rgba(255, 255, 255, 0.7), 0 14rem 30rem rgba(0, 0, 0, 0.45);
+  transform: scale(1.05);
+  z-index: 1;
+}
+.set-card .eyebrow { position: absolute; top: 16rem; left: 16rem; }
+.set-card.wide { width: 378rem; }
+.set-card.short { height: 96rem; }
+.set-grid { display: flex; flex-wrap: wrap; width: 594rem; margin-left: 17rem; }
+
+.set-profile { align-items: center; justify-content: center; width: 230rem; height: 408rem; }
+.set-card.set-profile:focus { transform: scale(1.02); }
+.set-disc { display: flex; align-items: center; justify-content: center; width: 112rem; height: 112rem; border-radius: 50%; background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(0, 0, 0, 0.2)) !important; box-shadow: inset 0 0 0 0.75rem rgba(255, 255, 255, 0.15); }
+.set-disc img { width: 76rem; height: 76rem; }
+.set-name { max-width: 190rem; margin-top: 18rem; overflow: hidden; font: 700 30rem/1.1 'Big Shoulders', sans-serif; white-space: nowrap; text-overflow: ellipsis; }
+.set-role { margin-top: 4rem; color: var(--muted); font-size: 7.5rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+.set-edit { margin-top: 14rem; color: var(--muted); font-size: 10rem; }
+
+.set-big { overflow: hidden; font-size: 19rem; font-weight: 700; white-space: nowrap; text-overflow: ellipsis; }
+.set-huge { font: 800 30rem/1 'Big Shoulders', sans-serif; }
+.set-small { margin-top: 3rem; overflow: hidden; color: var(--muted); font-size: 9.5rem; white-space: nowrap; text-overflow: ellipsis; }
+.set-corner-icon { position: absolute; top: 14rem; right: 14rem; opacity: 0.55; }
+.set-caption { align-self: center; margin-bottom: auto; margin-top: 30rem; padding: 4rem 12rem; border-radius: 6rem; background: rgba(9, 13, 22, 0.8); font-size: 15rem; }
+.set-caption.off { opacity: 0.45; }
+.set-badge { position: absolute; top: 14rem; right: 14rem; padding: 3rem 6rem; border-radius: 4rem; background: rgba(9, 13, 22, 0.8); font-size: 8rem; font-weight: 800; }
+.set-chips { display: flex; flex-wrap: wrap; max-height: 52rem; overflow: hidden; margin-bottom: 4rem; }
+.set-chip { margin: 0 6rem 6rem 0; padding: 3rem 9rem; border-radius: 11rem; background: rgba(255, 255, 255, 0.12); font-size: 10rem; font-weight: 600; }
+.set-ten { position: absolute; right: 12rem; bottom: -6rem; color: rgba(238, 241, 247, 0.18); font: 800 76rem/1 'Big Shoulders', sans-serif; letter-spacing: -0.04em; }
+.set-toggle { color: var(--muted); font-size: 11rem; white-space: pre; }
+.set-toggle.on { color: var(--text); }
+.set-toggle.on::first-letter { color: var(--lamp); }
+
+.set-link {
+  position: absolute;
+  bottom: 10rem;
+  left: 24rem;
+  display: flex;
+  align-items: center;
+  height: 34rem;
+  padding: 0 14rem;
+  border: 0;
+  border-radius: 17rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--muted);
+  font-size: 10rem;
+  outline: none;
+}
+.set-link svg { margin-left: 6rem; }
+.set-link:focus { background: rgba(255, 255, 255, 0.96); color: var(--ink); }
+
+/* The panel from the right. */
+.set-scrim { position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: rgba(5, 8, 15, 0.55); animation: fade-in 260ms var(--ease) both; }
+.set-scrim-close { position: absolute; top: 0; bottom: 0; left: 0; width: 540rem; }
+.set-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: 420rem;
+  padding: 40rem 30rem 0;
+  background: linear-gradient(180deg, rgba(20, 26, 40, 0.96), rgba(10, 13, 22, 0.97));
+  box-shadow: inset 0.8rem 0 0 rgba(255, 255, 255, 0.1), -24rem 0 60rem rgba(0, 0, 0, 0.45);
+  animation: set-panel-in 360ms var(--ease) both;
+  z-index: 1;
+}
+@keyframes set-panel-in { from { opacity: 0; transform: translateX(60rem); } }
+.set-panel-title { font: 700 28rem/1.1 'Big Shoulders', sans-serif; }
+.set-panel-hint { margin: 6rem 0 0; color: var(--muted); font-size: 9.5rem; line-height: 1.45; }
+.set-preview { margin-top: 16rem; }
+.set-list { position: relative; flex: 1; margin-top: 12rem; padding-bottom: 28rem; overflow-y: auto; scroll-behavior: smooth; }
+.set-list::-webkit-scrollbar { display: none; }
+.set-choice {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 48rem;
+  padding: 4rem 16rem;
+  border: 0;
+  border-radius: 24rem;
+  background: none;
+  color: var(--text);
+  text-align: left;
+  outline: none;
+}
+.set-choice:focus { background: rgba(255, 255, 255, 0.96); color: var(--ink); }
+.set-choice-text { display: flex; flex: 1; flex-direction: column; min-width: 0; }
+.set-choice-text b { overflow: hidden; font-size: 13.5rem; font-weight: 600; white-space: nowrap; text-overflow: ellipsis; }
+.set-choice-text small { margin-top: 1rem; font-size: 9rem; opacity: 0.62; }
+.set-tick { flex: none; visibility: hidden; }
+.set-tick.on { visibility: visible; }
+
+/* Previews. */
+.set-still { position: relative; display: block; height: 200rem; overflow: hidden; border-radius: 14rem; background: var(--panel); }
+.set-still img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; animation: fade-in 250ms both; }
+.set-still-shade { position: absolute; right: 0; bottom: 0; left: 0; height: 90rem; background: linear-gradient(0deg, rgba(9, 13, 22, 0.9), rgba(9, 13, 22, 0)); }
+.set-sample { position: absolute; right: 12rem; bottom: 14rem; left: 12rem; color: #fff; font-size: 12.5rem; font-weight: 600; text-align: center; text-shadow: 0 1rem 4rem #000; animation: fade-in 160ms 90ms both; }
+.set-badge.preview { top: 12rem; right: 12rem; }
+.set-data { position: absolute; bottom: 12rem; left: 12rem; color: #fff; font-size: 11rem; text-shadow: 0 1rem 4rem #000; }
+.set-posters { display: flex; height: 81rem; }
+.set-posters.ranked { height: 101rem; }
+.set-poster { position: relative; width: 54rem; height: 81rem; margin-right: 6rem; overflow: visible; border-radius: 8rem; background: var(--panel); animation: fade-in 220ms both; }
+.set-poster img { width: 100%; height: 100%; border-radius: 8rem; object-fit: cover; }
+.set-poster b { position: absolute; bottom: -20rem; left: 0; width: 100%; font: 800 13rem/1 'Big Shoulders', sans-serif; text-align: center; }
+
+/* The editor. */
+.set-editor { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: flex; flex-direction: column; align-items: center; padding-top: 58rem; animation: adder-in 360ms var(--ease) both; }
+.set-editor-eyebrow { font-size: 9rem; letter-spacing: 0.18em; }
+.set-editor-carousel { width: 100%; height: 190rem; margin-top: 20rem; }
+.set-editor-name { margin-top: 10rem; font: 700 40rem/1.1 'Big Shoulders', sans-serif; }
+.set-editor-label { margin-top: 4rem; color: var(--muted); font-size: 10rem; }
+.set-editor-rename { height: 32rem; margin-top: 14rem; font-size: 11rem; }
+.set-editor-field { width: 300rem; height: 40rem; margin-top: 14rem; font-size: 14rem; }
+.set-editor-help { position: absolute; bottom: 34rem; color: var(--muted); font-size: 9rem; }
+
+/* The app's version, small in the corner (Android: bottom|end, 28 dp in, 18 dp up, 8 sp, 60%). */
+.set-version { position: absolute; right: 28rem; bottom: 18rem; font-size: 8rem; color: var(--muted); opacity: 0.6; }

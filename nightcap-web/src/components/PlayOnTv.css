@@ -1,0 +1,96 @@
+/* Play on TV: a small glass card over the page, as the TV's own pop-ups. */
+
+.pot-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(5, 8, 15, 0.6);
+  backdrop-filter: blur(6px);
+  animation: pot-fade var(--dur) ease;
+}
+@keyframes pot-fade { from { opacity: 0; } }
+.pot {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: min(420px, 100%);
+  padding: 26px 24px 20px;
+  border-radius: 26px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), inset 0 0 0 0.8px rgba(255, 255, 255, 0.12);
+  animation: pot-in var(--dur) cubic-bezier(0.2, 0, 0, 1);
+}
+@keyframes pot-in { from { opacity: 0; transform: translateY(12px) scale(0.97); } }
+.pot .eyebrow { color: var(--lamp); letter-spacing: 0.16em; }
+.pot h3 { margin: 4px 0 14px; font: 700 32px/1.1 'Big Shoulders', 'Big Shoulders Fallback', sans-serif; letter-spacing: 0.01em; }
+.pot-line { margin: 0 0 8px; color: var(--muted); line-height: 1.5; }
+
+.pot-tvs { display: flex; flex-direction: column; gap: 2px; margin: 0 -10px; }
+.pot-tv {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 28px;
+  background: none;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+.pot-tv > span:last-child { display: flex; flex-direction: column; gap: 2px; }
+.pot-tv b { font-size: 16px; font-weight: 600; }
+.pot-tv small { color: var(--muted); font-size: 12.5px; }
+.pot-tv:hover,
+.pot-tv:focus-visible { background: var(--text); color: var(--ink); outline: none; }
+.pot-tv:hover small { color: rgba(9, 13, 22, 0.65); }
+
+.pot-mark {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.2)), #5a4416;
+  color: var(--lamp);
+}
+.pot-mark svg { width: 22px; height: 22px; }
+
+.pot-status { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+.pot-status b { font-size: 18px; font-weight: 700; }
+.pot-status > span:not(.pot-pulse):not(.pot-icon) { color: var(--muted); font-size: 14px; line-height: 1.5; }
+.pot-pulse { margin-bottom: 6px; animation: pot-pulse 0.9s ease-in-out infinite alternate; }
+@keyframes pot-pulse { to { opacity: 0.4; transform: scale(0.94); } }
+.pot-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  margin-bottom: 6px;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 18px;
+}
+.pot-status.good .pot-icon { background: rgba(111, 211, 154, 0.18); color: #8fe3b2; }
+.pot-status.bad .pot-icon { background: rgba(255, 123, 102, 0.16); color: #ff9b8a; }
+.pot-buttons { display: flex; gap: 10px; margin-top: 14px; }
+.pot-cancel { align-self: center; margin-top: 10px; border: 0; background: none; color: var(--muted); font-size: 14px; cursor: pointer; }
+.pot-cancel:hover { color: var(--text); }
+
+/* On a phone: a sheet up from the bottom, in reach of the thumb. */
+@media (max-width: 700px) {
+  .pot-scrim { place-items: end stretch; padding: 0; }
+  .pot {
+    width: 100%;
+    max-height: 85dvh;
+    overflow-y: auto;
+    border-radius: 24px 24px 0 0;
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    animation-name: pot-up;
+  }
+  @keyframes pot-up { from { transform: translateY(40px); opacity: 0; } }
+  .pot::before { content: ''; align-self: center; width: 40px; height: 4px; margin: -4px 0 8px; border-radius: 2px; background: rgba(238, 241, 247, 0.25); }
+}

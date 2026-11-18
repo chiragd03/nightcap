@@ -1,0 +1,167 @@
+/* The server owner's pages: the Connect screen's look (the glow, the mark, glass tiles), and the
+   Settings side panel. */
+
+/* From the top, not centred: the households are what the owner comes for. */
+.owner-page { padding-top: clamp(40px, 7vh, 72px); }
+.owner-page .who-content { margin: 0; }
+.owner-back { position: absolute; top: 22px; left: 22px; z-index: 2; }
+/* A newer server out: one calm line under the server's kind. */
+.owner-update { margin: 12px 0 0; color: var(--muted); font-size: 13px; animation: who-in var(--dur) cubic-bezier(0.2, 0, 0, 1) 50ms both; }
+.owner-update::before { content: ''; display: inline-block; width: 6px; height: 6px; margin: 0 8px 1px 0; border-radius: 50%; background: var(--lamp); vertical-align: middle; }
+/* This server's version, small in the corner. */
+.owner-version { position: absolute; top: 30px; right: 26px; z-index: 2; color: var(--muted); font-size: 12px; opacity: 0.7; }
+
+/* The owner key: one glass field with its button inside (as the search bar). */
+.owner-key {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: min(440px, 100%);
+  height: 58px;
+  margin-top: 34px;
+  padding: 0 6px 0 22px;
+  border-radius: 29px;
+  background: rgba(19, 26, 40, 0.82);
+  box-shadow: inset 0 0 0 1px rgba(238, 241, 247, 0.14), 0 20px 60px rgba(0, 0, 0, 0.35);
+  animation: who-in var(--dur) cubic-bezier(0.2, 0, 0, 1) 60ms both;
+}
+.owner-key:focus-within { box-shadow: inset 0 0 0 1.5px rgba(238, 241, 247, 0.5), 0 20px 60px rgba(0, 0, 0, 0.35); }
+.owner-key input { flex: 1; min-width: 0; height: 100%; border: 0; background: none; color: var(--text); font: 500 17px 'Hanken', system-ui, sans-serif; }
+.owner-key input:focus { outline: none; }
+.owner-key input::placeholder { color: var(--muted); }
+.owner-key-go {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--lamp);
+  color: #1b1305;
+  cursor: pointer;
+}
+.owner-key-go[disabled] { background: rgba(238, 241, 247, 0.1); color: var(--muted); cursor: default; }
+
+/* The household's few facts, under its title. */
+.owner-facts { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; margin: 0 16px 18px; color: var(--muted); font-size: 14px; }
+.owner-facts .mark { margin-bottom: 10px; }
+.owner-facts b { color: var(--text); font-weight: 650; }
+
+/* (A household's invites: components/Invites.css.) */
+.pn-item.row-item.on { background: rgba(238, 241, 247, 0.08); }
+.btn.owner-delete { margin: 0; }
+.btn.owner-delete[disabled] { opacity: 0.45; cursor: default; filter: none; }
+
+/* Moving households: Export / Import as the Settings tabs; the file picker as a panel row. */
+.owner-move-tabs { align-self: flex-start; margin: 0 6px 8px; }
+.owner-file {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 58px;
+  padding: 8px 14px 8px 10px;
+  border-radius: 27px;
+  box-shadow: inset 0 0 0 1px rgba(238, 241, 247, 0.14);
+  cursor: pointer;
+}
+.owner-file input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.owner-file:hover { background: rgba(238, 241, 247, 0.06); }
+.owner-file .mark { background: none; box-shadow: inset 0 0 0 1px rgba(238, 241, 247, 0.2); color: var(--muted); }
+.owner-done { margin: 0 16px 10px; }
+.owner-too-big { color: #ff9b8a; }
+
+/* ---------- The households page ---------- */
+
+.owner-count { margin-top: 34px; letter-spacing: 0.16em; }
+.owner-tiles { margin-top: 16px; }
+
+/* A household: lit glass tinted in its own colour, its house on a disc of that colour, how many
+   invites are waiting in the corner, and its counts as small chips. */
+.setup-tile.owner-tile {
+  --hue: 230;
+  width: 280px;
+  /* (At least this tall: a long name on two lines makes it taller, rather than pushing the disc into
+     its top edge. The row's tiles grow alike.) */
+  height: auto;
+  min-height: 200px;
+  gap: 6px;
+  background:
+    radial-gradient(circle at 18% 12%, hsl(var(--hue) 45% 45% / 0.28), transparent 60%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.045));
+}
+.owner-tile-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: auto; padding-bottom: 10px; }
+/* A name of any length: two lines at most. */
+.owner-tile .setup-tile-name { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+.owner-disc {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(0, 0, 0, 0.2)), hsl(var(--hue) 38% 34%);
+  box-shadow: inset 0 0 0 0.8px rgba(255, 255, 255, 0.16);
+}
+.owner-tile-left { font-size: 12px; font-weight: 600; color: var(--muted); }
+.owner-counts { display: flex; gap: 6px; margin-top: 4px; }
+.owner-counts span { padding: 3px 9px; border-radius: 99px; background: rgba(255, 255, 255, 0.1); font-size: 12px; font-weight: 600; color: var(--text); }
+
+/* An empty slot for a new household: dashed, no glass, a big plus. */
+.owner-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 280px;
+  height: 200px;
+  border: 1.5px dashed rgba(238, 241, 247, 0.22);
+  border-radius: 22px;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  animation: who-in var(--dur) cubic-bezier(0.2, 0, 0, 1) both;
+  animation-delay: calc(60ms + min(var(--i), 6) * 30ms);
+  transition: border-color var(--dur), color var(--dur), background var(--dur);
+}
+.owner-slot-plus { display: grid; place-items: center; width: 56px; height: 56px; margin-bottom: 6px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px currentColor; }
+.owner-slot b { font-size: 18px; font-weight: 650; }
+.owner-slot small { font-size: 13px; }
+.owner-slot:hover,
+.owner-slot:focus-visible { border-color: rgba(238, 241, 247, 0.6); color: var(--text); background: rgba(238, 241, 247, 0.04); outline: none; }
+
+/* What the owner does with the server itself, under the households: slim lit-glass rows, as wide
+   as two tiles together, each with its icon on a disc, a line saying what it does, and a chevron. */
+.owner-actions { display: grid; grid-template-columns: repeat(2, 280px); gap: 22px; margin-top: 22px; }
+.owner-tool {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 76px;
+  padding: 0 16px 0 14px;
+  border: 0;
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.03));
+  box-shadow: inset 0 0 0 1px rgba(238, 241, 247, 0.1);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  color: var(--text);
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  animation: who-in var(--dur) cubic-bezier(0.2, 0, 0, 1) 100ms both;
+  transition: background var(--dur), box-shadow var(--dur);
+}
+.owner-tool:hover,
+.owner-tool:focus-visible { background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06)); box-shadow: inset 0 0 0 1px rgba(238, 241, 247, 0.3); outline: none; }
+.owner-tool-disc { flex: none; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: rgba(238, 241, 247, 0.1); box-shadow: inset 0 0 0 0.8px rgba(255, 255, 255, 0.14); }
+.owner-tool-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.owner-tool-text b { font-size: 15px; font-weight: 650; }
+.owner-tool-text small { font-size: 12.5px; color: var(--muted); }
+.owner-tool-go { flex: none; color: var(--muted); transition: transform var(--dur), color var(--dur); }
+.owner-tool:hover .owner-tool-go { color: var(--text); transform: translateX(2px); }
+@media (max-width: 700px) { .owner-actions { grid-template-columns: min(280px, 100%); } }
+
+/* An import's household that's here under another name: that name, quieter. */
+.owner-here { font-weight: 500; color: var(--muted); }

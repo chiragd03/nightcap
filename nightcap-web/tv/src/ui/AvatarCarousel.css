@@ -1,0 +1,32 @@
+.carousel { position: relative; width: 100%; height: 150rem; outline: none; }
+.carousel-disc {
+  position: absolute;
+  top: 9rem;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 132rem;
+  height: 132rem;
+  margin-left: -66rem;
+  border-radius: 50%;
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(0, 0, 0, 0.2));
+  box-shadow: inset 0 0 0 0.75rem rgba(255, 255, 255, 0.15);
+}
+.carousel-disc img { width: 68%; height: 68%; }
+/* The ring around the middle avatar, while the carousel has focus. */
+.carousel-ring {
+  position: absolute;
+  top: 4rem;
+  left: 50%;
+  width: 142rem;
+  height: 142rem;
+  margin-left: -71rem;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 2.5rem #fff;
+  opacity: 0;
+  transition: opacity 200ms;
+  z-index: 200;
+  pointer-events: none;
+}
+.carousel.focused .carousel-ring { opacity: 1; }

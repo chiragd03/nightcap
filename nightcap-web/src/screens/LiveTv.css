@@ -1,0 +1,265 @@
+/* Live TV: the page (like Home: the card pointed at on top, then rows), Browse all, and the player.
+   A channel's tile is 16:9: its logo on its own tint, else its short name. */
+
+.lv-spin { display: inline-block; width: 18px; height: 18px; margin-right: 8px; vertical-align: -3px; border: 2px solid rgba(238, 241, 247, 0.2); border-top-color: var(--lamp); border-radius: 50%; animation: lv-spin 0.9s linear infinite; }
+@keyframes lv-spin { to { transform: rotate(360deg); } }
+
+/* ---------- Tiles ---------- */
+.lv-art {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: radial-gradient(circle at 30% 20%, hsl(var(--hue, 220) 45% 34%), hsl(var(--hue, 220) 40% 14%));
+}
+.lv-art img { width: 100%; height: 100%; object-fit: cover; }
+.lv-art b { font: 800 34px/1 'Big Shoulders', 'Big Shoulders Fallback', sans-serif; letter-spacing: 0.02em; color: rgba(255, 255, 255, 0.9); }
+.lv-art.big b { font-size: clamp(64px, 9vw, 140px); }
+
+.lv-card {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: clamp(220px, 19vw, 300px);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+.lv-tile {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  margin-bottom: 6px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: rgba(238, 241, 247, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  transition: transform var(--dur), box-shadow var(--dur);
+}
+.lv-card:hover .lv-tile, .lv-card:focus-visible .lv-tile { transform: scale(1.04); box-shadow: 0 0 0 2px var(--text), 0 14px 30px rgba(0, 0, 0, 0.45); }
+.lv-card:focus-visible { outline: none; }
+.lv-card.soon .lv-art { filter: saturate(0.6) brightness(0.75); }
+.lv-name { font-weight: 650; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lv-sub { color: var(--muted); font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lv-badge {
+  position: absolute;
+  top: 9px;
+  left: 9px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(5, 8, 15, 0.62);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  font-size: 10.5px;
+  font-weight: 750;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.lv-badge.live { color: #ff8a7a; }
+/* The live dot's pulse: a ring that grows and fades (transform and opacity only, so it's drawn
+   once and moved, not repainted each frame). */
+.lv-badge.live i, .lv-live i { position: relative; width: 6px; height: 6px; border-radius: 50%; background: #ff5a4a; }
+.lv-badge.live i::after, .lv-live i::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: rgba(255, 90, 74, 0.6); animation: lv-pulse 1.6s ease-out infinite; }
+@keyframes lv-pulse { 0% { transform: scale(1); opacity: 1; } 70%, 100% { transform: scale(3.3); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .lv-badge.live i::after, .lv-live i::after { animation: none; opacity: 0; } }
+.lv-badge.soon { color: var(--lamp); }
+.lv-count { position: absolute; right: 9px; bottom: 9px; z-index: 1; padding: 3px 8px; border-radius: 999px; background: rgba(5, 8, 15, 0.62); font-size: 11px; font-weight: 650; }
+.lv-star { position: absolute; top: 9px; right: 9px; z-index: 1; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: rgba(5, 8, 15, 0.62); color: var(--lamp); }
+/* Browse all: the row's own logos, dimmed, behind how many channels it has. */
+.lv-all-mosaic { position: absolute; inset: -6px; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 3px; filter: blur(2px) saturate(0.85) brightness(0.42); transform: scale(1.04); transition: filter var(--dur), transform var(--dur); }
+.lv-all-mosaic > span { position: relative; overflow: hidden; }
+.lv-all .lv-tile::after { content: ''; position: absolute; inset: 0; background: linear-gradient(200deg, rgba(5, 8, 15, 0.1), rgba(5, 8, 15, 0.7)); }
+.lv-all-face { position: absolute; left: 16px; bottom: 12px; z-index: 1; display: flex; flex-direction: column; }
+.lv-all-face b { font: 700 clamp(30px, 2.6vw, 40px)/1 'Big Shoulders', 'Big Shoulders Fallback', sans-serif; letter-spacing: 0.01em; font-variant-numeric: tabular-nums; }
+.lv-all-face small { color: rgba(238, 241, 247, 0.7); font-size: 10.5px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+.lv-all-go { position: absolute; right: 12px; bottom: 12px; z-index: 1; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: rgba(238, 241, 247, 0.16); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14); transition: background var(--dur), color var(--dur); }
+.lv-all:hover .lv-all-mosaic, .lv-all:focus-visible .lv-all-mosaic { filter: blur(1px) saturate(1) brightness(0.55); transform: scale(1.08); }
+.lv-all:hover .lv-all-go, .lv-all:focus-visible .lv-all-go { background: var(--text); color: var(--ink); }
+
+/* More to explore: the kinds past the first few, as tiles named on their logos. */
+.lv-kind .lv-all-mosaic { filter: blur(3px) saturate(0.9) brightness(0.4); }
+.lv-kind:hover .lv-all-mosaic, .lv-kind:focus-visible .lv-all-mosaic { filter: blur(2px) saturate(1) brightness(0.52); }
+.lv-all-face b.lv-kind-name { font-size: clamp(24px, 2.2vw, 32px); text-transform: uppercase; }
+.lv-kind .lv-all-face { right: 60px; }
+/* (A kind with no logos to hand: its own tint, lit from a corner.) */
+.lv-tile.lv-kind-plain { background: radial-gradient(120% 120% at 85% 0%, hsl(var(--hue) 55% 38% / 0.85), transparent 60%), radial-gradient(90% 90% at 0% 100%, hsl(calc(var(--hue) + 40) 45% 22%), hsl(var(--hue) 35% 12%)); }
+.lv-tile.lv-kind-plain::after { background: linear-gradient(200deg, transparent 40%, rgba(5, 8, 15, 0.45)); }
+.lv-kind:hover .lv-kind-plain { filter: brightness(1.12); }
+.lv-kind .lv-all-face b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.lv-none { margin: 8px 0; color: var(--muted); font-size: 14px; }
+.lv-rowcount { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+
+/* ---------- The page ---------- */
+.lv-page .lv-top-art { background: radial-gradient(circle at 70% 30%, hsl(var(--hue, 220) 45% 30%), var(--ink) 75%); }
+.lv-page .lv-top-art .lv-art { inset: 0; }
+.lv-live { display: inline-flex; align-items: center; gap: 8px; color: #ff8a7a; }
+.lv-chans { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+.lv-foot { margin: 14px var(--gutter) 0; color: var(--muted); font-size: 13px; }
+/* Browse all channels: a wide card, a dim wall of logos fading in from the right behind its words. */
+.lv-every { position: relative; display: flex; align-items: center; gap: 24px; margin: 34px var(--gutter) 0; padding: clamp(22px, 3vw, 34px) clamp(22px, 3vw, 40px); overflow: hidden; border-radius: 22px; background: rgba(238, 241, 247, 0.05); box-shadow: inset 0 0 0 1px rgba(238, 241, 247, 0.1); color: var(--text); text-decoration: none; transition: box-shadow var(--dur), transform var(--dur); }
+.lv-every-wall { position: absolute; inset: -60px -40px -60px 35%; align-content: center; display: grid; grid-template-columns: repeat(8, 1fr); grid-auto-rows: 1fr; gap: 4px; transform: rotate(-4deg) scale(1.15); filter: saturate(0.85) brightness(0.55); transition: filter var(--dur), transform var(--dur);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 55%); mask-image: linear-gradient(90deg, transparent, #000 55%); }
+.lv-every-wall > span { position: relative; overflow: hidden; border-radius: 8px; aspect-ratio: 16 / 9; }
+.lv-every::before { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgba(9, 13, 22, 0.92) 30%, rgba(9, 13, 22, 0.35)); }
+.lv-every-text { position: relative; z-index: 2; flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.lv-every-text small { color: var(--lamp); font-size: 11px; font-weight: 750; letter-spacing: 0.16em; text-transform: uppercase; }
+.lv-every-text b { font: 700 clamp(26px, 3vw, 40px)/1.05 'Big Shoulders', 'Big Shoulders Fallback', sans-serif; text-transform: uppercase; letter-spacing: 0.01em; }
+.lv-every-text > span { color: var(--muted); font-size: 14px; }
+.lv-every-go { position: relative; z-index: 2; flex: none; display: inline-flex; align-items: center; gap: 8px; height: 46px; padding: 0 18px 0 22px; border-radius: 23px; background: var(--lamp); color: #1b1305; font-weight: 700; font-size: 15px; transition: transform var(--dur); }
+.lv-every:hover, .lv-every:focus-visible { box-shadow: inset 0 0 0 1.5px rgba(238, 241, 247, 0.5); outline: none; }
+.lv-every:hover .lv-every-wall, .lv-every:focus-visible .lv-every-wall { filter: saturate(1) brightness(0.7); transform: rotate(-4deg) scale(1.2); }
+.lv-every:hover .lv-every-go, .lv-every:focus-visible .lv-every-go { transform: translateX(3px); }
+@media (max-width: 600px) {
+  .lv-every { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .lv-every-wall { left: 20%; }
+}
+@media (prefers-reduced-motion: reduce) { .lv-every-wall, .lv-every-go { transition: none; } }
+.lv-foot a { color: var(--text); }
+.lv-empty { max-width: 560px; padding: clamp(60px, 14vh, 140px) var(--gutter); }
+.lv-empty h1 { margin: 10px 0 12px; font: 800 clamp(40px, 5vw, 64px)/0.95 'Big Shoulders', 'Big Shoulders Fallback', sans-serif; text-transform: uppercase; }
+.lv-empty p { margin: 0 0 22px; color: var(--muted); line-height: 1.55; }
+
+/* ---------- Browse all ---------- */
+.lv-browse { padding: clamp(28px, 6vh, 56px) var(--gutter) 60px; }
+.lv-browse-head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+.lv-browse-title { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 14px; min-width: 0; }
+.lv-browse-head h1 { margin: 0; font: 800 clamp(34px, 4vw, 52px)/1 'Big Shoulders', 'Big Shoulders Fallback', sans-serif; text-transform: uppercase; }
+.lv-browse-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-bottom: 26px; }
+.lv-find { flex: 0 1 360px; display: flex; align-items: center; gap: 10px; height: 46px; padding: 0 16px; border-radius: 23px; background: rgba(238, 241, 247, 0.07); box-shadow: inset 0 0 0 1px rgba(238, 241, 247, 0.1); color: var(--muted); transition: background var(--dur), box-shadow var(--dur); }
+.lv-find:focus-within { background: rgba(238, 241, 247, 0.1); box-shadow: inset 0 0 0 1px rgba(238, 241, 247, 0.28); }
+.lv-find input { flex: 1; min-width: 0; height: 100%; border: 0; background: none; color: var(--text); font: inherit; font-size: 15px; outline: none; }
+.lv-find input::placeholder { color: var(--muted); }
+.lv-find input::-webkit-search-cancel-button { filter: invert(0.7); }
+/* Kinds: one line of quiet words that scrolls sideways, the one shown on a white pill. */
+.lv-kinds-wrap { position: relative; flex: 1 1 320px; min-width: 0; border-radius: 999px; background: rgba(238, 241, 247, 0.05); box-shadow: inset 0 0 0 1px rgba(238, 241, 247, 0.08); }
+.lv-kinds { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding: 3px; border-radius: 999px; overscroll-behavior-x: contain; }
+/* (A fade only on a side that has more, under its arrow.) */
+.lv-kinds-wrap.more-right .lv-kinds { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 90px), transparent calc(100% - 20px)); mask-image: linear-gradient(90deg, #000 calc(100% - 90px), transparent calc(100% - 20px)); }
+.lv-kinds-wrap.more-left .lv-kinds { -webkit-mask-image: linear-gradient(90deg, transparent 20px, #000 90px); mask-image: linear-gradient(90deg, transparent 20px, #000 90px); }
+.lv-kinds-wrap.more-left.more-right .lv-kinds { -webkit-mask-image: linear-gradient(90deg, transparent 20px, #000 90px, #000 calc(100% - 90px), transparent calc(100% - 20px)); mask-image: linear-gradient(90deg, transparent 20px, #000 90px, #000 calc(100% - 90px), transparent calc(100% - 20px)); }
+.lv-kinds-step { position: absolute; top: 50%; z-index: 1; display: grid; place-items: center; width: 34px; height: 34px; margin-top: -17px; border: 0; border-radius: 50%; background: rgba(238, 241, 247, 0.16); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14); color: var(--text); cursor: pointer; transition: background var(--dur), color var(--dur); }
+.lv-kinds-step.left { left: 5px; }
+.lv-kinds-step.left svg { transform: scaleX(-1); }
+.lv-kinds-step.right { right: 5px; }
+.lv-kinds-step:hover { background: var(--text); color: var(--ink); }
+.lv-kinds-step:focus-visible { outline: 2px solid var(--lamp); outline-offset: 2px; }
+.lv-kinds::-webkit-scrollbar { display: none; }
+.lv-kinds button { flex: none; height: 38px; padding: 0 16px; border: 0; border-radius: 19px; background: none; color: rgba(238, 241, 247, 0.72); font-size: 14px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: background var(--dur), color var(--dur); }
+.lv-kinds button:hover { color: var(--text); background: rgba(238, 241, 247, 0.07); }
+.lv-kinds button.on { background: var(--text); color: var(--ink); }
+.lv-kinds button:focus-visible { outline: 2px solid var(--lamp); outline-offset: -2px; }
+.lv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr)); gap: 22px 18px; }
+.lv-grid .lv-card { width: auto; }
+@media (max-width: 600px) { .lv-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 12px; } .lv-grid .lv-name { font-size: 14px; } }
+.lv-more { display: block; margin: 26px auto 0; }
+
+/* ---------- The player ---------- */
+.lv-player { position: fixed; inset: 0; z-index: 40; background: #000; }
+.lv-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #000; }
+.lv-player-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: calc(18px + env(safe-area-inset-top, 0px)) 20px 40px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.72), transparent);
+  pointer-events: none;
+}
+.lv-player-top > * { pointer-events: auto; }
+.lv-player-title { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
+.lv-player-title b { font: 700 clamp(22px, 2.6vw, 32px)/1.1 'Big Shoulders', 'Big Shoulders Fallback', sans-serif; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lv-player-title small { color: rgba(238, 241, 247, 0.75); font-size: 13px; }
+.lv-player-title .eyebrow { display: inline-flex; align-items: center; gap: 7px; font-size: 11px; }
+.lv-round { flex: none; display: grid; place-items: center; width: 42px; height: 42px; border: 0; border-radius: 50%; background: rgba(238, 241, 247, 0.14); color: var(--text); cursor: pointer; }
+.lv-round:first-child svg { transform: scaleX(-1); }
+.lv-round:hover { background: var(--text); color: var(--ink); }
+.lv-round.on { color: var(--lamp); }
+/* The controls at the bottom (as the regular player's): play, where it is against the live moment,
+   an event's channels as one switch, sound, full screen. They fade with the top bar when idle. */
+.lv-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  padding: 60px 20px calc(22px + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.78), transparent);
+}
+.lv-player-top, .lv-bar { transition: opacity var(--dur); }
+.lv-player.idle { cursor: none; }
+.lv-player.idle .lv-player-top, .lv-player.idle .lv-bar { opacity: 0; pointer-events: none; }
+.lv-player.idle .lv-player-top > * { pointer-events: none; }
+.lv-onair { display: inline-flex; align-items: center; gap: 7px; padding: 6px 12px; border: 0; border-radius: 999px; background: rgba(238, 241, 247, 0.12); color: var(--text); font: 700 12px/1 'Hanken', 'Hanken Fallback', sans-serif; letter-spacing: 0.1em; text-transform: uppercase; }
+.lv-onair i { width: 8px; height: 8px; border-radius: 50%; background: #ff4d4d; box-shadow: 0 0 8px #ff4d4d; }
+.lv-onair.behind { cursor: pointer; color: var(--muted); }
+.lv-onair.behind i { background: var(--muted); box-shadow: none; }
+.lv-onair.behind:hover { background: var(--text); color: var(--ink); }
+.lv-onair:focus-visible { outline: 2px solid var(--lamp); outline-offset: 2px; }
+/* An event's channel: a chip by the sound button saying which one plays and how many there are; the
+   list itself is the side panel (as the regular player's sources), so any number and any length fit. */
+.lv-channel-chip { display: inline-flex; align-items: center; gap: 8px; max-width: min(320px, 46vw); }
+.lv-channel-chip small { color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.lv-channel-chip span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lv-channel-chip em { display: grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px; background: rgba(238, 241, 247, 0.16); font: 700 11px/1 'Hanken', 'Hanken Fallback', sans-serif; font-style: normal; font-variant-numeric: tabular-nums; }
+.lv-channel-chip:hover small { color: inherit; }
+.panel-item.lv-channel { flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; }
+.lv-channel kbd { flex: none; color: var(--muted); font: 600 12px/1 'Hanken', 'Hanken Fallback', sans-serif; font-variant-numeric: tabular-nums; }
+.lv-channel.on kbd { color: rgba(9, 13, 22, 0.6); }
+.lv-player .player-panel-scrim { z-index: 5; }
+@media (max-width: 600px) {
+  .lv-bar { gap: 10px; padding-inline: 14px; }
+  .lv-channel-chip small { display: none; }
+}
+.lv-player-note { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; padding: 24px; color: var(--muted); text-align: center; pointer-events: none; }
+.lv-player-note > * { pointer-events: auto; }
+.lv-player-note .player-chip { margin-top: 16px; }
+.lv-player-note p { max-width: 420px; margin: 0; line-height: 1.5; }
+
+@media (max-width: 700px) {
+  .lv-card { width: 200px; }
+  .lv-page .title-top { padding-top: 56vw; min-height: 0; }
+  .lv-page .title-art { width: 100%; }
+  .lv-page .title-text { width: auto; padding: 0 var(--gutter); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lv-badge.live i, .lv-live i, .lv-spin { animation: none; }
+  .lv-tile { transition: none; }
+}
+
+/* (A phone: the title smaller, on one line, the count under it.) */
+@media (max-width: 600px) {
+  .lv-browse-title { flex-direction: column; gap: 2px; }
+  .lv-browse-head h1 { font-size: 30px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .lv-browse-head .lv-rowcount { font-size: 13px; }
+}
+
+/* A card's star: shown on hover or focus (always when it's in My channels), a round button of its own. */
+.lv-card-wrap { position: relative; flex: none; display: flex; }
+.lv-grid .lv-card-wrap .lv-card { width: 100%; }
+.lv-star-btn { border: 0; cursor: pointer; opacity: 0; color: var(--text); transition: opacity var(--dur), background var(--dur), color var(--dur), transform var(--dur); }
+.lv-star-btn.on { opacity: 1; color: var(--lamp); }
+.lv-card-wrap:hover .lv-star-btn, .lv-card-wrap:focus-within .lv-star-btn { opacity: 1; }
+.lv-card-wrap:hover .lv-star-btn { transform: translate(-6px, 4px); }
+.lv-star-btn:hover { background: var(--text); color: var(--ink); }
+.lv-star-btn.on:hover { color: var(--lamp); background: rgba(5, 8, 15, 0.85); }
+.lv-star-btn:focus-visible { opacity: 1; outline: 2px solid var(--lamp); outline-offset: 2px; }
+/* (A touch screen has no hover: the star always there.) */
+@media (hover: none) { .lv-star-btn { opacity: 1; } }

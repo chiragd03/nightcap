@@ -8,6 +8,12 @@ Thanks for helping. Nightcap is a self-hosted streaming system: a setup tool (`n
 - **Improve the docs**: small fixes can go straight to a pull request.
 - **Send code**: for anything bigger than a small fix, open an issue or discussion first, so we agree on the approach before you spend time on it.
 
+## Where the code is
+- `nightcap-server/`: the server (Python, FastAPI, PostgreSQL). Tests: `python -m unittest discover -s tests`.
+- `nightcap-web/`: the web app and the Samsung/LG TV app (React, TypeScript, Vite). Tests: `npm test`, lint: `npm run lint`.
+
+Each folder's README says how to run it. The setup tool and the Android TV app are released as ready-built files only.
+
 ## Pull requests
 1. Fork the repo and make a branch from `main`.
 2. Keep one change per pull request, with a clear title in plain words ("Live TV: keep the channel when the guide reloads").
@@ -17,7 +23,7 @@ Thanks for helping. Nightcap is a self-hosted streaming system: a setup tool (`n
 
 ## Ground rules
 - Be kind and patient. Everyone here follows the [Code of Conduct](CODE_OF_CONDUCT.md).
-- Nightcap ships no content. Please don't open issues or pull requests that name, link or add sources of pirated material; they'll be closed.
+- Nightcap doesn't host any content. Please don't open issues or pull requests that name, link or add sources of pirated material; they'll be closed.
 - Security problems go through [SECURITY.md](SECURITY.md), never a public issue.
 
 By contributing, you agree your contribution is shared under this repository's licence.

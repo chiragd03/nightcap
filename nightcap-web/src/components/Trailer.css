@@ -1,0 +1,95 @@
+/* A trailer over the page: the video as large as the screen allows at 16:9, its name and ✕ above it.
+   Sized by both width and height, so it fits a phone held either way and a short, wide window. */
+
+.tr-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding:
+    max(16px, env(safe-area-inset-top, 0px))
+    max(16px, env(safe-area-inset-right, 0px))
+    max(16px, env(safe-area-inset-bottom, 0px))
+    max(16px, env(safe-area-inset-left, 0px));
+  background: rgba(5, 8, 15, 0.94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  overscroll-behavior: contain;
+  animation: tr-fade var(--dur) ease;
+}
+@keyframes tr-fade { from { opacity: 0; } }
+html:has(.tr-scrim), body:has(.tr-scrim) { overflow: hidden; }
+
+.tr {
+  /* The head is 52px; the rest of the height, less the padding, is the video's at most. */
+  --tr-room: calc(100vh - 32px - 52px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(1180px, 100%, var(--tr-room) * 16 / 9);
+  animation: tr-in var(--dur) cubic-bezier(0.2, 0, 0, 1);
+}
+@supports (height: 100dvh) { .tr { --tr-room: calc(100dvh - 32px - 52px); } }
+@keyframes tr-in { from { opacity: 0; transform: translateY(12px) scale(0.98); } }
+
+.tr-head { display: flex; align-items: center; gap: 12px; min-height: 42px; }
+.tr-title { display: flex; align-items: baseline; gap: 10px; min-width: 0; flex: 1; }
+.tr-title .eyebrow { color: var(--lamp); letter-spacing: 0.16em; flex: none; }
+.tr-name {
+  font: 700 22px/1.15 'Big Shoulders', 'Big Shoulders Fallback', sans-serif;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tr-close {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(238, 241, 247, 0.12);
+  color: var(--text);
+  cursor: pointer;
+}
+.tr-close:hover { background: rgba(238, 241, 247, 0.22); }
+.tr-close:focus-visible { outline: 2px solid var(--lamp); outline-offset: 2px; }
+
+.tr-video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), inset 0 0 0 0.8px rgba(255, 255, 255, 0.1);
+}
+.tr-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+/* A short screen (a phone on its side): the video takes the whole height; ✕ floats in the corner
+   beside it, and the name (the page behind says it) is left out. */
+@media (max-height: 500px) {
+  /* (52px kept free on each side, for ✕ to sit beside the video, never on it.) */
+  .tr { --tr-room: calc(100vh - 24px); width: min(1180px, 100% - 104px, var(--tr-room) * 16 / 9); animation-name: tr-fade; }
+  @supports (height: 100dvh) { .tr { --tr-room: calc(100dvh - 24px); } }
+  .tr-scrim { padding-top: max(12px, env(safe-area-inset-top, 0px)); padding-bottom: max(12px, env(safe-area-inset-bottom, 0px)); }
+  .tr-head {
+    position: fixed;
+    top: max(10px, env(safe-area-inset-top, 0px));
+    right: max(10px, env(safe-area-inset-right, 0px));
+    min-height: 0;
+  }
+  .tr-title { display: none; }
+}
+
+@media (max-width: 700px) {
+  .tr-video { border-radius: 10px; }
+  .tr-name { font-size: 19px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tr-scrim, .tr { animation: none; }
+}

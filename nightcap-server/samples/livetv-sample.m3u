@@ -1,0 +1,174 @@
+#EXTM3U
+
+#EXTINF:-1 x-id="s001" x-event-id="foot-001" x-channel="Main" x-row="Football" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo League · Live" tvg-logo="https://picsum.photos/seed/foot-001/640/360",Moorgate Town vs Northfield Albion
+https://demo.unified-streaming.com/k8s/live/stable/live.isml/.m3u8
+#EXTINF:-1 x-id="s002" x-event-id="foot-001" x-channel="Alternate" x-row="Football" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo League · Live" tvg-logo="https://picsum.photos/seed/foot-001/640/360",Moorgate Town vs Northfield Albion
+https://devstreaming-cdn.apple.com/~1~videos/streaming/examples/img_bipbop_adv_example_fmp4/master~2~.m3u8
+#EXTINF:-1 x-id="s003" x-event-id="foot-001" x-channel="Plain" x-row="Football" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo League · Live" tvg-logo="https://picsum.photos/seed/foot-001/640/360",Moorgate Town vs Northfield Albion
+https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8
+#EXTINF:-1 x-id="s004" x-event-id="foot-004" x-channel="Main" x-row="Football" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo League · Live" tvg-logo="https://picsum.photos/seed/foot-004/640/360",Clearwater City vs Foxley Athletic
+https://test-streams.mux.dev/~1~tos_ismc/main~2~.m3u8
+#EXTINF:-1 x-id="s005" x-event-id="foot-004" x-channel="Tactical cam" x-row="Football" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo League · Live" tvg-logo="https://picsum.photos/seed/foot-004/640/360",Clearwater City vs Foxley Athletic
+https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8
+#EXTINF:-1 x-id="s006" x-event-id="foot-006" x-channel="Main" x-row="Football" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo League · Live" tvg-logo="https://picsum.photos/seed/foot-006/640/360",Pinecrest United vs Marlow Vale FC
+https://dwamdstream102.akamaized.net/~1~hls/live/2015525/dwstream102/index~2~.m3u8
+#EXTINF:-1 x-id="s007" x-event-id="foot-007" x-channel="Main" x-row="Football" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo League · Live" tvg-logo="https://picsum.photos/seed/foot-007/640/360",Oakhurst City vs Pebblebrook FC
+https://dwamdstream104.akamaized.net/hls/live/2015530/dwstream104/index.m3u8
+#EXTINF:-1 x-id="s008" x-event-id="foot-007" x-channel="Alternate" x-row="Football" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo League · Live" tvg-logo="https://picsum.photos/seed/foot-007/640/360",Oakhurst City vs Pebblebrook FC
+https://demo.unified-streaming.com/~1~k8s/live/stable/live.isml/~2~.m3u8
+#EXTINF:-1 x-id="s009" x-event-id="foot-007" x-channel="Plain" x-row="Football" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo League · Live" tvg-logo="https://picsum.photos/seed/foot-007/640/360",Oakhurst City vs Pebblebrook FC
+https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8
+#EXTINF:-1 x-id="s010" x-event-id="foot-010" x-channel="Main" x-row="Football" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo League · Live" tvg-logo="https://picsum.photos/seed/foot-010/640/360",Millbrook Town vs Ravenscourt FC
+https://test-streams.mux.dev/~1~x36xhzz/x36xhzz~2~.m3u8
+#EXTINF:-1 x-id="s011" x-event-id="foot-010" x-channel="Tactical cam" x-row="Football" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo League · Live" tvg-logo="https://picsum.photos/seed/foot-010/640/360",Millbrook Town vs Ravenscourt FC
+https://test-streams.mux.dev/tos_ismc/main.m3u8
+#EXTINF:-1 x-id="s012" x-event-id="foot-012" x-channel="Main" x-row="Football" x-start="2026-11-05T03:30:00Z" x-end="2026-11-05T05:30:00Z" x-about="Demo League · Matchday" tvg-logo="https://picsum.photos/seed/foot-012/640/360",Highmoor FC vs Lakeside Athletic
+https://demo.unified-streaming.com/~1~k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/~2~.m3u8
+#EXTINF:-1 x-id="s013" x-event-id="foot-013" x-channel="Main" x-row="Football" x-start="2026-11-05T23:00:00Z" x-end="2026-11-06T01:00:00Z" x-about="Demo League · Matchday" tvg-logo="https://picsum.photos/seed/foot-013/640/360",Queensbury United vs Rushden Rovers
+https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8
+#EXTINF:-1 x-id="s014" x-event-id="foot-014" x-channel="Main" x-row="Football" x-start="2026-11-06T19:45:00Z" x-end="2026-11-06T21:45:00Z" x-about="Demo League · Matchday" tvg-logo="https://picsum.photos/seed/foot-014/640/360",Elmhurst Wanderers vs Ashford Albion
+https://dwamdstream104.akamaized.net/~1~hls/live/2015530/dwstream104/index~2~.m3u8
+#EXTINF:-1 x-id="s015" x-event-id="foot-015" x-channel="Main" x-row="Football" x-start="2026-11-07T15:00:00Z" x-end="2026-11-07T17:00:00Z" x-about="Demo League · Matchday" tvg-logo="https://picsum.photos/seed/foot-015/640/360",Easthaven FC vs Bramblewood Rovers
+https://demo.unified-streaming.com/k8s/live/stable/live.isml/.m3u8
+#EXTINF:-1 x-id="s016" x-event-id="foot-016" x-channel="Main" x-row="Football" x-start="2026-11-08T13:30:00Z" x-end="2026-11-08T15:30:00Z" x-about="Demo League · Matchday" tvg-logo="https://picsum.photos/seed/foot-016/640/360",Riverside FC vs Harbour United
+https://devstreaming-cdn.apple.com/~1~videos/streaming/examples/img_bipbop_adv_example_fmp4/master~2~.m3u8
+#EXTINF:-1 x-id="s017" x-event-id="foot-017" x-channel="Main" x-row="Football" x-start="2026-11-09T20:00:00Z" x-end="2026-11-09T22:00:00Z" x-about="Demo League · Matchday" tvg-logo="https://picsum.photos/seed/foot-017/640/360",Copperfield FC vs Sandbay Rovers
+https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8
+#EXTINF:-1 x-id="s018" x-event-id="foot-018" x-channel="Main" x-row="Football" x-start="2026-12-12T17:00:00Z" x-end="2026-12-12T19:00:00Z" x-about="Demo League · Matchday" tvg-logo="https://picsum.photos/seed/foot-018/640/360",Redcliffe City vs Fernley Rangers
+https://test-streams.mux.dev/~1~tos_ismc/main~2~.m3u8
+#EXTINF:-1 x-id="s019" x-event-id="foot-019" x-channel="Main" x-row="Football" x-start="2027-01-03T14:00:00Z" x-end="2027-01-03T16:00:00Z" x-about="Demo League · Matchday" tvg-logo="https://picsum.photos/seed/foot-019/640/360",Ironbridge FC vs Larkspur United
+https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8
+#EXTINF:-1 x-id="s020" x-event-id="foot-020" x-channel="Main" x-row="Football" x-start="2027-06-01T18:00:00Z" x-end="2027-06-01T21:00:00Z" x-about="Demo League · Matchday" tvg-logo="https://picsum.photos/seed/foot-020/640/360",Thornbury United vs Glenwood City
+https://dwamdstream102.akamaized.net/~1~hls/live/2015525/dwstream102/index~2~.m3u8
+#EXTINF:-1 x-id="s021" x-event-id="foot-021" x-channel="Main" x-row="Football" x-start="2026-11-05T03:30:00Z" x-end="2026-11-05T05:30:00Z" x-about="Demo League · Matchday" tvg-logo="https://picsum.photos/seed/foot-021/640/360",Grangeford United vs Willowby Town
+https://dwamdstream104.akamaized.net/hls/live/2015530/dwstream104/index.m3u8
+#EXTINF:-1 x-id="s022" x-event-id="foot-022" x-channel="Main" x-row="Football" x-start="2026-11-05T23:00:00Z" x-end="2026-11-06T01:00:00Z" x-about="Demo League · Matchday" tvg-logo="https://picsum.photos/seed/foot-022/640/360",Kingsbridge Athletic vs Westmoor Town
+https://demo.unified-streaming.com/~1~k8s/live/stable/live.isml/~2~.m3u8
+#EXTINF:-1 x-id="s023" x-event-id="foot-023" x-channel="Main" x-row="Football" x-start="2026-11-06T19:45:00Z" x-end="2026-11-06T21:45:00Z" x-about="Demo League · Matchday" tvg-logo="https://picsum.photos/seed/foot-023/640/360",Northgate City vs Oakfield Rovers
+https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8
+#EXTINF:-1 x-id="s024" x-event-id="foot-024" x-channel="Main" x-row="Football" x-start="2026-11-07T15:00:00Z" x-end="2026-11-07T17:00:00Z" x-about="Demo League · Matchday" tvg-logo="https://picsum.photos/seed/foot-024/640/360",Silverlake FC vs Duneport City
+https://test-streams.mux.dev/~1~x36xhzz/x36xhzz~2~.m3u8
+#EXTINF:-1 x-id="s025" x-event-id="foot-025" x-channel="Main" x-row="Football" x-start="2026-11-08T13:30:00Z" x-end="2026-11-08T15:30:00Z" x-about="Demo League · Matchday" tvg-logo="https://picsum.photos/seed/foot-025/640/360",Brookvale FC vs Stonehill United
+https://test-streams.mux.dev/tos_ismc/main.m3u8
+#EXTINF:-1 x-id="s026" x-event-id="foot-026" x-channel="Main" x-row="Football" x-start="2026-11-09T20:00:00Z" x-end="2026-11-09T22:00:00Z" x-about="Demo League · Matchday" tvg-logo="https://picsum.photos/seed/foot-026/640/360",Hollowmere Athletic vs Cresthill Town
+https://demo.unified-streaming.com/~1~k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/~2~.m3u8
+#EXTINF:-1 x-id="s027" x-row="Football" x-about="24/7 football" tvg-logo="https://picsum.photos/seed/s27/640/360",Football TV
+https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8
+#EXTINF:-1 x-id="s028" x-row="Football" x-about="Every goal, all day" tvg-logo="https://picsum.photos/seed/s28/640/360",Goals Channel
+https://dwamdstream104.akamaized.net/~1~hls/live/2015530/dwstream104/index~2~.m3u8
+#EXTINF:-1 x-id="s029" x-row="Football" x-about="Replays, 24/7" tvg-logo="https://picsum.photos/seed/s29/640/360",Classic Matches
+https://demo.unified-streaming.com/k8s/live/stable/live.isml/.m3u8
+#EXTINF:-1 x-id="s030" x-row="Football" x-about="Studio and analysis" tvg-logo="https://picsum.photos/seed/s30/640/360",Football Talk
+https://devstreaming-cdn.apple.com/~1~videos/streaming/examples/img_bipbop_adv_example_fmp4/master~2~.m3u8
+#EXTINF:-1 x-id="s031" x-event-id="cric-031" x-channel="English" x-row="Cricket" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo T20 Cup · Live" tvg-logo="https://picsum.photos/seed/cric-031/640/360",London Lancers vs Leeds Lightning
+https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8
+#EXTINF:-1 x-id="s032" x-event-id="cric-031" x-channel="Hindi" x-row="Cricket" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo T20 Cup · Live" tvg-logo="https://picsum.photos/seed/cric-031/640/360",London Lancers vs Leeds Lightning
+https://test-streams.mux.dev/~1~tos_ismc/main~2~.m3u8
+#EXTINF:-1 x-id="s033" x-event-id="cric-031" x-channel="Stump cam" x-row="Cricket" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo T20 Cup · Live" tvg-logo="https://picsum.photos/seed/cric-031/640/360",London Lancers vs Leeds Lightning
+https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8
+#EXTINF:-1 x-id="s034" x-event-id="cric-034" x-channel="English" x-row="Cricket" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo T20 Cup · Live" tvg-logo="https://picsum.photos/seed/cric-034/640/360",Canterbury Kings vs Otago Owls
+https://dwamdstream102.akamaized.net/~1~hls/live/2015525/dwstream102/index~2~.m3u8
+#EXTINF:-1 x-id="s035" x-event-id="cric-034" x-channel="Hindi" x-row="Cricket" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo T20 Cup · Live" tvg-logo="https://picsum.photos/seed/cric-034/640/360",Canterbury Kings vs Otago Owls
+https://dwamdstream104.akamaized.net/hls/live/2015530/dwstream104/index.m3u8
+#EXTINF:-1 x-id="s036" x-event-id="cric-036" x-channel="English" x-row="Cricket" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo T20 Cup · Live" tvg-logo="https://picsum.photos/seed/cric-036/640/360",Hobart Hurricanes XI vs Adelaide Arrows
+https://demo.unified-streaming.com/~1~k8s/live/stable/live.isml/~2~.m3u8
+#EXTINF:-1 x-id="s037" x-event-id="cric-037" x-channel="English" x-row="Cricket" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo T20 Cup · Live" tvg-logo="https://picsum.photos/seed/cric-037/640/360",Cape Town Cobras vs Durban Dolphins
+https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8
+#EXTINF:-1 x-id="s038" x-event-id="cric-037" x-channel="Hindi" x-row="Cricket" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo T20 Cup · Live" tvg-logo="https://picsum.photos/seed/cric-037/640/360",Cape Town Cobras vs Durban Dolphins
+https://test-streams.mux.dev/~1~x36xhzz/x36xhzz~2~.m3u8
+#EXTINF:-1 x-id="s039" x-event-id="cric-037" x-channel="Stump cam" x-row="Cricket" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo T20 Cup · Live" tvg-logo="https://picsum.photos/seed/cric-037/640/360",Cape Town Cobras vs Durban Dolphins
+https://test-streams.mux.dev/tos_ismc/main.m3u8
+#EXTINF:-1 x-id="s040" x-event-id="cric-040" x-channel="English" x-row="Cricket" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo T20 Cup · Live" tvg-logo="https://picsum.photos/seed/cric-040/640/360",Colombo Crusaders vs Kandy Knights
+https://demo.unified-streaming.com/~1~k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/~2~.m3u8
+#EXTINF:-1 x-id="s041" x-event-id="cric-040" x-channel="Hindi" x-row="Cricket" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo T20 Cup · Live" tvg-logo="https://picsum.photos/seed/cric-040/640/360",Colombo Crusaders vs Kandy Knights
+https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8
+#EXTINF:-1 x-id="s042" x-event-id="cric-042" x-channel="Main" x-row="Cricket" x-start="2026-11-05T03:30:00Z" x-end="2026-11-05T05:30:00Z" x-about="Demo T20 Cup · Matchday" tvg-logo="https://picsum.photos/seed/cric-042/640/360",Bristol Bulls vs Taunton Titans
+https://dwamdstream104.akamaized.net/~1~hls/live/2015530/dwstream104/index~2~.m3u8
+#EXTINF:-1 x-id="s043" x-event-id="cric-043" x-channel="Main" x-row="Cricket" x-start="2026-11-05T23:00:00Z" x-end="2026-11-06T01:00:00Z" x-about="Demo T20 Cup · Matchday" tvg-logo="https://picsum.photos/seed/cric-043/640/360",Dhaka Dragons vs Chattogram Chiefs
+https://demo.unified-streaming.com/k8s/live/stable/live.isml/.m3u8
+#EXTINF:-1 x-id="s044" x-event-id="cric-044" x-channel="Main" x-row="Cricket" x-start="2026-11-06T19:45:00Z" x-end="2026-11-06T21:45:00Z" x-about="Demo T20 Cup · Matchday" tvg-logo="https://picsum.photos/seed/cric-044/640/360",Auckland Aces vs Wellington Waves
+https://devstreaming-cdn.apple.com/~1~videos/streaming/examples/img_bipbop_adv_example_fmp4/master~2~.m3u8
+#EXTINF:-1 x-id="s045" x-event-id="cric-045" x-channel="Main" x-row="Cricket" x-start="2026-11-07T15:00:00Z" x-end="2026-11-07T17:00:00Z" x-about="Demo T20 Cup · Matchday" tvg-logo="https://picsum.photos/seed/cric-045/640/360",Mumbai Mariners vs Delhi Dynamos
+https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8
+#EXTINF:-1 x-id="s046" x-event-id="cric-046" x-channel="Main" x-row="Cricket" x-start="2026-11-08T13:30:00Z" x-end="2026-11-08T15:30:00Z" x-about="Demo T20 Cup · Matchday" tvg-logo="https://picsum.photos/seed/cric-046/640/360",Galle Gladiators vs Multan Mavericks
+https://test-streams.mux.dev/~1~tos_ismc/main~2~.m3u8
+#EXTINF:-1 x-id="s047" x-event-id="cric-047" x-channel="Main" x-row="Cricket" x-start="2026-11-09T20:00:00Z" x-end="2026-11-09T22:00:00Z" x-about="Demo T20 Cup · Matchday" tvg-logo="https://picsum.photos/seed/cric-047/640/360",Pune Panthers vs Jaipur Jaguars
+https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8
+#EXTINF:-1 x-id="s048" x-event-id="cric-048" x-channel="Main" x-row="Cricket" x-start="2026-12-12T17:00:00Z" x-end="2026-12-12T19:00:00Z" x-about="Demo T20 Cup · Matchday" tvg-logo="https://picsum.photos/seed/cric-048/640/360",Sydney Strikers vs Perth Pacers
+https://dwamdstream102.akamaized.net/~1~hls/live/2015525/dwstream102/index~2~.m3u8
+#EXTINF:-1 x-id="s049" x-event-id="cric-049" x-channel="Main" x-row="Cricket" x-start="2027-01-03T14:00:00Z" x-end="2027-01-03T16:00:00Z" x-about="Demo T20 Cup · Matchday" tvg-logo="https://picsum.photos/seed/cric-049/640/360",Rawalpindi Rams vs Sylhet Stars
+https://dwamdstream104.akamaized.net/hls/live/2015530/dwstream104/index.m3u8
+#EXTINF:-1 x-id="s050" x-event-id="cric-050" x-channel="Main" x-row="Cricket" x-start="2027-06-01T18:00:00Z" x-end="2027-06-01T21:00:00Z" x-about="Demo T20 Cup · Matchday" tvg-logo="https://picsum.photos/seed/cric-050/640/360",Barbados Breakers vs Jamaica Jets
+https://demo.unified-streaming.com/~1~k8s/live/stable/live.isml/~2~.m3u8
+#EXTINF:-1 x-id="s051" x-event-id="cric-051" x-channel="Main" x-row="Cricket" x-start="2026-11-05T03:30:00Z" x-end="2026-11-05T05:30:00Z" x-about="Demo T20 Cup · Matchday" tvg-logo="https://picsum.photos/seed/cric-051/640/360",Trinidad Thunder vs Guyana Gold
+https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8
+#EXTINF:-1 x-id="s052" x-event-id="cric-052" x-channel="Main" x-row="Cricket" x-start="2026-11-05T23:00:00Z" x-end="2026-11-06T01:00:00Z" x-about="Demo T20 Cup · Matchday" tvg-logo="https://picsum.photos/seed/cric-052/640/360",Chennai Chargers vs Kolkata Comets
+https://test-streams.mux.dev/~1~x36xhzz/x36xhzz~2~.m3u8
+#EXTINF:-1 x-id="s053" x-event-id="cric-053" x-channel="Main" x-row="Cricket" x-start="2026-11-06T19:45:00Z" x-end="2026-11-06T21:45:00Z" x-about="Demo T20 Cup · Matchday" tvg-logo="https://picsum.photos/seed/cric-053/640/360",Hyderabad Hawks vs Lucknow Legends
+https://test-streams.mux.dev/tos_ismc/main.m3u8
+#EXTINF:-1 x-id="s054" x-event-id="cric-054" x-channel="Main" x-row="Cricket" x-start="2026-11-07T15:00:00Z" x-end="2026-11-07T17:00:00Z" x-about="Demo T20 Cup · Matchday" tvg-logo="https://picsum.photos/seed/cric-054/640/360",Lahore Lions vs Karachi Kings XI
+https://demo.unified-streaming.com/~1~k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/~2~.m3u8
+#EXTINF:-1 x-id="s055" x-row="Cricket" x-about="Highlights and classics, 24/7" tvg-logo="https://picsum.photos/seed/s55/640/360",Cricket 24
+https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8
+#EXTINF:-1 x-id="s056" x-row="Cricket" x-about="Studio and analysis" tvg-logo="https://picsum.photos/seed/s56/640/360",Cricket Talk
+https://dwamdstream104.akamaized.net/~1~hls/live/2015530/dwstream104/index~2~.m3u8
+#EXTINF:-1 x-id="s057" x-row="Cricket" x-about="Training, live from the nets" tvg-logo="https://picsum.photos/seed/s57/640/360",Nets Cam
+https://demo.unified-streaming.com/k8s/live/stable/live.isml/.m3u8
+#EXTINF:-1 x-id="s058" x-event-id="bask-058" x-channel="Main" x-row="Basketball" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo Hoops · Live" tvg-logo="https://picsum.photos/seed/bask-058/640/360",Harbor Hawks vs River Rapids
+https://devstreaming-cdn.apple.com/~1~videos/streaming/examples/img_bipbop_adv_example_fmp4/master~2~.m3u8
+#EXTINF:-1 x-id="s059" x-event-id="bask-058" x-channel="Courtside" x-row="Basketball" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo Hoops · Live" tvg-logo="https://picsum.photos/seed/bask-058/640/360",Harbor Hawks vs River Rapids
+https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8
+#EXTINF:-1 x-id="s060" x-event-id="bask-060" x-channel="Main" x-row="Basketball" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo Hoops · Live" tvg-logo="https://picsum.photos/seed/bask-060/640/360",Coastal Cruisers vs Forest Falcons
+https://test-streams.mux.dev/~1~tos_ismc/main~2~.m3u8
+#EXTINF:-1 x-id="s061" x-event-id="bask-061" x-channel="Main" x-row="Basketball" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo Hoops · Live" tvg-logo="https://picsum.photos/seed/bask-061/640/360",Metro Hoopers vs Bay Blazers
+https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8
+#EXTINF:-1 x-id="s062" x-event-id="bask-061" x-channel="Courtside" x-row="Basketball" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo Hoops · Live" tvg-logo="https://picsum.photos/seed/bask-061/640/360",Metro Hoopers vs Bay Blazers
+https://dwamdstream102.akamaized.net/~1~hls/live/2015525/dwstream102/index~2~.m3u8
+#EXTINF:-1 x-id="s063" x-event-id="bask-063" x-channel="Main" x-row="Basketball" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo Hoops · Live" tvg-logo="https://picsum.photos/seed/bask-063/640/360",Tidewater Tritons vs Ember Eagles
+https://dwamdstream104.akamaized.net/hls/live/2015530/dwstream104/index.m3u8
+#EXTINF:-1 x-id="s064" x-event-id="bask-064" x-channel="Main" x-row="Basketball" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo Hoops · Live" tvg-logo="https://picsum.photos/seed/bask-064/640/360",Valley Vipers vs Granite Giants
+https://demo.unified-streaming.com/~1~k8s/live/stable/live.isml/~2~.m3u8
+#EXTINF:-1 x-id="s065" x-event-id="bask-064" x-channel="Courtside" x-row="Basketball" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo Hoops · Live" tvg-logo="https://picsum.photos/seed/bask-064/640/360",Valley Vipers vs Granite Giants
+https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8
+#EXTINF:-1 x-id="s066" x-event-id="bask-066" x-channel="Main" x-row="Basketball" x-start="2026-11-05T03:30:00Z" x-end="2026-11-05T05:30:00Z" x-about="Demo Hoops · Matchday" tvg-logo="https://picsum.photos/seed/bask-066/640/360",Arctic Owls vs Delta Dashers
+https://test-streams.mux.dev/~1~x36xhzz/x36xhzz~2~.m3u8
+#EXTINF:-1 x-id="s067" x-event-id="bask-067" x-channel="Main" x-row="Basketball" x-start="2026-11-05T23:00:00Z" x-end="2026-11-06T01:00:00Z" x-about="Demo Hoops · Matchday" tvg-logo="https://picsum.photos/seed/bask-067/640/360",Canyon Coyotes vs Prairie Pumas
+https://test-streams.mux.dev/tos_ismc/main.m3u8
+#EXTINF:-1 x-id="s068" x-event-id="bask-068" x-channel="Main" x-row="Basketball" x-start="2026-11-06T19:45:00Z" x-end="2026-11-06T21:45:00Z" x-about="Demo Hoops · Matchday" tvg-logo="https://picsum.photos/seed/bask-068/640/360",Capital Kings vs Desert Suns
+https://demo.unified-streaming.com/~1~k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/~2~.m3u8
+#EXTINF:-1 x-id="s069" x-event-id="bask-069" x-channel="Main" x-row="Basketball" x-start="2026-11-07T15:00:00Z" x-end="2026-11-07T17:00:00Z" x-about="Demo Hoops · Matchday" tvg-logo="https://picsum.photos/seed/bask-069/640/360",Lakeview Lynx vs Summit Peaks
+https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8
+#EXTINF:-1 x-id="s070" x-row="Basketball" x-about="Games and highlights" tvg-logo="https://picsum.photos/seed/s70/640/360",Hoops 24/7
+https://dwamdstream104.akamaized.net/~1~hls/live/2015530/dwstream104/index~2~.m3u8
+#EXTINF:-1 x-id="s071" x-event-id="moto-071" x-channel="Main feed" x-row="Motorsport" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo Grand Prix · Live" tvg-logo="https://picsum.photos/seed/moto-071/640/360",Monza Park
+https://demo.unified-streaming.com/k8s/live/stable/live.isml/.m3u8
+#EXTINF:-1 x-id="s072" x-event-id="moto-071" x-channel="Onboard" x-row="Motorsport" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo Grand Prix · Live" tvg-logo="https://picsum.photos/seed/moto-071/640/360",Monza Park
+https://devstreaming-cdn.apple.com/~1~videos/streaming/examples/img_bipbop_adv_example_fmp4/master~2~.m3u8
+#EXTINF:-1 x-id="s073" x-event-id="moto-071" x-channel="Pit lane" x-row="Motorsport" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo Grand Prix · Live" tvg-logo="https://picsum.photos/seed/moto-071/640/360",Monza Park
+https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8
+#EXTINF:-1 x-id="s074" x-event-id="moto-074" x-channel="Main feed" x-row="Motorsport" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo Grand Prix · Live" tvg-logo="https://picsum.photos/seed/moto-074/640/360",Coastal Ring
+https://test-streams.mux.dev/~1~tos_ismc/main~2~.m3u8
+#EXTINF:-1 x-id="s075" x-event-id="moto-074" x-channel="Onboard" x-row="Motorsport" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo Grand Prix · Live" tvg-logo="https://picsum.photos/seed/moto-074/640/360",Coastal Ring
+https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8
+#EXTINF:-1 x-id="s076" x-event-id="moto-074" x-channel="Pit lane" x-row="Motorsport" x-start="2026-01-01T00:00:00Z" x-end="2030-01-01T00:00:00Z" x-about="Demo Grand Prix · Live" tvg-logo="https://picsum.photos/seed/moto-074/640/360",Coastal Ring
+https://dwamdstream102.akamaized.net/~1~hls/live/2015525/dwstream102/index~2~.m3u8
+#EXTINF:-1 x-id="s077" x-event-id="moto-077" x-channel="Main feed" x-row="Motorsport" x-start="2026-11-05T03:30:00Z" x-end="2026-11-05T05:30:00Z" x-about="Demo Rally" tvg-logo="https://picsum.photos/seed/moto-077/640/360",Forest Stage
+https://dwamdstream104.akamaized.net/hls/live/2015530/dwstream104/index.m3u8
+#EXTINF:-1 x-id="s078" x-event-id="moto-078" x-channel="Main feed" x-row="Motorsport" x-start="2026-11-05T23:00:00Z" x-end="2026-11-06T01:00:00Z" x-about="Demo Endurance" tvg-logo="https://picsum.photos/seed/moto-078/640/360",6 Hours
+https://demo.unified-streaming.com/~1~k8s/live/stable/live.isml/~2~.m3u8
+#EXTINF:-1 x-id="s079" x-event-id="moto-079" x-channel="Main feed" x-row="Motorsport" x-start="2026-11-06T19:45:00Z" x-end="2026-11-06T21:45:00Z" x-about="Demo Grand Prix" tvg-logo="https://picsum.photos/seed/moto-079/640/360",Desert Circuit
+https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8
+#EXTINF:-1 x-id="s080" x-event-id="moto-080" x-channel="Main feed" x-row="Motorsport" x-start="2026-11-07T15:00:00Z" x-end="2026-11-07T17:00:00Z" x-about="Demo Superbikes" tvg-logo="https://picsum.photos/seed/moto-080/640/360",Round 9
+https://test-streams.mux.dev/~1~x36xhzz/x36xhzz~2~.m3u8
+#EXTINF:-1 x-id="s081" x-row="Motorsport" x-about="Racing, 24/7" tvg-logo="https://picsum.photos/seed/s81/640/360",Motor TV
+https://test-streams.mux.dev/tos_ismc/main.m3u8
+#EXTINF:-1 x-id="s082" x-row="Motorsport" x-about="Team radio and timing" tvg-logo="https://picsum.photos/seed/s82/640/360",Pit Wall
+https://demo.unified-streaming.com/~1~k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/~2~.m3u8
+#EXTINF:-1 x-id="s083" x-row="News" x-about="Deutsche Welle · English" tvg-logo="https://picsum.photos/seed/news/640/360",DW English
+https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8
+#EXTINF:-1 x-id="s084" x-row="News" x-about="Deutsche Welle · second feed" tvg-logo="https://picsum.photos/seed/space/640/360",DW Feed 2
+https://dwamdstream104.akamaized.net/~1~hls/live/2015530/dwstream104/index~2~.m3u8
+#EXTINF:-1 x-id="s085" x-row="Films" x-about="Blender open film" tvg-logo="https://picsum.photos/seed/film/640/360",Tears of Steel
+https://demo.unified-streaming.com/~1~k8s/live/stable/live.isml/~2~.m3u8
+#EXTINF:-1 x-id="s086" x-row="Films" x-about="Blender open film" tvg-logo="https://picsum.photos/seed/bunny/640/360",Big Buck Bunny
+https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8

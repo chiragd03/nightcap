@@ -1,0 +1,222 @@
+.row { position: relative; margin-bottom: 26px; }
+
+.row-track { position: relative; }
+
+/* Round glass buttons over the row's ends, shown on hover where there's more to see. */
+.row-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  width: 44px;
+  height: 44px;
+  margin-top: -22px;
+  padding: 0;
+  border: 1px solid rgba(238, 241, 247, 0.14);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--text);
+  background: rgba(19, 26, 40, 0.72);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity var(--dur), transform var(--dur), background var(--dur);
+}
+.row-arrow.prev { left: max(4px, calc(var(--gutter) - 22px)); }
+.row-arrow.prev svg { transform: scaleX(-1); }
+.row-arrow.next { right: max(4px, calc(var(--gutter) - 22px)); }
+.row:hover .row-arrow { opacity: 1; transform: none; }
+.row-arrow:hover { background: var(--text); color: var(--ink); }
+
+/* Fade the cards out under each arrow. */
+.row-track:has(.row-arrow.next)::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: var(--gutter);
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(270deg, var(--ink), rgba(9, 13, 22, 0));
+}
+
+.row-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  padding: 0 var(--gutter);
+}
+.row-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 650;
+}
+
+.row-cards {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  /* The scrolling box starts at the margin, so cards scrolled past it are cut off there
+     (a little padding inside leaves room for the hover zoom). */
+  margin: 0 calc(var(--gutter) - 10px);
+  padding: 8px 10px 12px;
+  scroll-padding-inline: 10px;
+  scrollbar-width: none;
+}
+.row-cards::-webkit-scrollbar { display: none; }
+
+.card {
+  position: relative;
+  flex: none;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  outline: none;
+}
+
+.poster,
+.tile {
+  position: relative;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: var(--panel);
+  transition: transform var(--dur) cubic-bezier(0.3, 1.4, 0.5, 1), box-shadow var(--dur);
+}
+.poster { width: 150px; aspect-ratio: 2 / 3; display: grid; place-items: center; }
+.poster img { width: 100%; height: 100%; object-fit: cover; }
+.poster > span:first-child { padding: 10px; text-align: center; color: var(--muted); }
+
+.card:hover .poster,
+.card:focus-visible .poster,
+.card:hover .tile,
+.card:focus-visible .tile {
+  transform: scale(1.06);
+  box-shadow: 0 0 0 2px var(--lamp);
+}
+
+.card-sub { font-size: 13px; color: var(--muted); }
+
+/* The episode and the +N new ones, side by side top left (the ⋯ has the top right). */
+.card-chips { position: absolute; top: 6px; left: 6px; right: 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px; pointer-events: none; }
+.badge {
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--lamp);
+  color: #1b1305;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* The episode on a small dark chip. */
+.chip-episode {
+  padding: 3px 7px;
+  border-radius: 4px;
+  background: var(--scrim);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+/* How far in: a thin track inset from the bottom edge. */
+.progress {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  height: 4px;
+  border-radius: 2px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.22);
+}
+.progress span { display: block; height: 100%; background: var(--lamp); }
+
+
+/* The ⋯ button: the long-press menu, for a pointer. */
+.card-more {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(9, 13, 22, 0.7);
+  backdrop-filter: blur(8px);
+  font-weight: 800;
+  line-height: 1;
+  opacity: 0;
+  transition: opacity var(--dur);
+}
+.card:hover .card-more,
+.card:focus-visible .card-more { opacity: 1; }
+.card-more:hover { background: var(--text); color: var(--ink); }
+
+/* Top 10: a big number partly behind the poster. */
+.ranked .card { flex-direction: row; align-items: flex-end; }
+.ranked .row-cards, .row-cards.ranked { padding-top: 14px; }
+.card-rank {
+  font: 800 120px/0.8 'Big Shoulders', 'Big Shoulders Fallback', sans-serif;
+  /* Keep the numbers inside the row, so it can't move up and down. */
+  overflow: hidden;
+  padding-bottom: 2px;
+  color: var(--ink);
+  -webkit-text-stroke: 2px var(--muted);
+  margin-right: -18px;
+  z-index: 0;
+}
+.ranked .poster { width: 130px; z-index: 1; }
+
+/* Browse tiles */
+.tile {
+  width: 240px;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: flex-end;
+  padding: 12px;
+  background-size: cover;
+  background-position: center;
+}
+.tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(9, 13, 22, 0.85), rgba(9, 13, 22, 0.1));
+}
+.tile span { position: relative; font-weight: 700; font-size: 17px; }
+
+@media (max-width: 700px) {
+  /* A third of the next poster shows at the edge, so the row reads as one that scrolls. */
+  .poster { width: clamp(96px, calc((100vw - var(--gutter) - 36px) / 3.3), 140px); }
+  .ranked .poster { width: clamp(88px, calc((100vw - var(--gutter)) / 3.6), 120px); }
+  /* The number clear of the poster, outlined bright enough to read. */
+  .card-rank { font-size: 96px; margin-right: -8px; -webkit-text-stroke: 2px rgba(238, 241, 247, 0.55); }
+  .tile { width: 190px; }
+  .row-arrow { display: none; }
+}
+
+/* Touch screens: no ⋯ on the art; a long press opens the same menu (no link preview, no text picked). */
+@media (hover: none) {
+  .card-more { display: none; }
+  .card { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+}
+
+/* Waiting for a row: cards of the real size, a soft light passing over them. */
+.skeleton {
+  background: linear-gradient(100deg, rgba(255, 255, 255, 0.035) 30%, rgba(255, 255, 255, 0.09) 50%, rgba(255, 255, 255, 0.035) 70%) var(--panel);
+  background-size: 300% 100%;
+  animation: skeleton-shine 1.6s ease-in-out infinite;
+}
+.skeleton-line { display: block; width: 180px; height: 18px; border-radius: 5px; }
+@keyframes skeleton-shine { from { background-position: 100% 0; } to { background-position: 0 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; }
+}

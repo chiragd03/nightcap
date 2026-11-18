@@ -1,0 +1,88 @@
+.panel-scrim {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  z-index: 30;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: rgba(5, 8, 15, 0.55);
+  animation: fade-in 260ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 560rem;
+  margin-top: 48rem;
+  padding: 28rem 32rem 26rem;
+  border-radius: 26rem;
+  background: linear-gradient(180deg, #141b2b, #0e1320);
+  box-shadow: inset 0 0 0 0.8rem rgba(255, 255, 255, 0.14), 0 24rem 60rem rgba(0, 0, 0, 0.55);
+  animation: panel-in 360ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+@keyframes panel-in { from { opacity: 0; transform: translateY(-24rem); } }
+.panel-heading { font: 700 28rem/1.1 'Big Shoulders', sans-serif; }
+.panel-text { margin: 10rem 0 0; color: var(--muted); font-size: 10.5rem; line-height: 1.5; text-align: center; }
+.field-wrap { width: 100%; margin-top: 20rem; }
+.field {
+  display: block;
+  width: 100%;
+  height: 50rem;
+  padding: 0 20rem;
+  border: 0;
+  border-radius: 24rem;
+  background: rgba(22, 28, 41, 0.85);
+  color: var(--text);
+  font: inherit;
+  font-size: 15rem;
+  text-align: center;
+}
+.field:focus { outline: none; background: rgba(37, 44, 60, 0.95); }
+.field::placeholder { color: var(--muted); }
+
+/* The join code: eight boxes (18 dp between the two halves), the real field invisible over them. */
+.code { position: relative; display: flex; justify-content: center; margin-top: 20rem; }
+.code-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46rem;
+  height: 58rem;
+  margin: 0 4rem;
+  border-radius: 14rem;
+  background: rgba(22, 28, 41, 0.85);
+  font: 700 24rem/1 'Big Shoulders', sans-serif;
+}
+.code-box.half { margin-left: 18rem; }
+.code-box.next { background: rgba(37, 44, 60, 0.95); box-shadow: inset 0 0 0 1.5rem rgba(255, 255, 255, 0.9); }
+.code-input {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 58rem;
+  border: 0;
+  background: transparent;
+  color: transparent;
+  caret-color: transparent;
+  font-size: 15rem;
+}
+.code-input:focus { outline: none; }
+
+.panel-buttons { display: flex; margin-top: 18rem; }
+.pill {
+  min-width: 100rem;
+  height: 40rem;
+  margin: 0 5rem;
+  padding: 0 22rem;
+  border: 0;
+  border-radius: 20rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  font: inherit;
+  font-size: 12rem;
+  font-weight: 600;
+}
+.pill.go { min-width: 120rem; padding: 0 24rem; }
+.pill:focus { outline: none; background: rgba(255, 255, 255, 0.96); color: var(--ink); }
+.pill[disabled] { opacity: 0.6; }
+.panel-status { margin: 14rem 0 0; font-size: 10.5rem; text-align: center; }

@@ -1,0 +1,88 @@
+.menu-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(9, 13, 22, 0.55);
+  backdrop-filter: blur(6px);
+  animation: menu-fade var(--dur) ease;
+}
+@keyframes menu-fade { from { opacity: 0; } }
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: min(360px, 100%);
+  padding: 10px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+  animation: menu-in var(--dur) cubic-bezier(0.2, 0, 0, 1);
+}
+@keyframes menu-in { from { opacity: 0; transform: translateY(10px) scale(0.97); } }
+
+.menu-head { display: flex; flex-direction: column; gap: 2px; padding: 8px 12px 12px; }
+.menu-head b { font-size: 17px; font-weight: 700; }
+.menu-head span { font-size: 13px; color: var(--muted); }
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 46px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 23px;
+  background: none;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+.menu-item svg { color: var(--muted); }
+/* Dark on the white pill, as on the TV. */
+.menu-item:hover,
+.menu-item:focus-visible { background: var(--text); color: var(--ink); }
+.menu-item:hover svg,
+.menu-item:focus-visible svg { color: var(--ink); }
+
+/* Notice: the TV's glass toast in the top-right corner. */
+.notice {
+  position: fixed;
+  top: 22px;
+  right: var(--gutter);
+  z-index: 50;
+  max-width: min(360px, calc(100vw - 32px));
+  padding: 12px 16px;
+  font-weight: 600;
+  animation: notice 2.8s ease forwards;
+}
+@keyframes notice {
+  0% { opacity: 0; transform: translateY(-8px); }
+  8%, 85% { opacity: 1; transform: none; }
+  100% { opacity: 0; }
+}
+/* (With less motion: it still comes and goes, without moving.) */
+@keyframes notice-still {
+  0%, 100% { opacity: 0; }
+  8%, 85% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) { .notice { animation-name: notice-still; } }
+
+/* On a phone: a sheet up from the bottom, in reach of the thumb. */
+@media (max-width: 700px) {
+  .menu-scrim { place-items: end stretch; padding: 0; }
+  .menu {
+    width: 100%;
+    max-height: 85dvh;
+    overflow-y: auto;
+    border-radius: 24px 24px 0 0;
+    padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    animation-name: menu-up;
+  }
+  @keyframes menu-up { from { transform: translateY(40px); opacity: 0; } }
+  .menu::before { content: ''; align-self: center; width: 40px; height: 4px; margin: -4px 0 8px; border-radius: 2px; background: rgba(238, 241, 247, 0.25); }
+}

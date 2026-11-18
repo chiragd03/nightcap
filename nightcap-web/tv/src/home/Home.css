@@ -1,0 +1,192 @@
+/* Home. The Android layout is 960 x 540 dp; 1rem = 1 dp. */
+.home { position: absolute; top: 0; right: 0; bottom: 0; left: 0; overflow: hidden; background: var(--ink); }
+
+/* The backdrop, top right, with its scrims. */
+.backdrop { position: absolute; top: 0; right: 0; width: 670rem; height: 377rem; }
+.backdrop-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; animation: fade-in 200ms both; }
+.scrim-left { position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: linear-gradient(90deg, #090d16 0, rgba(9, 13, 22, 0.7) 25%, rgba(9, 13, 22, 0) 100%); }
+.scrim-bottom { position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: linear-gradient(0deg, #090d16 0, rgba(9, 13, 22, 0.5) 25%, rgba(9, 13, 22, 0) 100%); }
+
+.home-hint { position: absolute; top: 12rem; left: 46rem; color: var(--muted); font-size: 11rem; font-weight: 600; letter-spacing: 0.06em; transition: opacity 200ms; white-space: pre; }
+.home-hint.hidden { opacity: 0; }
+
+/* The clock. */
+.clock { position: absolute; top: 28rem; left: 48rem; display: flex; align-items: baseline; text-shadow: 0 0 8rem rgba(0, 0, 0, 0.7); }
+.clock-time { font: 700 40rem/1 'Big Shoulders', sans-serif; font-variant-numeric: tabular-nums; }
+.clock-date { margin-left: 9rem; color: var(--muted); font-size: 11rem; }
+
+/* The hero text: a fixed box, so it never reaches the rows. */
+.hero-text {
+  position: absolute;
+  top: 84rem;
+  left: 48rem;
+  display: flex;
+  flex-direction: column;
+  width: 460rem;
+  height: 200rem;
+  overflow: hidden;
+  animation: hero-in 240ms var(--ease) both;
+}
+@keyframes hero-in { from { opacity: 0.3; transform: translateY(5rem); } }
+.hero-eyebrow { color: var(--lamp); font-size: 11rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+.hero-title {
+  display: -webkit-box;
+  margin: 8rem 0 0;
+  overflow: hidden;
+  font: 800 50rem/0.9 'Big Shoulders', sans-serif;
+  text-transform: uppercase;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.hero-title.long { font-size: 38rem; }
+.hero-meta { margin-top: 8rem; color: var(--muted); font-size: 13rem; font-variant-numeric: tabular-nums; white-space: pre; }
+.hero-reason, .hero-overview { display: -webkit-box; overflow: hidden; line-height: 1.15; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.hero-reason { margin-top: 8rem; font-size: 14rem; white-space: pre-wrap; }
+.hero-overview { margin-top: 6rem; color: var(--muted); font-size: 11rem; }
+
+/* The rows. */
+.rows { position: absolute; top: 300rem; right: 0; bottom: 0; left: 0; }
+.rows-list { transition: transform 340ms var(--ease); }
+.row { padding-bottom: 22rem; transition: opacity 340ms var(--ease); }
+.row.above { opacity: 0; }
+/* (One line, ending "…" when it's longer than the screen.) */
+.row-title { display: block; overflow: hidden; margin: 0 48rem; color: var(--muted); font-size: 15rem; font-weight: 600; white-space: nowrap; text-overflow: ellipsis; transition: color 200ms; }
+.row.focused .row-title { color: var(--text); }
+.row-track { position: relative; display: flex; align-items: flex-end; padding: 12rem 48rem 8rem; transition: transform 320ms var(--ease); }
+
+/* Cards: grow with a little bounce, lift, and catch the light. */
+.card {
+  position: relative;
+  flex: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  outline: none;
+  transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.card:focus { transform: scale(1.12); z-index: 2; }
+.poster {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 7rem;
+  background: var(--panel);
+  transition: box-shadow 260ms var(--ease);
+}
+.card:focus .poster { box-shadow: 0 14rem 28rem rgba(0, 0, 0, 0.55); }
+.poster img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+.sheen {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0, rgba(255, 255, 255, 0.06) 35%, rgba(255, 255, 255, 0) 70%);
+  opacity: 0;
+  transition: opacity 260ms;
+}
+.card:focus .sheen { opacity: 1; }
+.poster-card { margin-right: 13rem; }
+.poster-card .poster { width: 98rem; height: 147rem; }
+.chip { position: absolute; top: 5rem; padding: 3rem 4rem; border-radius: 4rem; font-size: 8rem; font-weight: 700; line-height: 1; }
+.chip.ep { left: 5rem; background: rgba(9, 13, 22, 0.8); color: #fff; }
+.chip.new { right: 5rem; padding: 2rem 4rem; background: var(--lamp); color: var(--ink); font-size: 9rem; font-weight: 800; }
+.chip.new sup { font-size: 0.8em; vertical-align: 0.1em; }
+.progress { position: absolute; right: 6rem; bottom: 6rem; left: 6rem; height: 3rem; overflow: hidden; border-radius: 2rem; background: rgba(255, 255, 255, 0.22); }
+.progress span { display: block; height: 100%; background: var(--lamp); transform-origin: left; }
+
+/* The Top 10: the big number, the poster over its last sliver. */
+.ranked-card { display: flex; align-items: flex-end; height: 186rem; margin-right: 18rem; }
+.rank {
+  position: relative;
+  flex: none;
+  height: 186rem;
+  overflow: visible;
+  color: rgba(238, 241, 247, 0.2);
+  font: 800 150rem/1 'Big Shoulders', sans-serif;
+  letter-spacing: -0.06em;
+  white-space: nowrap;
+}
+.rank { display: flex; align-items: flex-end; margin-bottom: -18rem; }
+.ranked-card .poster { width: 124rem; height: 186rem; }
+
+/* Browse tiles: its top title's picture, darkened toward its lower left, with what kind of
+   tile it is in small letters over its name in the display font. With no picture, a deep colour of
+   its own. Focused, it lifts and light catches it, as the posters do. */
+.tile-card { margin-right: 13rem; }
+.tile-card .poster { width: 176rem; height: 99rem; text-align: left; }
+.tile-card .poster img { opacity: 0; transition: opacity 200ms; }
+.tile-card .poster img.in { opacity: 1; }
+.tile-shade {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: linear-gradient(to top right, rgba(9, 13, 22, 0.9), rgba(9, 13, 22, 0.5), rgba(9, 13, 22, 0.08));
+}
+.tile-text { position: absolute; right: 0; bottom: 0; left: 0; display: flex; flex-direction: column; align-items: flex-start; padding: 0 12rem 10rem; }
+.tile-text small {
+  color: rgba(220, 226, 236, 0.7);
+  font-size: 7.5rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-shadow: 0 0 4rem rgba(0, 0, 0, 0.6);
+  white-space: nowrap;
+}
+.tile-text b {
+  max-width: 100%;
+  margin-top: 2rem;
+  overflow: hidden;
+  color: var(--text);
+  font: 800 19rem/1 'Big Shoulders', sans-serif;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  text-shadow: 0 0 6rem rgba(0, 0, 0, 0.7);
+  white-space: nowrap;
+}
+
+/* The featured carousel's dots. */
+.row.featured { padding-bottom: 26rem; }
+.dots { display: flex; align-items: center; height: 22rem; margin-left: 44rem; padding: 0 9rem; border: 0; border-radius: 11rem; background: none; outline: none; }
+.dots:focus { background: rgba(255, 255, 255, 0.15); }
+.dot { width: 5rem; height: 5rem; margin-right: 5rem; border-radius: 3rem; background: #fff; opacity: 0.25; transition: width 240ms var(--ease), opacity 240ms; }
+.dot:last-child { margin-right: 0; }
+.dot.on { width: 16rem; opacity: 0.7; }
+.dots:focus .dot { opacity: 0.45; }
+.dots:focus .dot.on { opacity: 1; }
+
+/* The weather and the AI's spend. */
+/* The top-right corner: the trailer sound button, then the weather. */
+.corner { position: absolute; top: 14rem; right: 20rem; display: flex; align-items: center; }
+.sound-button { display: flex; align-items: center; justify-content: center; width: 36rem; height: 36rem; margin-right: 10rem; padding: 0; border: 0; border-radius: 50%;
+  background: rgba(16, 22, 36, 0.45); box-shadow: inset 0 0 0 1rem rgba(255, 255, 255, 0.2); color: rgba(238, 241, 247, 0.9); outline: none; transition: background 150ms, color 150ms; }
+.sound-button:focus { background: rgba(255, 255, 255, 0.96); color: var(--ink); box-shadow: none; }
+.weather {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 46rem;
+  padding: 6rem 11rem;
+  overflow: hidden;
+  border-radius: 12rem;
+  /* (Its own layers, so the glass at z-index -1 sits behind the text, not behind the backdrop.) */
+  z-index: 1;
+  box-shadow: inset 0 0 0 0.8rem rgba(255, 255, 255, 0.1);
+}
+.weather-glass { position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: -1; background: linear-gradient(180deg, rgba(20, 26, 40, 0.78), rgba(10, 13, 22, 0.88)); }
+/* The backdrop behind, blurred: lined up with the backdrop box (670 x 377 dp, top right). */
+.weather-glass img { position: absolute; top: -14rem; right: -20rem; width: 670rem; height: 377rem; object-fit: cover; filter: blur(22rem); opacity: 0.35; }
+.weather-icon { font-size: 20rem; }
+.weather-text { display: flex; flex-direction: column; margin-left: 7rem; }
+.weather-temp { font: 700 18rem/1 'Big Shoulders', sans-serif; font-variant-numeric: tabular-nums; }
+.weather-temp small { margin-left: 5rem; color: var(--muted); font: 500 8rem 'Hanken', sans-serif; }
+.weather-sub { margin-top: 1rem; color: var(--muted); font-size: 7.5rem; }
+.ai-chip { position: absolute; right: 16rem; bottom: 10rem; padding: 3rem 6rem; border-radius: 4rem; background: rgba(9, 13, 22, 0.8); color: var(--muted); font-size: 8rem; font-variant-numeric: tabular-nums; white-space: pre; }
+
+.home-status { position: absolute; top: 50%; left: 0; width: 100%; margin: 0; color: var(--muted); font-size: 14rem; text-align: center; }
+/* Under the rows, when there are some ("Setting up the rest of your home screen…"). */
+.home-status.low { top: auto; bottom: 36rem; }
+
+/* The trailer over the backdrop: hidden until its first frame, then faded in. The frame
+   is drawn a little larger than the box, so YouTube's title bar and corner logo fall outside it. */
+.trailer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; opacity: 0; transition: opacity 350ms; pointer-events: none; }
+.trailer.shown { opacity: 1; }
+.trailer iframe { position: absolute; top: -12%; left: -12%; width: 124%; height: 124%; border: 0; }
+/* A poster that didn't load: the title's name on the card instead. */
+.poster-name { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: flex; align-items: flex-end; padding: 8rem; color: var(--muted); font-size: 9rem; line-height: 1.25; overflow: hidden; }

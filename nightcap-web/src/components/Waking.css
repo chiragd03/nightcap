@@ -1,0 +1,35 @@
+/* "Waking up": the mark breathing softly on the app's night, over everything. */
+.waking {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 24px;
+  background: radial-gradient(circle at 50% 45%, rgba(246, 183, 60, 0.08), transparent 45vmax), var(--ink);
+  color: var(--text);
+  text-align: center;
+  animation: waking-in var(--dur) ease both;
+}
+.waking-mark {
+  width: 64px;
+  margin-bottom: 14px;
+  filter: drop-shadow(0 0 22px rgba(246, 183, 60, 0.4));
+  animation: waking-breathe 2.4s ease-in-out infinite;
+}
+.waking b { font-size: 18px; font-weight: 650; }
+.waking span { max-width: 340px; color: var(--muted); font-size: 14px; line-height: 1.5; }
+@keyframes waking-in { from { opacity: 0; } }
+@keyframes waking-breathe { 50% { opacity: 0.55; transform: scale(0.94); } }
+@media (prefers-reduced-motion: reduce) { .waking, .waking-mark { animation: none; } }
+
+/* "Waking up", small, over a page that has something to show. */
+.waking-line {
+  position: fixed; z-index: 100; top: calc(14px + env(safe-area-inset-top, 0px)); left: 50%; transform: translateX(-50%);
+  width: max-content; max-width: calc(100vw - 32px); padding: 8px 16px; border-radius: 18px; font-size: 13px; color: var(--text); text-align: center;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35); animation: waking-in var(--dur) ease-out both;
+}
+@media (prefers-reduced-motion: reduce) { .waking-line { animation: none; } }

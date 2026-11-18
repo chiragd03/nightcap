@@ -1,0 +1,22 @@
+.notice {
+  position: absolute;
+  top: 22rem;
+  right: 28rem;
+  z-index: 50;
+  max-width: 360rem;
+  padding: 8rem 14rem;
+  border-radius: 22rem;
+  background: rgba(20, 26, 40, 0.95);
+  box-shadow: 0 10rem 30rem rgba(0, 0, 0, 0.45);
+  color: #eef1f7;
+  font-size: 10rem;
+  font-weight: 500;
+  animation: notice 3s both;
+}
+/* In 200 ms (down from −6 dp), held 2.4 s, out over 400 ms. */
+@keyframes notice {
+  0% { opacity: 0; transform: translateY(-6rem); }
+  6.67% { opacity: 1; transform: none; }
+  86.67% { opacity: 1; }
+  100% { opacity: 0; }
+}

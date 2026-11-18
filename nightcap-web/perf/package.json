@@ -1,0 +1,9 @@
+{
+  "name": "nightcap-web-perf",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "size": "node size.mjs",
+    "pages": "node pages.mjs"
+  }
+}

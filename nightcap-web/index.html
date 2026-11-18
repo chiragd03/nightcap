@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/app/brand/icon-192.png" />
+    <!-- On a phone's home screen: the app icon (iPhone), and the manifest with its icons (Android). It
+         opens in the browser, so the browser's sign-in carries over. -->
+    <link rel="apple-touch-icon" href="/app/brand/apple-touch-icon.png" />
+    <link rel="manifest" href="/app/manifest.webmanifest" />
+    <meta name="apple-mobile-web-app-title" content="Nightcap" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#090D16" />
+    <meta name="color-scheme" content="dark" />
+    <!-- The pictures' server, connected to while the app loads, so the first picture comes sooner. -->
+    <link rel="preconnect" href="https://image.tmdb.org" />
+    <!-- The app's night from the very first paint (not white until its styles arrive). -->
+    <style>html, body { margin: 0; background: #090D16; }</style>
+    <title>Nightcap</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+/* A household's invites (the owner's page and the admin's Settings): the side panel's look. */
+
+/* A just-made invite: lit glass, the code big in the lamp colour, its copy buttons in a row. */
+.inv-fresh {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 6px 14px;
+  padding: 18px 18px 16px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+  box-shadow: inset 0 0 0 1px rgba(238, 241, 247, 0.12);
+}
+.inv-for { font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.inv-code { font: 800 46px/1 'Big Shoulders', 'Big Shoulders Fallback', sans-serif; letter-spacing: 0.14em; color: var(--lamp); }
+.inv-line { color: var(--muted); font-size: 13px; line-height: 1.5; }
+.inv-copy { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.inv-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 18px;
+  background: rgba(238, 241, 247, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(238, 241, 247, 0.12);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background var(--dur), color var(--dur);
+}
+.inv-btn:hover,
+.inv-btn:focus-visible { background: var(--text); color: var(--ink); outline: none; }
+.inv-btn.quiet { background: none; box-shadow: none; color: var(--muted); }
+.inv-btn.quiet:hover { background: rgba(238, 241, 247, 0.08); color: var(--text); }
+
+/* An invite's disc: waiting in the lamp colour, used in green, expired faded. */
+.mark.inv-mark.open { background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.2)), #5a4416; color: var(--lamp); }
+.mark.inv-mark.used { background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(0, 0, 0, 0.2)), hsl(150 32% 30%); color: #d6f5e3; }
+.mark.inv-mark.expired { background: none; box-shadow: inset 0 0 0 1px rgba(238, 241, 247, 0.16); color: var(--muted); }
+.mark.inv-mark svg { width: 16px; height: 16px; }
+.mark.inv-mark.big svg { width: 28px; height: 28px; }

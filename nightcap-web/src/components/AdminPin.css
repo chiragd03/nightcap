@@ -1,0 +1,49 @@
+/* The admin PIN: one glass card, the PIN as dots over a hidden number field. */
+
+.pin {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: min(420px, 100%);
+  margin: 0 auto;
+  padding: 34px 28px 26px;
+  border-radius: 26px;
+  text-align: center;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45), inset 0 0 0 0.8px rgba(255, 255, 255, 0.12);
+  animation: pin-in var(--dur) cubic-bezier(0.2, 0, 0, 1);
+}
+@keyframes pin-in { from { opacity: 0; transform: translateY(10px); } }
+.pin-lock {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  margin-bottom: 6px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.2)), #5a4416;
+  color: var(--lamp);
+}
+.pin h3 { margin: 0; font: 700 34px/1.05 'Big Shoulders', 'Big Shoulders Fallback', sans-serif; letter-spacing: 0.02em; }
+.pin > p { margin: 0; max-width: 34ch; color: var(--muted); font-size: 14.5px; line-height: 1.5; }
+
+/* The dots sit over the real field, which takes the typing (and the phone's number pad). */
+.pin-field { position: relative; display: block; margin: 16px 0 2px; cursor: text; }
+.pin-field input { position: absolute; inset: 0; width: 100%; opacity: 0; font-size: 16px; }
+.pin-dots { display: flex; justify-content: center; gap: 14px; min-height: 26px; }
+.pin-dots i {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1.5px rgba(238, 241, 247, 0.4);
+  transition: background var(--dur), transform var(--dur);
+}
+.pin-dots i.on { background: var(--text); box-shadow: none; transform: scale(1.08); }
+.pin-field:focus-within .pin-dots i:not(.on):first-of-type,
+.pin-field:focus-within .pin-dots i.on + i:not(.on) { box-shadow: inset 0 0 0 2px var(--lamp); }
+.pin-note { min-height: 1.4em; font-size: 13px; color: var(--muted); }
+.pin-note.bad { color: #ff9b8a; }
+.pin .btn { min-width: 160px; justify-content: center; margin-top: 4px; }
+.pin .btn[disabled] { opacity: 0.45; cursor: default; filter: none; }
+.pin-forgot { margin-top: 6px !important; font-size: 12.5px !important; }

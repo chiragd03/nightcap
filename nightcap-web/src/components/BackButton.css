@@ -1,0 +1,17 @@
+.back-button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(238, 241, 247, 0.12);
+  backdrop-filter: blur(10px);
+  color: var(--text);
+  cursor: pointer;
+  transition: background var(--dur), color var(--dur);
+}
+.back-button svg { transform: scaleX(-1); }
+.back-button:hover,
+.back-button:focus-visible { background: var(--text); color: var(--ink); outline: none; }

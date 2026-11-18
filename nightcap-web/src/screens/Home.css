@@ -1,0 +1,70 @@
+.home { position: relative; padding-bottom: 40px; }
+
+.rows { position: relative; margin-top: -24px; }
+/* The full Home, come in place of the one being set up: fades in. */
+.rows.arrived { animation: rows-in var(--dur-slow) ease both; }
+@keyframes rows-in { from { opacity: 0; transform: translateY(8px); } }
+
+/* No title for the big picture yet: what's happening, in its place. */
+.hero-note { background: radial-gradient(120% 90% at 75% 20%, rgba(246, 183, 60, 0.07), transparent 60%), var(--ink); }
+.hero-note h1 { max-width: 16em; font-size: clamp(28px, 4vw, 46px); }
+.hero-note p { color: var(--muted); }
+/* (Its own name: the player's .breathing is another pulse.) */
+.home-breathing { animation: home-breathing 1.1s cubic-bezier(0.2, 0, 0, 1) infinite alternate; }
+@keyframes home-breathing { to { opacity: 0.4; } }
+@media (prefers-reduced-motion: reduce) {
+  .rows.arrived, .home-breathing { animation: none; }
+}
+
+@media (max-width: 700px) {
+  .home { padding-bottom: 80px; }
+  .rows { margin-top: -20px; }
+}
+
+/* Home's pages as words along the top, on phones only (the side panel has them on wider screens): the one
+   you're on bright with a gold line under it, over the big picture; a frosted bar once the page scrolls. */
+.page-tabs { display: none; }
+@media (max-width: 700px) {
+  .page-tabs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 15;
+    display: flex;
+    gap: 24px;
+    padding: calc(14px + env(safe-area-inset-top, 0px)) var(--gutter) 12px;
+    background: linear-gradient(180deg, rgba(9, 13, 22, 0.72) 0%, rgba(9, 13, 22, 0) 100%);
+    transition: background-color var(--dur) ease, box-shadow var(--dur) ease;
+  }
+  .page-tabs.scrolled {
+    background: rgba(9, 13, 22, 0.86);
+    -webkit-backdrop-filter: blur(16px) saturate(1.2);
+    backdrop-filter: blur(16px) saturate(1.2);
+    box-shadow: 0 1px 0 rgba(238, 241, 247, 0.06);
+  }
+  .page-tabs a {
+    position: relative;
+    padding: 6px 0;
+    color: rgba(238, 241, 247, 0.6);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
+    -webkit-tap-highlight-color: transparent;
+    transition: color var(--dur) ease;
+  }
+  .page-tabs a.active { color: var(--text); font-weight: 800; }
+  .page-tabs a.active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--lamp);
+  }
+  .page-tabs a:focus-visible { outline: 2px solid var(--lamp); outline-offset: 4px; border-radius: 4px; }
+}
+

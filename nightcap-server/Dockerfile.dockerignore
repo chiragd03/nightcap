@@ -1,0 +1,9 @@
+# What the image is built from (the context is the repository's root): only these.
+*
+!nightcap-server/requirements.txt
+!nightcap-server/nightcap
+!nightcap-server/db/schema.sql
+!nightcap-web
+nightcap-web/node_modules
+nightcap-web/dist
+**/__pycache__

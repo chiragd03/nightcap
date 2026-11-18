@@ -55,8 +55,8 @@ Run `nightcap` again any time to see the server's status and logs, and to update
 | TV | How |
 |---|---|
 | **Android TV / Google TV** (Android 9+) | Install the `.apk` from the newest `tv-v…` [release](https://github.com/chiragd03/nightcap/releases). It updates itself from your server. |
-| **LG** (webOS 5+, 2020 on) | Install the `.ipk` from the newest `lg-v…` [release](https://github.com/chiragd03/nightcap/releases) with LG's Developer Mode. |
-| **Samsung** (Tizen 5.5+, 2020 on) | Build and sign the small launcher on your computer with Tizen Studio, then install it in Developer Mode. Samsung only installs packages signed with your own certificate. |
+| **LG** (webOS 5+, 2020 on) | Install the `.ipk` from the newest `lg-v…` [release](https://github.com/chiragd03/nightcap/releases) with LG's Developer Mode. Extend the Developer Mode session in LG's app now and then, or the TV removes the app. |
+| **Samsung** (Tizen 5.5+, 2020 on) | Download the package from the newest `samsung-v…` [release](https://github.com/chiragd03/nightcap/releases), sign it once for your TV with Tizen Studio (free), then install it in Developer Mode. Samsung only installs apps signed for that TV. |
 
 **Joining a household.** At home, the Android TV app finds your server on the Wi-Fi and shows your households: pick one and you're in. Samsung and LG type the server's address once. For a server in the cloud, each TV joins once with an 8-character join code from the web app.
 
@@ -85,13 +85,17 @@ Run `nightcap` again any time to see the server's status and logs, and to update
 
 ## Where your films come from
 
-Nightcap ships no films and finds none by itself. Your household adds the sources it wants:
+Nightcap doesn't host, sell or stream any films. What it plays comes from the sources your household sets up:
 
 1. **Add-ons.** Any add-on in the open Stremio add-on format: paste its address and press *Test*. Up to 20 for streams and 20 for subtitles.
 2. **Services you already use.** If you have an account with a link service, paste its key once and Nightcap sets up the rest for the household.
 3. **Your own.** The add-on format is open, so anything you have the right to share, like your own media server, can become a source.
 
-Only add sources you have the right to use. Nightcap does not host, sell or stream any content.
+Only add sources you have the right to use.
+
+## The code
+
+This repository has the server ([`nightcap-server`](nightcap-server), Python) and the web app with the Samsung/LG TV app ([`nightcap-web`](nightcap-web), React and TypeScript). Each folder's README says how to run, build and test it. The setup tool and the TV apps' packages come ready-built in [Releases](https://github.com/chiragd03/nightcap/releases).
 
 ## Roadmap, contributing and help
 

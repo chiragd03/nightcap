@@ -1,0 +1,68 @@
+/* Who's watching. */
+.who { position: absolute; top: 0; right: 0; bottom: 0; left: 0; overflow: hidden; }
+.who.leaving { animation: fade-out 220ms 140ms both; }
+.who-body { position: relative; display: flex; flex-direction: column; align-items: center; height: 100%; padding-top: 120rem; }
+.who-title { margin: 0; font: 700 34rem/1.1 'Big Shoulders', sans-serif; letter-spacing: 0.02em; animation: rise 420ms var(--ease) both; }
+@keyframes rise { from { opacity: 0; transform: translateY(10rem); } }
+.who-row { display: flex; justify-content: center; margin-top: 34rem; padding: 12rem 24rem; }
+.who-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 104rem;
+  margin: 0 15rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  outline: none;
+  animation: rise-tile 420ms var(--ease) both;
+}
+@keyframes rise-tile { from { opacity: 0; transform: translateY(14rem); } }
+.who-disc {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 92rem;
+  height: 92rem;
+  border-radius: 50%;
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(0, 0, 0, 0.2)) !important;
+  box-shadow: inset 0 0 0 0.75rem rgba(255, 255, 255, 0.15);
+  transition: transform 260ms var(--ease), opacity 220ms, box-shadow 200ms;
+}
+.who-disc img { width: 62rem; height: 62rem; }
+.who-disc.add { color: var(--text); }
+.who-name {
+  width: 104rem;
+  margin-top: 14rem;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 11rem;
+  text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition: transform 260ms var(--ease), color 200ms;
+}
+/* The focused profile grows and gets a white ring; the others dim. */
+.who-row.has-focus .who-disc { opacity: 0.6; }
+.who-tile:focus .who-disc { opacity: 1; transform: scale(1.16); box-shadow: inset 0 0 0 0.75rem rgba(255, 255, 255, 0.15), 0 0 0 2.5rem #fff; }
+.who-tile:focus .who-name { color: var(--text); font-weight: 700; transform: translateY(6rem); }
+.who-tile.picked .who-disc { transform: scale(1.23); }
+/* Managing: the admin can't be removed; the others show the remove mark. */
+.who-tile.locked .who-disc { opacity: 0.35; }
+.who-remove { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(0, 0, 0, 0.6); }
+.who-manage { margin-top: 26rem; }
+.who-hint { position: absolute; bottom: 30rem; margin: 0; color: var(--muted); font-size: 9rem; }
+/* No profiles to show yet: loading, or the server couldn't be reached (with a way on). */
+.who-status { margin: 20rem 0 0; color: var(--muted); font-size: 13rem; }
+.who-actions { display: flex; margin-top: 20rem; }
+/* (Android's 12 dp between them, without flex gap.) */
+.who-actions > * + * { margin-left: 2rem; }
+
+/* Adding a profile. */
+.adder { position: relative; display: flex; flex-direction: column; align-items: center; height: 100%; padding-top: 70rem; animation: adder-in 360ms var(--ease) both; }
+@keyframes adder-in { from { opacity: 0; transform: scale(1.04); } }
+.adder-title { margin: 0 0 18rem; font: 700 30rem/1.1 'Big Shoulders', sans-serif; }
+.adder-label { margin-top: 6rem; color: var(--muted); font-size: 10rem; }
+.adder-name { width: 300rem; height: 40rem; margin-top: 18rem; font-size: 13rem; }
+.adder-add { height: 32rem; margin-top: 14rem; padding: 0 20rem; }
