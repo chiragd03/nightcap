@@ -38,4 +38,4 @@ The arrow keys, Enter and Escape act as the remote's D-pad, OK and Back.
 
 ## Licence
 
-[AGPL-3.0](../LICENSE), like the rest of Nightcap. The fonts in `launcher/fonts` are under the SIL Open Font License, the same as the Android TV app's copies: see [`big-shoulders.txt`](../nightcap-tv/app/src/main/assets/licenses/big-shoulders.txt) and [`hanken-grotesk.txt`](../nightcap-tv/app/src/main/assets/licenses/hanken-grotesk.txt).
+[AGPL-3.0](../LICENSE), like the rest of Nightcap. The fonts in `launcher/fonts` are under the SIL Open Font License, included next to them: [`big-shoulders.txt`](launcher/fonts/big-shoulders.txt) and [`hanken-grotesk.txt`](launcher/fonts/hanken-grotesk.txt).
