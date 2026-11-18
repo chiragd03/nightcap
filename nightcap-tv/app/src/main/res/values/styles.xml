@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Widget">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minWidth">88dp</item>
+        <item name="android:layout_marginEnd">7dp</item>
+        <item name="android:background">@drawable/widget_bg</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingHorizontal">9dp</item>
+        <item name="android:paddingVertical">6dp</item>
+    </style>
+    <style name="WidgetLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontVariationSettings">\'wght\' 700</item>
+        <item name="android:letterSpacing">0.14</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/muted</item>
+        <item name="android:textSize">6.5sp</item>
+    </style>
+    <style name="WidgetValue">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:fontFamily">@font/big_shoulders</item>
+        <item name="android:fontVariationSettings">\'wght\' 700</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="WidgetSub">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:textColor">@color/muted</item>
+        <item name="android:textSize">8sp</item>
+    </style>
+    <!-- Quiet section label on the search screen (RECENT SEARCHES, TRY A SMART SEARCH). -->
+    <style name="SearchLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontVariationSettings">\'wght\' 700</item>
+        <item name="android:letterSpacing">0.14</item>
+        <item name="android:textColor">@color/muted</item>
+        <item name="android:textSize">9sp</item>
+    </style>
+    <!-- Audio / Subtitles / Source / Picture under the player's timeline. -->
+    <style name="PlayerChip">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:layout_marginEnd">9dp</item>
+        <item name="android:background">@drawable/player_pill</item>
+        <item name="android:focusable">true</item>
+        <item name="android:fontVariationSettings">\'wght\' 600</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingHorizontal">16dp</item>
+        <item name="android:textColor">@color/chip_fg</item>
+        <item name="android:textSize">10.5sp</item>
+    </style>
+    <!-- A player button with its icon before the word (the icon takes the text's colour). -->
+    <style name="PlayerChip.Icon">
+        <item name="android:paddingStart">13dp</item>
+        <item name="android:drawablePadding">7dp</item>
+        <item name="android:drawableTint">@color/chip_fg</item>
+    </style>
+    <!-- Settings: the four glass cards. -->
+    <style name="SettingsCard">
+        <item name="android:layout_width">180dp</item>
+        <item name="android:layout_height">138dp</item>
+        <item name="android:layout_margin">9dp</item>
+        <item name="android:background">@drawable/settings_card</item>
+        <item name="android:focusable">true</item>
+        <item name="android:padding">16dp</item>
+    </style>
+    <style name="SettingsEyebrow">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontVariationSettings">\'wght\' 700</item>
+        <item name="android:letterSpacing">0.16</item>
+        <item name="android:textColor">@color/muted</item>
+        <item name="android:textSize">7.5sp</item>
+    </style>
+    <style name="SettingsBig">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontVariationSettings">\'wght\' 700</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">19sp</item>
+    </style>
+    <style name="SettingsSmall">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/muted</item>
+        <item name="android:textSize">9.5sp</item>
+    </style>
+</resources>

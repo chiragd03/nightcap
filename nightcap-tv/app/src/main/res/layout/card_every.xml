@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Live TV's last row: Search every channel, one wide glass panel across the page. Behind it two
+     lines of channels' logos drift slowly opposite ways (dim; brighter when focused); on it a glass
+     search disc, what it is, and how many channels there are. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/channel"
+    android:layout_width="match_parent"
+    android:layout_height="136dp"
+    android:clipChildren="false"
+    android:focusable="true">
+
+    <FrameLayout
+        android:id="@+id/channelTile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/live_every_bg"
+        android:clipChildren="false"
+        android:duplicateParentState="true">
+
+        <LinearLayout
+            android:id="@+id/everyWall"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:alpha="0.2"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/everyLine1"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:orientation="horizontal" />
+
+            <LinearLayout
+                android:id="@+id/everyLine2"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/live_every_shade" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="30dp"
+            android:clipChildren="false"
+            android:duplicateParentState="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="62dp"
+                android:layout_height="62dp"
+                android:background="@drawable/live_disc_bg"
+                android:duplicateParentState="true">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:duplicateParentState="true"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_search"
+                    android:tint="@color/live_action_fg" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="22dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontVariationSettings="'wght' 700"
+                    android:letterSpacing="0.2"
+                    android:text="Every channel"
+                    android:textAllCaps="true"
+                    android:textColor="@color/lamp"
+                    android:textSize="8.5sp" />
+
+                <TextView
+                    android:id="@+id/everyBig"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/big_shoulders"
+                    android:fontVariationSettings="'wght' 800"
+                    android:includeFontPadding="false"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text"
+                    android:textSize="32sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="By name, or look through every kind"
+                    android:textColor="#A9B2C3"
+                    android:textSize="10.5sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/sheen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:background="@drawable/channel_sheen" />
+    </FrameLayout>
+
+    <!-- (The rows' tiles all have a name; this one says it on the panel.) -->
+    <TextView
+        android:id="@+id/channelName"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone" />
+</FrameLayout>

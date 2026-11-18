@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Chip text: soft white on glass, near-black on the white selected pill. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/ink" android:state_focused="true" />
+    <item android:color="#E6EEF1F7" />
+</selector>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Shade under the player's channel strip: dark enough that the thumbnails read over any picture. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <gradient android:angle="90" android:startColor="#FA05070D" android:centerColor="#D905070D" android:endColor="#0005070D" />
+</shape>

@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Watching a channel: the picture fills the screen. Any key first brings up its name (top left),
+     the buttons (middle: Pause, an event's channel, My channels) and the row's channels (bottom);
+     an event's channel button pops up its channels, like the player's Source panel. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#05070D"
+    android:clipChildren="false">
+
+    <androidx.media3.ui.PlayerView
+        android:id="@+id/livePlayer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:id="@+id/liveInfo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:background="@drawable/live_top_shade" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="32dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:id="@+id/infoTile"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/channel_card_bg">
+
+                <View
+                    android:id="@+id/infoTint"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <ImageView
+                    android:id="@+id/infoLogo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:importantForAccessibility="no"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter" />
+
+                <TextView
+                    android:id="@+id/infoMono"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/big_shoulders"
+                    android:fontVariationSettings="'wght' 800"
+                    android:includeFontPadding="false"
+                    android:textSize="18sp" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="13dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="@drawable/live_dot" />
+
+                    <TextView
+                        android:id="@+id/infoState"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontVariationSettings="'wght' 800"
+                        android:letterSpacing="0.14"
+                        android:text="LIVE"
+                        android:textColor="@color/lamp"
+                        android:textSize="9sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/infoName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/big_shoulders"
+                    android:fontVariationSettings="'wght' 800"
+                    android:includeFontPadding="false"
+                    android:maxWidth="560dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textAllCaps="true"
+                    android:textSize="32sp" />
+
+                <TextView
+                    android:id="@+id/infoMeta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="#A9B2C3"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="48dp"
+            android:fontFamily="@font/big_shoulders"
+            android:fontFeatureSettings="tnum"
+            android:fontVariationSettings="'wght' 700"
+            android:format12Hour="HH:mm"
+            android:format24Hour="HH:mm"
+            android:includeFontPadding="false"
+            android:shadowColor="#99000000"
+            android:shadowRadius="8"
+            android:textSize="26sp" />
+
+        <!-- What can be done now, in the middle: Pause is focused first; Down goes to the row below. -->
+        <LinearLayout
+            android:id="@+id/liveCenter"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:clipChildren="false"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/liveActions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/actPause"
+                    android:layout_width="132dp"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:focusable="true"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="96dp"
+                        android:layout_height="96dp"
+                        android:clipChildren="false"
+                        android:duplicateParentState="true">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:alpha="0"
+                            android:background="@drawable/live_disc_halo"
+                            android:tag="halo" />
+
+                        <FrameLayout
+                            android:layout_width="62dp"
+                            android:layout_height="62dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/live_disc_bg"
+                            android:duplicateParentState="true"
+                            android:tag="disc">
+
+                            <ImageView
+                                android:id="@+id/actPauseIcon"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center"
+                                android:duplicateParentState="true"
+                                android:importantForAccessibility="no"
+                                android:src="@drawable/ic_pause"
+                                android:tint="@color/live_action_fg" />
+                        </FrameLayout>
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/actPauseLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-6dp"
+                        android:duplicateParentState="true"
+                        android:ellipsize="end"
+                        android:fontVariationSettings="'wght' 700"
+                        android:letterSpacing="0.14"
+                        android:maxLines="1"
+                        android:maxWidth="128dp"
+                        android:shadowColor="#B3000000"
+                        android:shadowRadius="6"
+                        android:text="Pause"
+                        android:textAllCaps="true"
+                        android:textColor="@color/live_label_fg"
+                        android:textSize="8.5sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/actChannel"
+                    android:layout_width="132dp"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:focusable="true"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="96dp"
+                        android:layout_height="96dp"
+                        android:clipChildren="false"
+                        android:duplicateParentState="true">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:alpha="0"
+                            android:background="@drawable/live_disc_halo"
+                            android:tag="halo" />
+
+                        <FrameLayout
+                            android:layout_width="62dp"
+                            android:layout_height="62dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/live_disc_bg"
+                            android:duplicateParentState="true"
+                            android:tag="disc">
+
+                            <ImageView
+                                android:id="@+id/actChannelIcon"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center"
+                                android:duplicateParentState="true"
+                                android:importantForAccessibility="no"
+                                android:src="@drawable/ic_channels"
+                                android:tint="@color/live_action_fg" />
+                        </FrameLayout>
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/actChannelLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-6dp"
+                        android:duplicateParentState="true"
+                        android:ellipsize="end"
+                        android:fontVariationSettings="'wght' 700"
+                        android:letterSpacing="0.14"
+                        android:maxLines="1"
+                        android:maxWidth="128dp"
+                        android:shadowColor="#B3000000"
+                        android:shadowRadius="6"
+                        android:text="Sources"
+                        android:textAllCaps="true"
+                        android:textColor="@color/live_label_fg"
+                        android:textSize="8.5sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/actStar"
+                    android:layout_width="132dp"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:focusable="true"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="96dp"
+                        android:layout_height="96dp"
+                        android:clipChildren="false"
+                        android:duplicateParentState="true">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:alpha="0"
+                            android:background="@drawable/live_disc_halo"
+                            android:tag="halo" />
+
+                        <FrameLayout
+                            android:layout_width="62dp"
+                            android:layout_height="62dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/live_disc_bg"
+                            android:duplicateParentState="true"
+                            android:tag="disc">
+
+                            <ImageView
+                                android:id="@+id/actStarIcon"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center"
+                                android:duplicateParentState="true"
+                                android:importantForAccessibility="no"
+                                android:src="@drawable/ic_star_outline"
+                                android:tint="@color/live_action_fg" />
+                        </FrameLayout>
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/actStarLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-6dp"
+                        android:duplicateParentState="true"
+                        android:ellipsize="end"
+                        android:fontVariationSettings="'wght' 700"
+                        android:letterSpacing="0.14"
+                        android:maxLines="1"
+                        android:maxWidth="128dp"
+                        android:shadowColor="#B3000000"
+                        android:shadowRadius="6"
+                        android:text="My channels"
+                        android:textAllCaps="true"
+                        android:textColor="@color/live_label_fg"
+                        android:textSize="8.5sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- The row's channels, under the buttons whenever they're up: Down from the buttons comes here,
+         Left/Right move along it, OK watches one, Up goes back to the buttons. -->
+    <FrameLayout
+        android:id="@+id/liveStrip"
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        android:layout_gravity="bottom"
+        android:alpha="0"
+        android:background="@drawable/live_strip_bg"
+        android:clipChildren="false"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="12dp"
+            android:clipChildren="false"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/stripTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="48dp"
+                android:fontVariationSettings="'wght' 600"
+                android:textColor="#C3CAD8"
+                android:textSize="12sp" />
+
+            <HorizontalScrollView
+                android:id="@+id/stripScroll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:focusable="false"
+                android:paddingHorizontal="48dp"
+                android:paddingVertical="10dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/stripItems"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/stripKeys"
+                android:visibility="invisible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:text="◀▶  Look along the row      OK  Watch      ▲  Back to the buttons"
+                android:textColor="@color/muted"
+                android:textSize="9.5sp" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- An event's channels, popped up from its Channel button (like the player's Source panel). -->
+    <LinearLayout
+        android:id="@+id/panel"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_marginVertical="28dp"
+        android:background="@drawable/player_glass"
+        android:elevation="12dp"
+        android:orientation="vertical"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="14dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/panelTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/big_shoulders"
+            android:fontVariationSettings="'wght' 700"
+            android:includeFontPadding="false"
+            android:text="Sources"
+            android:textColor="@color/text"
+            android:textSize="20sp" />
+
+        <ScrollView
+            android:id="@+id/panelScroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/panelItems"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+    </LinearLayout>
+
+    <!-- Not playing (starting, not on yet, off air): in the middle, over a glow of the channel's
+         colour, a turning light while it starts, else what's up in the app's own type. -->
+    <FrameLayout
+        android:id="@+id/liveStage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:alpha="0"
+        android:clipChildren="false"
+        android:visibility="gone">
+
+        <View
+            android:id="@+id/stageGlow"
+            android:layout_width="560dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/stageSpinner"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/live_loader" />
+
+            <TextView
+                android:id="@+id/stageEyebrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontVariationSettings="'wght' 700"
+                android:letterSpacing="0.2"
+                android:textAllCaps="true"
+                android:textColor="@color/lamp"
+                android:textSize="9sp" />
+
+            <TextView
+                android:id="@+id/stageTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/big_shoulders"
+                android:fontVariationSettings="'wght' 800"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:maxWidth="640dp"
+                android:shadowColor="#99000000"
+                android:shadowRadius="10"
+                android:textAllCaps="true"
+                android:textColor="@color/text"
+                android:textSize="40sp" />
+
+            <TextView
+                android:id="@+id/stageSub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textColor="#A9B2C3"
+                android:textSize="11sp" />
+        </LinearLayout>
+    </FrameLayout>
+</FrameLayout>

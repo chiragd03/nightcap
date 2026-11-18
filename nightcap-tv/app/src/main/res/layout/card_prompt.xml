@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- First result while typing: hand the search to Smart Search (the AI search). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="230dp"
+    android:layout_height="99dp"
+    android:layout_marginEnd="13dp"
+    android:background="@drawable/prompt_bg"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:paddingHorizontal="14dp">
+
+    <TextView
+        android:id="@+id/promptTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontVariationSettings="'wght' 700"
+        android:letterSpacing="0.12"
+        android:text="✦  SMART SEARCH"
+        android:textColor="@color/lamp"
+        android:textSize="9sp" />
+
+    <TextView
+        android:id="@+id/promptQuery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:fontVariationSettings="'wght' 600"
+        android:maxLines="2"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/promptHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Finds titles by mood, plot, actor or role"
+        android:textColor="@color/muted"
+        android:textSize="8sp" />
+</LinearLayout>

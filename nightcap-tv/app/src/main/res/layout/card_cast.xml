@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Actor: round photo, name, and the character they play. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="84dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="8dp"
+    android:focusable="true"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/photoFrame"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:background="@drawable/cast_bg"
+        android:duplicateParentState="true"
+        android:foreground="@drawable/cast_focus">
+
+        <ImageView
+            android:id="@+id/photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:importantForAccessibility="no"
+            android:scaleType="centerCrop" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:ellipsize="end"
+        android:fontVariationSettings="'wght' 600"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textSize="9sp" />
+
+    <TextView
+        android:id="@+id/character"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textColor="@color/muted"
+        android:textSize="8sp" />
+</LinearLayout>

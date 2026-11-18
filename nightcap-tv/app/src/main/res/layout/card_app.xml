@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- An installed app, shown by its TV banner (16:9). -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="160dp"
+    android:layout_height="90dp"
+    android:layout_marginEnd="13dp"
+    android:background="@drawable/card_bg"
+    android:focusable="true">
+
+    <ImageView
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:importantForAccessibility="no"
+        android:scaleType="fitCenter" />
+
+    <!-- Only for apps without a TV banner: their name under the icon. -->
+    <TextView
+        android:id="@+id/appName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="8dp"
+        android:fontVariationSettings="'wght' 600"
+        android:gravity="center"
+        android:textSize="10sp"
+        android:visibility="gone" />
+
+    <!-- Light catching the card when it's focused (see Motion.focus). -->
+    <View
+        android:id="@+id/sheen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:background="@drawable/card_sheen" />
+</FrameLayout>

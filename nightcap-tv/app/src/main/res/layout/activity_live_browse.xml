@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Browse all: a search bar, under it (for every channel) the kinds on one line, then a grid. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ink"
+    android:clipChildren="false">
+
+    <View
+        android:id="@+id/browseGlow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/browseMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="48dp"
+            android:layout_marginTop="30dp"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontVariationSettings="'wght' 700"
+                    android:letterSpacing="0.16"
+                    android:text="LIVE TV"
+                    android:textColor="@color/muted"
+                    android:textSize="8sp" />
+
+                <TextView
+                    android:id="@+id/browseTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/big_shoulders"
+                    android:fontVariationSettings="'wght' 800"
+                    android:includeFontPadding="false"
+                    android:text="ALL CHANNELS"
+                    android:textAllCaps="true"
+                    android:textSize="42sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/browseCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:textColor="@color/muted"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!-- The search: a wide glass bar of its own, solid, over the grid's tiles as they scroll under it. -->
+        <EditText
+            android:id="@+id/browseSearch"
+            android:layout_width="460dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/live_search_bg"
+            android:translationZ="4dp"
+            android:drawableStart="@drawable/ic_search_small"
+            android:drawablePadding="12dp"
+            android:drawableTint="@color/text"
+            android:fontVariationSettings="'wght' 500"
+            android:hint="Search"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingHorizontal="18dp"
+            android:textColor="@color/text"
+            android:textColorHint="#8C97A8"
+            android:textSize="14sp" />
+
+        <!-- Under it (Search every channel): every kind on one line that scrolls sideways. -->
+        <HorizontalScrollView
+            android:id="@+id/browseKinds"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:clipToPadding="false"
+            android:paddingHorizontal="48dp"
+            android:scrollbars="none"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/browsePills"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/browseNote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/muted"
+            android:textSize="10sp"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/browseGrid"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="6dp"
+            android:layout_weight="1"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingHorizontal="48dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="40dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/browseStatus"
+        android:layout_width="420dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.3"
+        android:textColor="@color/muted"
+        android:textSize="13sp"
+        android:visibility="gone" />
+
+</FrameLayout>

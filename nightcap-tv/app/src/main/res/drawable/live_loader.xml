@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The live player's "starting" ring: a light that fades round it (turned while a stream starts). -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:innerRadiusRatio="2.7"
+    android:shape="ring"
+    android:thicknessRatio="18"
+    android:useLevel="false">
+    <gradient android:type="sweep" android:startColor="#00FFFFFF" android:centerColor="#40FFFFFF" android:endColor="#F2FFFFFF" />
+</shape>

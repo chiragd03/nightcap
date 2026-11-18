@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Grey detail line in the player's panel: darker grey on the white focus pill. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="#99090D16" android:state_focused="true" />
+    <item android:color="@color/muted" />
+</selector>

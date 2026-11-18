@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- An avatar's disc: its colour (set as a tint) with a soft light from the top. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#FFFFFFFF" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="oval">
+            <gradient
+                android:angle="270"
+                android:endColor="#33000000"
+                android:startColor="#24FFFFFF" />
+            <stroke
+                android:width="0.75dp"
+                android:color="#26FFFFFF" />
+        </shape>
+    </item>
+</layer-list>

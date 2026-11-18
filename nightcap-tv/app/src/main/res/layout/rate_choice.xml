@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One choice on the rating card: a glass disc (the live player's), its caption under it. Focused:
+     the disc turns white and lifts, a soft light comes up round it (WatchActivity.rateChoice). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="116dp"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:focusable="true"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="88dp"
+        android:layout_height="88dp"
+        android:clipChildren="false"
+        android:duplicateParentState="true">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:background="@drawable/live_disc_halo"
+            android:tag="halo" />
+
+        <FrameLayout
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:layout_gravity="center"
+            android:background="@drawable/live_disc_bg"
+            android:duplicateParentState="true"
+            android:tag="disc">
+
+            <ImageView
+                android:id="@+id/choiceIcon"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center"
+                android:duplicateParentState="true"
+                android:importantForAccessibility="no"
+                android:tint="@color/live_action_fg" />
+        </FrameLayout>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/choiceLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-4dp"
+        android:duplicateParentState="true"
+        android:ellipsize="end"
+        android:fontVariationSettings="'wght' 700"
+        android:letterSpacing="0.14"
+        android:maxLines="1"
+        android:maxWidth="112dp"
+        android:textAllCaps="true"
+        android:textColor="@color/live_label_fg"
+        android:textSize="8.5sp" />
+</LinearLayout>

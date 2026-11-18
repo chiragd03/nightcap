@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- View tags holding each card's spring animations. -->
+    <item name="spring_scale_x" type="id" />
+    <item name="spring_scale_y" type="id" />
+    <!-- Marks the chosen entry in the player's panel, and the chip that opened it. -->
+    <item name="tag_chosen" type="id" />
+    <item name="tag_more" type="id" />
+    <item name="tag_source" type="id" />
+    <item name="tag_waiting" type="id" />
+</resources>

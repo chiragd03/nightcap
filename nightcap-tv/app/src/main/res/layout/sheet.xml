@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A long-press menu: frosted glass card with a title and icon actions (see Sheet.kt). -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sheetCard"
+    android:layout_width="250dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/sheet_tint"
+    android:elevation="16dp">
+
+    <!-- The blurred copy of what's behind, darkened by the tint on top of it (never over the text). -->
+    <local.nightcap.GlassImageView
+        android:id="@+id/sheetGlass"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foreground="@drawable/sheet_tint"
+        android:importantForAccessibility="no"
+        android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:id="@+id/sheetItems"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/sheetTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:fontVariationSettings="'wght' 700"
+            android:maxLines="1"
+            android:textColor="@color/text"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/sheetSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="6dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/muted"
+            android:textSize="9sp" />
+    </LinearLayout>
+</FrameLayout>

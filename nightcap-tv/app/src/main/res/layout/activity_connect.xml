@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Connect: glass tiles over a soft glow, as in Settings and Who's watching. Servers found on
+     the home network are tiles; "Another server" opens the glass panel to type an address. Then
+     the household: tiles to pick from, or its join code in the panel. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ink">
+
+    <local.nightcap.AuraView
+        android:id="@+id/aura"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="44dp"
+            android:fontVariationSettings="'wght' 700"
+            android:letterSpacing="0.18"
+            android:text="CONNECT"
+            android:textColor="@color/muted"
+            android:textSize="9sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/connectTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/big_shoulders"
+                android:fontVariationSettings="'wght' 700"
+                android:includeFontPadding="false"
+                android:letterSpacing="0.02"
+                android:textColor="@color/text"
+                android:textSize="34sp" />
+
+            <TextView
+                android:id="@+id/connectHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/muted"
+                android:textSize="10.5sp" />
+
+            <!-- Centred while the tiles fit; more than fit scroll (TileRow), the focused one kept
+                 inside the page's margin. -->
+            <local.nightcap.TileRow
+                android:id="@+id/tilesScroll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="34dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:id="@+id/tiles"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="72dp"
+                    android:paddingVertical="12dp" />
+            </local.nightcap.TileRow>
+
+            <TextView
+                android:id="@+id/connectStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:textColor="@color/muted"
+                android:textSize="10.5sp" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <View
+        android:id="@+id/scrim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:background="#8C05080F"
+        android:visibility="gone" />
+
+    <!-- The card: an address (or a link) to type, or a household's join code. Near the top, so the
+         keyboard opens below it, not over it. -->
+    <LinearLayout
+        android:id="@+id/panel"
+        android:layout_width="560dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/connect_card"
+        android:elevation="24dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingHorizontal="32dp"
+        android:paddingTop="28dp"
+        android:paddingBottom="26dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/panelTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/big_shoulders"
+            android:fontVariationSettings="'wght' 700"
+            android:includeFontPadding="false"
+            android:textColor="@color/text"
+            android:textSize="28sp" />
+
+        <TextView
+            android:id="@+id/panelHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:lineSpacingExtra="2dp"
+            android:textColor="@color/muted"
+            android:textSize="10.5sp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <!-- A join code: its eight letters, one per box (the field over them takes the typing). -->
+            <LinearLayout
+                android:id="@+id/codeBoxes"
+                android:layout_width="wrap_content"
+                android:layout_height="58dp"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/panelField"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/bar_bg"
+                android:gravity="center"
+                android:importantForAutofill="no"
+                android:paddingHorizontal="20dp"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:textColor="@color/text"
+                android:textColorHint="@color/muted"
+                android:textSize="15sp" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/panelGo"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="@drawable/connect_button"
+                android:focusable="true"
+                android:fontVariationSettings="'wght' 600"
+                android:gravity="center"
+                android:minWidth="120dp"
+                android:paddingHorizontal="24dp"
+                android:textColor="@color/nav_item_fg"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/panelCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/connect_button"
+                android:focusable="true"
+                android:fontVariationSettings="'wght' 600"
+                android:gravity="center"
+                android:minWidth="100dp"
+                android:paddingHorizontal="22dp"
+                android:text="Cancel"
+                android:textColor="@color/nav_item_fg"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/panelStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:gravity="center"
+            android:textColor="@color/text"
+            android:textSize="10.5sp"
+            android:visibility="gone" />
+    </LinearLayout>
+</FrameLayout>

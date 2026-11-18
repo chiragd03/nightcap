@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Play on TV's question: the title's picture, who's asking (their avatar), what, and the two
+     answers, on the same frosted glass as the long-press menu (see AskCard.kt). -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="420dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/sheet_tint"
+    android:elevation="16dp">
+
+    <local.nightcap.GlassImageView
+        android:id="@+id/askGlass"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foreground="@drawable/sheet_tint"
+        android:importantForAccessibility="no"
+        android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- The title's picture (none for a link). -->
+        <FrameLayout
+            android:id="@+id/askArtFrame"
+            android:layout_width="match_parent"
+            android:layout_height="180dp">
+
+            <ImageView
+                android:id="@+id/askArt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:importantForAccessibility="no"
+                android:scaleType="centerCrop" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ask_art_fade" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="16dp">
+
+            <!-- Who's asking. -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="28dp"
+                    android:layout_height="28dp">
+
+                    <View
+                        android:id="@+id/askDisc"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/profile_disc" />
+
+                    <ImageView
+                        android:id="@+id/askAvatar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:importantForAccessibility="no"
+                        android:padding="3dp" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/askWho"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="9dp"
+                    android:fontVariationSettings="'wght' 600"
+                    android:textColor="@color/text"
+                    android:textSize="10.5sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/askTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/big_shoulders"
+                android:fontVariationSettings="'wght' 700"
+                android:includeFontPadding="false"
+                android:letterSpacing="0.01"
+                android:maxLines="2"
+                android:textColor="@color/text"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/askDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/muted"
+                android:textSize="10sp" />
+
+            <LinearLayout
+                android:id="@+id/askChoices"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:orientation="horizontal" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

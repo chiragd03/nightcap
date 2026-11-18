@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nightcap</title>
+  <link rel="stylesheet" href="launcher.css" />
+  <!-- Samsung's TV APIs (the model and the device's id); not there on LG or in a browser. -->
+  <script src="$WEBAPIS/webapis/webapis.js"></script>
+</head>
+<body>
+  <div id="stage">
+  <!-- Opening the server last used: the mark, and "Waking up" if it takes a while. -->
+  <div id="opening" class="opening" hidden>
+    <img class="mark" src="mark.png" alt="" />
+    <b id="opening-text">Opening Nightcap…</b>
+    <span id="opening-sub"></span>
+  </div>
+
+  <!-- Choosing a server (the Android TV's Connect screen, step 1). -->
+  <div id="connect" class="connect" hidden>
+    <div class="aura"></div>
+    <div id="connect-body" class="connect-body">
+      <span class="eyebrow corner">Connect</span>
+      <h1>Connect to Nightcap</h1>
+      <p class="hint">Type the address of your Nightcap server. Whoever looks after it can give it to you.</p>
+      <div id="tiles" class="tiles"></div>
+      <p id="status" class="status" role="status"></p>
+      <div class="forget-row"><button id="forget" class="pill forget f" hidden>Forget this server</button></div>
+    </div>
+  </div>
+
+  <!-- Typing an address. -->
+  <div id="panel" class="panel-scrim" hidden>
+    <div class="panel" role="dialog" aria-label="Server address">
+      <b class="panel-heading">Server address</b>
+      <p class="panel-text">Type the address you were given, or the invite link.</p>
+      <input id="address" class="field f" placeholder="Address" spellcheck="false" autocomplete="off" autocapitalize="off" autocorrect="off" />
+      <div class="panel-buttons">
+        <button id="go" class="pill go f">Connect</button>
+        <button id="cancel" class="pill f">Cancel</button>
+      </div>
+      <p id="panel-status" class="panel-status" role="status"></p>
+    </div>
+  </div>
+
+  </div>
+  <script src="launcher.js"></script>
+</body>
+</html>

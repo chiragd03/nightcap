@@ -1,6 +1,2 @@
-* text=auto eol=lf
-*.png binary
-*.jpg binary
-*.apk binary
-*.ipk binary
-*.wgt binary
+# Windows scripts keep their line endings
+*.bat text eol=crlf

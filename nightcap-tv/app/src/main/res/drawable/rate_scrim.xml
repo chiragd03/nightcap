@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Behind the rating card: the picture dims softly toward the middle, so the card reads over bright credits. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <gradient
+        android:type="radial"
+        android:gradientRadius="62%p"
+        android:startColor="#B305070C"
+        android:centerColor="#6605070C"
+        android:endColor="#0005070C" />
+</shape>

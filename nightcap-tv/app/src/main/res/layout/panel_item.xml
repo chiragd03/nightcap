@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One choice in the player's panel: a tick when chosen, the label, and a grey detail line. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="1dp"
+    android:background="@drawable/nav_item_bg"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:minHeight="30dp"
+    android:orientation="horizontal"
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="5dp">
+
+    <TextView
+        android:id="@+id/tick"
+        android:layout_width="14dp"
+        android:layout_height="wrap_content"
+        android:duplicateParentState="true"
+        android:textColor="@color/nav_item_fg"
+        android:textSize="10.5sp" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_weight="1"
+        android:duplicateParentState="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:duplicateParentState="true"
+            android:ellipsize="end"
+            android:fontVariationSettings="'wght' 500"
+            android:maxLines="1"
+            android:textColor="@color/nav_item_fg"
+            android:textSize="10.5sp" />
+
+        <TextView
+            android:id="@+id/detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:duplicateParentState="true"
+            android:ellipsize="middle"
+            android:maxLines="1"
+            android:textColor="@color/panel_detail_fg"
+            android:textSize="8sp"
+            android:visibility="gone" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Who's watching, at the top of the side panel: your avatar and name; OK switches profile. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="54dp"
+    android:layout_marginBottom="14dp"
+    android:background="@drawable/nav_item_bg"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingHorizontal="8dp">
+
+    <FrameLayout
+        android:layout_width="38dp"
+        android:layout_height="38dp">
+
+        <View
+            android:id="@+id/avatarDisc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/profile_disc" />
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_gravity="center"
+            android:importantForAccessibility="no" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:layout_weight="1"
+        android:duplicateParentState="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/profileName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:duplicateParentState="true"
+            android:ellipsize="end"
+            android:fontVariationSettings="'wght' 700"
+            android:maxLines="1"
+            android:textColor="@color/nav_item_fg"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/profileHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.7"
+            android:duplicateParentState="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Switch profile"
+            android:textColor="@color/nav_item_fg"
+            android:textSize="9.5sp" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A Top 10 card: bigger than other cards, a big rank number with the poster tucked over its
+     right edge. The poster's offset is set per number (RankedHolder) so "10" fits too. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="186dp"
+    android:layout_marginEnd="18dp"
+    android:clipChildren="false"
+    android:focusable="true">
+
+    <TextView
+        android:id="@+id/rank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_marginBottom="-18dp"
+        android:fontFamily="@font/big_shoulders"
+        android:fontVariationSettings="'wght' 800"
+        android:includeFontPadding="false"
+        android:letterSpacing="-0.06"
+        android:textColor="#33EEF1F7"
+        android:textSize="150sp" />
+
+    <FrameLayout
+        android:id="@+id/posterFrame"
+        android:layout_width="124dp"
+        android:layout_height="186dp"
+        android:background="@drawable/card_bg">
+
+        <ImageView
+            android:id="@+id/poster"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:importantForAccessibility="no"
+            android:scaleType="centerCrop" />
+
+        <!-- The title's name, when it has no poster or the poster doesn't load (loadPoster). -->
+        <TextView
+            android:id="@+id/posterName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:fontVariationSettings="'wght' 600"
+            android:gravity="center"
+            android:maxLines="4"
+            android:padding="10dp"
+            android:textColor="@color/text"
+            android:textSize="13sp"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/sheen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:background="@drawable/card_sheen" />
+    </FrameLayout>
+</FrameLayout>

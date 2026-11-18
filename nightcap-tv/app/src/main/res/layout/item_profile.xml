@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One profile on Who's watching: its avatar on a coloured disc, a ring when focused, the name. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="15dp"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:focusable="true"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/disc"
+        android:layout_width="92dp"
+        android:layout_height="92dp">
+
+        <View
+            android:id="@+id/discFill"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/profile_disc" />
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
+            android:layout_gravity="center"
+            android:importantForAccessibility="no" />
+
+        <!-- Managing profiles: the avatar darkened under a remove icon. -->
+        <View
+            android:id="@+id/manageScrim"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/manage_scrim"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/manageIcon"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_gravity="center"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_act_remove"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/ring"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:background="@drawable/profile_ring" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="104dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:ellipsize="end"
+        android:fontVariationSettings="'wght' 500"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textColor="@color/muted"
+        android:textSize="11sp" />
+</LinearLayout>

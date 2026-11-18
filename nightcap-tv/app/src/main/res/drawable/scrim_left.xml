@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Blends the backdrop into the page behind the title text. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <gradient
+        android:angle="0"
+        android:centerColor="#B3090D16"
+        android:centerX="0.25"
+        android:endColor="#00090D16"
+        android:startColor="@color/ink" />
+</shape>

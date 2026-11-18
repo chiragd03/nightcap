@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Over a Browse all tile's logos: darkest in the middle, where its count sits. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <corners android:radius="10dp" />
+    <gradient android:type="radial" android:gradientRadius="90dp" android:startColor="#D90A0E18" android:centerColor="#8C0A0E18" android:endColor="#330A0E18" />
+</shape>

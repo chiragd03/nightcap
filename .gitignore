@@ -24,6 +24,20 @@ nightcap-server/**/*.md
 nightcap-setup/**/*.md
 !nightcap-setup/README.md
 
+# Android TV app
+nightcap-tv/app/src/private/
+nightcap-tv/**/*.md
+!nightcap-tv/README.md
+local.properties
+.gradle/
+build/
+*.apk
+*.jks
+
+# Samsung/LG launcher notes
+nightcap-tvweb/**/*.md
+!nightcap-tvweb/README.md
+
 # Setup tool builds
 nightcap-setup/release/
 nightcap-setup/nightcap

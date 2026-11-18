@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A "Try a smart search" idea or a recent search on the empty search screen. -->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="36dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/suggestion_bg"
+    android:ellipsize="end"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:maxLines="1"
+    android:maxWidth="420dp"
+    android:paddingHorizontal="16dp"
+    android:textColor="@color/chip_fg"
+    android:textSize="13sp" />

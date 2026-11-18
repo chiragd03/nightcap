@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Search chip / field: quiet panel, lamp outline when focused. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp" />
+            <solid android:color="@color/panel" />
+            <stroke android:width="2dp" android:color="@color/lamp" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp" />
+            <solid android:color="#B8131A28" />
+            <stroke android:width="1dp" android:color="#14FFFFFF" />
+        </shape>
+    </item>
+</selector>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Dark glass: strong enough that white text reads over any picture, with a hint of the
+     blurred video showing through. No edge line. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <corners android:radius="12dp" />
+    <gradient android:angle="270" android:endColor="#E00A0D16" android:startColor="#C7141A28" />
+</shape>

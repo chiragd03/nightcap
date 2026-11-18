@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Light catching a focused channel tile. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <corners android:radius="10dp" />
+    <gradient android:angle="315" android:centerColor="#0FFFFFFF" android:centerX="0.35" android:endColor="#00FFFFFF" android:startColor="#38FFFFFF" />
+</shape>

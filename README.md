@@ -95,7 +95,7 @@ Only add sources you have the right to use.
 
 ## The code
 
-This repository has the server ([`nightcap-server`](nightcap-server), Python), the web app with the Samsung/LG TV app ([`nightcap-web`](nightcap-web), React and TypeScript) and the setup tool ([`nightcap-setup`](nightcap-setup), Go). Each folder's README says how to run, build and test it. The setup tool and the TV apps' packages also come ready-built in [Releases](https://github.com/chiragd03/nightcap/releases).
+This repository has the server ([`nightcap-server`](nightcap-server), Python), the web app with the Samsung/LG TV app ([`nightcap-web`](nightcap-web), React and TypeScript) the setup tool ([`nightcap-setup`](nightcap-setup), Go), the Android TV app ([`nightcap-tv`](nightcap-tv), Kotlin) and the Samsung/LG launcher ([`nightcap-tvweb`](nightcap-tvweb)). Each folder's README says how to run, build and test it. The setup tool and the TV apps' packages also come ready-built in [Releases](https://github.com/chiragd03/nightcap/releases).
 
 ## Roadmap, contributing and help
 

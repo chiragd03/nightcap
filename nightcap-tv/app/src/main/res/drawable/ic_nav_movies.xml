@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Movies: a strip of film (drawn in the side menu's light line style). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="22dp"
+    android:height="22dp"
+    android:viewportWidth="256"
+    android:viewportHeight="256">
+    <path
+        android:pathData="M52,36H204A12,12 0,0 1,216 48V208A12,12 0,0 1,204 220H52A12,12 0,0 1,40 208V48A12,12 0,0 1,52 36Z"
+        android:strokeWidth="12"
+        android:strokeColor="#FFFFFFFF" />
+    <path
+        android:pathData="M84,36V220M172,36V220M40,84H84M40,128H84M40,172H84M172,84H216M172,128H216M172,172H216"
+        android:strokeWidth="12"
+        android:strokeColor="#FFFFFFFF" />
+</vector>

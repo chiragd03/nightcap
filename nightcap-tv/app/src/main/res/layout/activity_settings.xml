@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A profile's settings: the profile card and four glass cards that show their values as
+     pictures. A card opens a glass panel with a live preview; the profile card opens the editor. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ink">
+
+    <local.nightcap.AuraView
+        android:id="@+id/aura"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- ===== The cards ===== -->
+    <FrameLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="44dp"
+            android:fontVariationSettings="'wght' 700"
+            android:letterSpacing="0.18"
+            android:text="SETTINGS"
+            android:textColor="@color/muted"
+            android:textSize="9sp" />
+
+        <!-- Which version of the app this is, small in the corner (set from BuildConfig). -->
+        <TextView
+            android:id="@+id/appVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="28dp"
+            android:layout_marginBottom="18dp"
+            android:alpha="0.6"
+            android:textColor="@color/muted"
+            android:textSize="8sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- Who you are: OK opens the editor (avatar and name). -->
+            <LinearLayout
+                android:id="@+id/profileCard"
+                android:nextFocusRight="@+id/audioCard"
+                android:layout_width="230dp"
+                android:layout_height="408dp"
+                android:background="@drawable/settings_card"
+                android:focusable="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="112dp"
+                    android:layout_height="112dp">
+
+                    <View
+                        android:id="@+id/profileDisc"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/profile_disc" />
+
+                    <ImageView
+                        android:id="@+id/profileAvatar"
+                        android:layout_width="76dp"
+                        android:layout_height="76dp"
+                        android:layout_gravity="center"
+                        android:importantForAccessibility="no" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/profileName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/big_shoulders"
+                    android:fontVariationSettings="'wght' 700"
+                    android:includeFontPadding="false"
+                    android:maxLines="1"
+                    android:textColor="@color/text"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:id="@+id/profileRole"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:fontVariationSettings="'wght' 700"
+                    android:letterSpacing="0.14"
+                    android:textAllCaps="true"
+                    android:textColor="@color/muted"
+                    android:textSize="7.5sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:drawableEnd="@drawable/ic_chevron"
+                    android:drawablePadding="4dp"
+                    android:drawableTint="@color/muted"
+                    android:fontVariationSettings="'wght' 500"
+                    android:gravity="center_vertical"
+                    android:text="Avatar and name"
+                    android:textColor="@color/muted"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="26dp"
+                android:clipChildren="false"
+                android:orientation="vertical">
+
+                <GridLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:columnCount="3">
+
+                    <!-- Audio: the language in its own script. -->
+                    <FrameLayout
+                        android:id="@+id/audioCard"
+                        style="@style/SettingsCard">
+
+                        <TextView
+                            style="@style/SettingsEyebrow"
+                            android:text="AUDIO" />
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="top|end"
+                            android:alpha="0.55"
+                            android:importantForAccessibility="no"
+                            android:src="@drawable/ic_waveform" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|start"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/audioNative"
+                                style="@style/SettingsBig" />
+
+                            <TextView
+                                android:id="@+id/audioEnglish"
+                                style="@style/SettingsSmall" />
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <!-- Subtitles: a caption box in the chosen language. -->
+                    <FrameLayout
+                        android:id="@+id/subsCard"
+                        style="@style/SettingsCard">
+
+                        <TextView
+                            style="@style/SettingsEyebrow"
+                            android:text="SUBTITLES" />
+
+                        <TextView
+                            android:id="@+id/subsSample"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="2dp"
+                            android:background="@drawable/caption_box"
+                            android:fontVariationSettings="'wght' 600"
+                            android:paddingHorizontal="12dp"
+                            android:paddingVertical="4dp"
+                            android:textColor="@color/text"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/subsValue"
+                            style="@style/SettingsSmall"
+                            android:layout_gravity="bottom|start" />
+                    </FrameLayout>
+
+                    <!-- Quality: the resolution, big, with what it means. -->
+                    <FrameLayout
+                        android:id="@+id/qualityCard"
+                        style="@style/SettingsCard">
+
+                        <TextView
+                            style="@style/SettingsEyebrow"
+                            android:text="QUALITY" />
+
+                        <TextView
+                            android:id="@+id/qualityBadge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="top|end"
+                            android:background="@drawable/caption_box"
+                            android:fontVariationSettings="'wght' 800"
+                            android:letterSpacing="0.06"
+                            android:paddingHorizontal="6dp"
+                            android:paddingVertical="1dp"
+                            android:textColor="@color/text"
+                            android:textSize="8sp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|start"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/qualityValue"
+                                style="@style/SettingsBig"
+                                android:fontFamily="@font/big_shoulders"
+                                android:fontVariationSettings="'wght' 800"
+                                android:includeFontPadding="false"
+                                android:textSize="30sp" />
+
+                            <TextView
+                                android:id="@+id/qualitySub"
+                                style="@style/SettingsSmall" />
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <!-- Language rows: a chip per row; twice as wide. -->
+                    <FrameLayout
+                        android:id="@+id/langCard"
+                        style="@style/SettingsCard"
+                        android:layout_width="378dp"
+                        android:layout_columnSpan="2">
+
+                        <TextView
+                            style="@style/SettingsEyebrow"
+                            android:text="LANGUAGE ROWS" />
+
+                        <LinearLayout
+                            android:id="@+id/langChips"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="4dp"
+                            android:orientation="vertical" />
+
+                        <TextView
+                            android:id="@+id/langValue"
+                            style="@style/SettingsSmall"
+                            android:layout_gravity="bottom|start" />
+                    </FrameLayout>
+
+                    <!-- Top 10: the big number, as on the Top 10 row. -->
+                    <FrameLayout
+                        android:id="@+id/top10Card"
+                        style="@style/SettingsCard">
+
+                        <TextView
+                            style="@style/SettingsEyebrow"
+                            android:text="TOP 10" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|end"
+                            android:fontFamily="@font/big_shoulders"
+                            android:fontVariationSettings="'wght' 800"
+                            android:includeFontPadding="false"
+                            android:letterSpacing="-0.04"
+                            android:text="10"
+                            android:textColor="#2EEEF1F7"
+                            android:textSize="76sp" />
+
+                        <TextView
+                            android:id="@+id/top10Value"
+                            style="@style/SettingsBig"
+                            android:layout_gravity="bottom|start" />
+                    </FrameLayout>
+
+                    <!-- Home screen: which widgets show. -->
+                    <FrameLayout
+                        android:id="@+id/homeCard"
+                        style="@style/SettingsCard"
+                        android:layout_height="96dp">
+
+                        <TextView
+                            style="@style/SettingsEyebrow"
+                            android:text="HOME SCREEN" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|start"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/homeWeather"
+                                style="@style/SettingsSmall"
+                                android:textColor="@color/text"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/homeAi"
+                                style="@style/SettingsSmall"
+                                android:textColor="@color/text"
+                                android:textSize="11sp" />
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <!-- The admin only: what the AI has cost this month. -->
+                    <FrameLayout
+                        android:id="@+id/usageCard"
+                        style="@style/SettingsCard"
+                        android:layout_height="96dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            style="@style/SettingsEyebrow"
+                            android:text="AI THIS MONTH" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|start"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/usageValue"
+                                style="@style/SettingsBig" />
+
+                            <TextView
+                                android:id="@+id/usageSub"
+                                style="@style/SettingsSmall" />
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <!-- This TV's, not the profile's: whether Nightcap is the TV's home screen or
+                         just an app (HomeScreen.kt). OK switches it. Last, so it takes the one place
+                         left in the row whether or not the admin's card shows. -->
+                    <FrameLayout
+                        android:id="@+id/homeSwitchCard"
+                        style="@style/SettingsCard"
+                        android:layout_height="96dp">
+
+                        <TextView
+                            style="@style/SettingsEyebrow"
+                            android:text="TV HOME SCREEN" />
+
+                        <FrameLayout
+                            android:id="@+id/homeSwitchTrack"
+                            android:layout_width="24dp"
+                            android:layout_height="14dp"
+                            android:layout_gravity="top|end"
+                            android:background="@drawable/switch_track"
+                            android:padding="2dp">
+
+                            <View
+                                android:id="@+id/homeSwitchKnob"
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:background="@drawable/switch_knob" />
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|start"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/homeSwitchValue"
+                                style="@style/SettingsBig" />
+
+                            <TextView
+                                android:id="@+id/homeSwitchSub"
+                                style="@style/SettingsSmall" />
+                        </LinearLayout>
+                    </FrameLayout>
+
+                </GridLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Which Nightcap server this TV uses: opens the Connect screen to change it. -->
+        <TextView
+            android:id="@+id/serverLink"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_gravity="bottom|start"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/nav_item_bg"
+            android:drawableEnd="@drawable/ic_chevron"
+            android:drawablePadding="6dp"
+            android:drawableTint="@color/nav_item_fg"
+            android:focusable="true"
+            android:fontVariationSettings="'wght' 500"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="14dp"
+            android:textColor="@color/nav_item_fg"
+            android:textSize="10sp" />
+
+        <!-- Android's own settings, out of the way in the corner. -->
+        <TextView
+            android:id="@+id/tvSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/nav_item_bg"
+            android:drawableEnd="@drawable/ic_chevron"
+            android:drawablePadding="6dp"
+            android:drawableTint="@color/nav_item_fg"
+            android:focusable="true"
+            android:fontVariationSettings="'wght' 500"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="14dp"
+            android:text="TV settings · picture, sound, network"
+            android:textColor="@color/nav_item_fg"
+            android:textSize="10sp" />
+    </FrameLayout>
+
+    <!-- ===== A setting's panel, over the dimmed cards ===== -->
+    <View
+        android:id="@+id/scrim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:background="#8C05080F"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/panel"
+        android:layout_width="420dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:background="@drawable/settings_panel"
+        android:elevation="24dp"
+        android:orientation="vertical"
+        android:paddingStart="30dp"
+        android:paddingTop="40dp"
+        android:paddingEnd="30dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/panelTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/big_shoulders"
+            android:fontVariationSettings="'wght' 700"
+            android:includeFontPadding="false"
+            android:textColor="@color/text"
+            android:textSize="28sp" />
+
+        <TextView
+            android:id="@+id/panelHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/muted"
+            android:textSize="9.5sp" />
+
+        <FrameLayout
+            android:id="@+id/preview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:clipChildren="false" />
+
+        <ScrollView
+            android:id="@+id/panelScroll"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="12dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:paddingBottom="28dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/panelItems"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+    </LinearLayout>
+
+    <!-- ===== The profile editor: avatars in a sliding line, the name under them ===== -->
+    <FrameLayout
+        android:id="@+id/editor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_marginTop="58dp"
+            android:fontVariationSettings="'wght' 700"
+            android:letterSpacing="0.18"
+            android:text="CHOOSE YOUR AVATAR"
+            android:textColor="@color/muted"
+            android:textSize="9sp" />
+
+        <local.nightcap.AvatarCarousel
+            android:id="@+id/carousel"
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="70dp"
+            android:clipChildren="false" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="110dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/editorName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/big_shoulders"
+                android:fontVariationSettings="'wght' 700"
+                android:includeFontPadding="false"
+                android:textColor="@color/text"
+                android:textSize="40sp" />
+
+            <TextView
+                android:id="@+id/editorAvatarName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/muted"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/editName"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/nav_item_bg"
+                android:focusable="true"
+                android:fontVariationSettings="'wght' 600"
+                android:gravity="center"
+                android:paddingHorizontal="16dp"
+                android:text="Change name"
+                android:textColor="@color/nav_item_fg"
+                android:textSize="11sp" />
+
+            <EditText
+                android:id="@+id/nameField"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bar_bg"
+                android:gravity="center"
+                android:imeOptions="actionDone|flagNoExtractUi"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName|textCapWords"
+                android:maxLength="20"
+                android:singleLine="true"
+                android:textColor="@color/text"
+                android:textSize="14sp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/editorHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="34dp"
+            android:text="Left and right to choose · OK to keep · Back to cancel"
+            android:textColor="@color/muted"
+            android:textSize="9sp" />
+    </FrameLayout>
+</FrameLayout>

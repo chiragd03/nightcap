@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Nightcap" parent="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen">
+        <item name="android:windowBackground">@color/ink</item>
+        <item name="android:colorBackground">@color/ink</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:fontFamily">@font/hanken</item>
+        <item name="android:windowAnimationStyle">@style/NightcapScreens</item>
+        <item name="android:defaultFocusHighlightEnabled">false</item>
+    </style>
+
+    <!-- Screens fade and grow in, and settle back on the way out. -->
+    <style name="NightcapScreens" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/screen_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/screen_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/screen_back_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/screen_back_exit</item>
+    </style>
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Browse all's search bar: a wide bar of solid dark glass (tiles scroll under it), its edge lit
+     when focused. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="22dp" />
+            <gradient android:angle="270" android:startColor="#FF283041" android:endColor="#FF1C2331" />
+            <stroke android:width="1.4dp" android:color="#E6FFFFFF" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="22dp" />
+            <gradient android:angle="270" android:startColor="#FF1A2130" android:endColor="#FF121826" />
+            <stroke android:width="1dp" android:color="#2EFFFFFF" />
+        </shape>
+    </item>
+</selector>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The Connect screen's card (an address or a join code): the settings panel's glass, rounded all round. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <corners android:radius="26dp" />
+    <gradient android:angle="270" android:startColor="#FC141B2B" android:endColor="#FA0E1320" />
+    <stroke android:width="0.8dp" android:color="#24FFFFFF" />
+</shape>

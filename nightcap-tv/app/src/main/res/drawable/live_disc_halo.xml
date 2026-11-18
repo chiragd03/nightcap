@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The soft light round a focused live player button. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
+    <gradient android:type="radial" android:gradientRadius="48dp" android:startColor="#47FFFFFF" android:centerColor="#14FFFFFF" android:endColor="#00FFFFFF" />
+</shape>

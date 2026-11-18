@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The player's round play/pause button: gold; focused, a soft gold ring around it. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true">
+        <layer-list>
+            <item>
+                <shape android:shape="oval">
+                    <solid android:color="#40F6B73C" />
+                </shape>
+            </item>
+            <item android:bottom="3dp" android:left="3dp" android:right="3dp" android:top="3dp">
+                <shape android:shape="oval">
+                    <solid android:color="@color/lamp" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    <item>
+        <layer-list>
+            <item android:bottom="3dp" android:left="3dp" android:right="3dp" android:top="3dp">
+                <shape android:shape="oval">
+                    <solid android:color="#D9F6B73C" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</selector>

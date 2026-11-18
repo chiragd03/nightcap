@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Phosphor Icons "television" (light), MIT licence: https://phosphoricons.com -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="22dp"
+    android:height="22dp"
+    android:viewportWidth="256"
+    android:viewportHeight="256">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M216,70H142.49l37.75-37.76a6,6,0,0,0-8.48-8.48L128,67.51,84.24,23.76a6,6,0,0,0-8.48,8.48L113.51,70H40A14,14,0,0,0,26,84V200a14,14,0,0,0,14,14H216a14,14,0,0,0,14-14V84A14,14,0,0,0,216,70Zm2,130a2,2,0,0,1-2,2H40a2,2,0,0,1-2-2V84a2,2,0,0,1,2-2H216a2,2,0,0,1,2,2Z" />
+</vector>

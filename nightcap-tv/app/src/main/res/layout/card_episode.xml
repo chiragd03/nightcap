@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Episode still (16:9) with its number and name over a soft bottom scrim. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="176dp"
+    android:layout_height="99dp"
+    android:layout_marginEnd="12dp"
+    android:background="@drawable/card_bg"
+    android:focusable="true">
+
+    <ImageView
+        android:id="@+id/still"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:importantForAccessibility="no"
+        android:scaleType="centerCrop" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/scrim_bottom" />
+
+    <TextView
+        android:id="@+id/label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:ellipsize="end"
+        android:fontVariationSettings="'wght' 600"
+        android:maxLines="1"
+        android:paddingHorizontal="7dp"
+        android:paddingBottom="11dp"
+        android:textSize="9sp" />
+
+    <!-- How far into this episode you are, like Continue watching. -->
+    <FrameLayout
+        android:id="@+id/progressTrack"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_gravity="bottom"
+        android:layout_margin="6dp"
+        android:background="#38FFFFFF"
+        android:visibility="gone">
+
+        <View
+            android:id="@+id/progressFill"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/lamp"
+            android:transformPivotX="0dp" />
+    </FrameLayout>
+
+    <!-- Watched: a small tick, as Stremio records it. -->
+    <TextView
+        android:id="@+id/watched"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_margin="5dp"
+        android:background="@drawable/chip"
+        android:fontVariationSettings="'wght' 700"
+        android:paddingHorizontal="5dp"
+        android:paddingVertical="2dp"
+        android:text="✓  Watched"
+        android:textSize="8sp"
+        android:visibility="gone" />
+
+    <!-- Light catching the card when it's focused (see Motion.focus). -->
+    <View
+        android:id="@+id/sheen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:background="@drawable/card_sheen" />
+</FrameLayout>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One episode in the player's Episodes panel: its still (with how far you got), the number and
+     name, and whether it's watched, playing, or not out yet. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="2dp"
+    android:background="@drawable/nav_item_bg"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="6dp">
+
+    <FrameLayout
+        android:layout_width="96dp"
+        android:layout_height="54dp">
+
+        <ImageView
+            android:id="@+id/episodeStill"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/card_bg"
+            android:importantForAccessibility="no"
+            android:scaleType="centerCrop" />
+
+        <View
+            android:id="@+id/episodeProgress"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_gravity="bottom"
+            android:background="@color/lamp"
+            android:scaleX="0"
+            android:transformPivotX="0dp"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_weight="1"
+        android:duplicateParentState="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/episodeName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:duplicateParentState="true"
+            android:ellipsize="end"
+            android:fontVariationSettings="'wght' 600"
+            android:maxLines="2"
+            android:textColor="@color/nav_item_fg"
+            android:textSize="10.5sp" />
+
+        <TextView
+            android:id="@+id/episodeState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:duplicateParentState="true"
+            android:maxLines="1"
+            android:textColor="@color/panel_detail_fg"
+            android:textSize="8.5sp" />
+    </LinearLayout>
+</LinearLayout>

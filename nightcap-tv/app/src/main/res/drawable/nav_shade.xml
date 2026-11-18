@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Gentle darkening of the screen behind the open panel. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <gradient android:angle="0" android:endColor="#00090D16" android:startColor="#B3090D16" />
+</shape>

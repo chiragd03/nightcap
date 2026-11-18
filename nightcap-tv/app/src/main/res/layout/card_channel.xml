@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A channel: its logo (or its short name on a tint of its own colour) on dark glass, its name
+     under it. The whole of it grows when focused (see Motion.focus); the ring is the tile's. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/channel"
+    android:layout_width="168dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="13dp"
+    android:clipChildren="false"
+    android:focusable="true"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/channelTile"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:background="@drawable/channel_card_bg"
+        android:duplicateParentState="true">
+
+        <View
+            android:id="@+id/channelTint"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:duplicateParentState="true" />
+
+        <ImageView
+            android:id="@+id/channelLogo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:importantForAccessibility="no"
+            android:paddingHorizontal="34dp"
+            android:paddingVertical="22dp"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/channelMono"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/big_shoulders"
+            android:fontVariationSettings="'wght' 800"
+            android:includeFontPadding="false"
+            android:letterSpacing="0.02"
+            android:textColor="#EBEEF1F7"
+            android:textSize="29sp" />
+
+        <!-- An own item's state: Live / Soon / 24-7 (tinted in code). Hidden for ordinary channels. -->
+        <TextView
+            android:id="@+id/channelBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:layout_margin="7dp"
+            android:fontVariationSettings="'wght' 700"
+            android:includeFontPadding="false"
+            android:letterSpacing="0.04"
+            android:paddingHorizontal="6dp"
+            android:paddingVertical="3dp"
+            android:textColor="#F5F7FA"
+            android:textSize="8sp"
+            android:visibility="gone" />
+
+        <!-- In My channels. -->
+        <ImageView
+            android:id="@+id/channelStar"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="7dp"
+            android:background="@drawable/sound_button_bg"
+            android:importantForAccessibility="no"
+            android:padding="3dp"
+            android:src="@drawable/ic_star"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/sheen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:background="@drawable/channel_sheen" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/channelName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:ellipsize="end"
+        android:fontVariationSettings="'wght' 600"
+        android:maxLines="1"
+        android:textColor="@color/muted"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/channelSub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="#647087"
+        android:textSize="8.5sp"
+        android:visibility="gone" />
+</LinearLayout>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One tile on the Connect screen (a server, "Another server", a household): a glass card with a
+     quiet label and its icon on top and a big name below, like the Settings cards. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="220dp"
+    android:layout_height="160dp"
+    android:layout_margin="9dp"
+    android:background="@drawable/settings_card"
+    android:focusable="true"
+    android:padding="18dp">
+
+    <TextView
+        android:id="@+id/tileLabel"
+        style="@style/SettingsEyebrow" />
+
+    <!-- What kind of tile it is at a glance: the home network, a server elsewhere, a household. -->
+    <ImageView
+        android:id="@+id/tileIcon"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_gravity="top|end"
+        android:alpha="0.7"
+        android:importantForAccessibility="no" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tileName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/big_shoulders"
+            android:fontVariationSettings="'wght' 700"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:textColor="@color/text"
+            android:textSize="26sp" />
+
+        <TextView
+            android:id="@+id/tileSub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/muted"
+            android:textSize="10sp" />
+    </LinearLayout>
+</FrameLayout>

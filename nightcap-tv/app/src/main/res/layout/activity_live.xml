@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Live TV: laid out like Home. The focused channel on top (its live picture, muted, after a short
+     rest), My channels and a row per kind of channel below. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ink"
+    android:clipChildren="false">
+
+    <!-- A soft glow behind the page while there's nothing to show (no channel list yet). -->
+    <local.nightcap.AuraView
+        android:id="@+id/liveAura"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <!-- Top right: the channel's colour and logo, then its live picture fading in over them. -->
+    <FrameLayout
+        android:id="@+id/liveArtFrame"
+        android:layout_width="670dp"
+        android:layout_height="377dp"
+        android:layout_gravity="top|end">
+
+        <View
+            android:id="@+id/liveGlow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/liveArt"
+            android:layout_width="200dp"
+            android:layout_height="112dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="120dp"
+            android:alpha="0.9"
+            android:importantForAccessibility="no"
+            android:scaleType="fitCenter" />
+
+        <TextureView
+            android:id="@+id/livePreview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/scrim_left" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/scrim_bottom" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/hero"
+        android:layout_width="460dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="92dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/liveDot"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_marginEnd="7dp"
+                android:background="@drawable/live_dot" />
+
+            <TextView
+                android:id="@+id/eyebrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontVariationSettings="'wght' 700"
+                android:letterSpacing="0.16"
+                android:textAllCaps="true"
+                android:textColor="@color/lamp"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/big_shoulders"
+            android:fontVariationSettings="'wght' 800"
+            android:includeFontPadding="false"
+            android:lineSpacingMultiplier="0.9"
+            android:maxLines="2"
+            android:textAllCaps="true"
+            android:textSize="50sp" />
+
+        <TextView
+            android:id="@+id/meta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:textColor="@color/muted"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/reason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/navHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="12dp"
+        android:fontVariationSettings="'wght' 600"
+        android:letterSpacing="0.06"
+        android:text="‹  Live TV"
+        android:textColor="@color/muted"
+        android:textSize="11sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="28dp"
+        android:baselineAligned="true"
+        android:orientation="horizontal">
+
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/big_shoulders"
+            android:fontFeatureSettings="tnum"
+            android:fontVariationSettings="'wght' 700"
+            android:format12Hour="HH:mm"
+            android:format24Hour="HH:mm"
+            android:includeFontPadding="false"
+            android:shadowColor="#B3000000"
+            android:shadowRadius="8"
+            android:textSize="40sp" />
+
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:format12Hour="EEEE d MMMM"
+            android:format24Hour="EEEE d MMMM"
+            android:shadowColor="#B3000000"
+            android:shadowRadius="8"
+            android:textColor="@color/muted"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rows"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="300dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingBottom="240dp" />
+
+    <!-- No channel list yet: what Live TV is, where a list is added, and glass tiles to check again
+         or go Home (as on the Connect screen). -->
+    <LinearLayout
+        android:id="@+id/liveEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/big_shoulders"
+            android:fontVariationSettings="'wght' 700"
+            android:includeFontPadding="false"
+            android:letterSpacing="0.02"
+            android:text="No channels yet"
+            android:textColor="@color/text"
+            android:textSize="34sp" />
+
+        <TextView
+            android:id="@+id/liveEmptyHint"
+            android:layout_width="520dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.3"
+            android:textColor="@color/muted"
+            android:textSize="10.5sp" />
+
+        <LinearLayout
+            android:id="@+id/liveEmptyTiles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="34dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="12dp" />
+    </LinearLayout>
+
+    <local.nightcap.NavRail
+        android:id="@+id/navRail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="420dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.3"
+        android:textColor="@color/muted"
+        android:textSize="13sp"
+        android:visibility="gone" />
+</FrameLayout>

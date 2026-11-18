@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The player's panels and cards: dark see-through glass with a fine light edge. (Video can't be
+     blurred behind them: it's on its own layer so HDR reaches the screen untouched.) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <corners android:radius="24dp" />
+    <gradient android:angle="270" android:startColor="#E6182030" android:endColor="#E00C111C" />
+    <stroke android:width="0.8dp" android:color="#2EFFFFFF" />
+</shape>

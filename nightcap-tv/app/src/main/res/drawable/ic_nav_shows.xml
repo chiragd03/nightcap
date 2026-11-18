@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Shows: a screen with a play mark (drawn in the side menu's light line style). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="22dp"
+    android:height="22dp"
+    android:viewportWidth="256"
+    android:viewportHeight="256">
+    <path
+        android:pathData="M44,52H212A12,12 0,0 1,224 64V172A12,12 0,0 1,212 184H44A12,12 0,0 1,32 172V64A12,12 0,0 1,44 52Z"
+        android:strokeWidth="12"
+        android:strokeColor="#FFFFFFFF" />
+    <path
+        android:pathData="M112,92L156,118L112,144Z"
+        android:strokeLineJoin="round"
+        android:strokeWidth="12"
+        android:strokeColor="#FFFFFFFF" />
+    <path
+        android:pathData="M88,214H168"
+        android:strokeLineCap="round"
+        android:strokeWidth="12"
+        android:strokeColor="#FFFFFFFF" />
+</vector>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One choice in a settings panel: the name (in its own script for languages), the English
+     name under it, and a tick for what's chosen. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:layout_marginVertical="1.5dp"
+    android:background="@drawable/nav_item_bg"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingHorizontal="16dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:duplicateParentState="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/choiceName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:duplicateParentState="true"
+            android:ellipsize="end"
+            android:fontVariationSettings="'wght' 600"
+            android:maxLines="1"
+            android:textColor="@color/nav_item_fg"
+            android:textSize="13.5sp" />
+
+        <TextView
+            android:id="@+id/choiceSub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.62"
+            android:duplicateParentState="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/nav_item_fg"
+            android:textSize="9sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/choiceTick"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:duplicateParentState="true"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_check"
+        android:tint="@color/nav_item_fg" />
+</LinearLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A filter pill: glass, a white pill when focused (dark text on it). -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="15dp" />
+            <solid android:color="#F5FFFFFF" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="15dp" />
+            <gradient android:angle="270" android:startColor="#1AFFFFFF" android:endColor="#0BFFFFFF" />
+            <stroke android:width="0.8dp" android:color="#24FFFFFF" />
+        </shape>
+    </item>
+</selector>

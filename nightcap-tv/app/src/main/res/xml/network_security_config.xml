@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- The Nightcap server is whatever address it's given at setup (see Server), usually plain
+         HTTP on the home network, so plain HTTP can't be limited to one known address. -->
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

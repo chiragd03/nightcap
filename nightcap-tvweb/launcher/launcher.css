@@ -1,0 +1,64 @@
+/* The launcher on Samsung and LG TVs: the TV app's look, on its own. 1rem = 1 dp. */
+@font-face { font-family: 'Hanken'; src: url('fonts/hanken.ttf') format('truetype'); font-weight: 100 900; }
+@font-face { font-family: 'Big Shoulders'; src: url('fonts/big_shoulders.ttf') format('truetype'); font-weight: 100 900; }
+html { font-size: calc(100vw / 960); }
+/* A 960 x 540 dp stage, as large as fits the window (launcher.js sets the size). */
+#stage { position: absolute; top: 50%; left: 50%; width: 960rem; height: 540rem; margin: -270rem 0 0 -480rem; overflow: hidden; }
+html, body { height: 100%; margin: 0; overflow: hidden; background: #090d16; color: #eef1f7; }
+body { font: 500 12rem/1.35 'Hanken', sans-serif; -webkit-font-smoothing: antialiased; cursor: none; }
+* { box-sizing: border-box; }
+/* LG's webOS gives every element its own font (* { font-family: LG Display }), which beats
+   inheriting the page's: each element inherits it explicitly instead. */
+body * { font-family: inherit; }
+[hidden] { display: none !important; }
+button { font: inherit; color: inherit; cursor: none; }
+
+.opening { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: radial-gradient(circle at 50% 45%, rgba(246, 183, 60, 0.08), transparent 45vmax), #090d16; text-align: center; }
+.opening .mark { width: 64rem; margin-bottom: 18rem; filter: drop-shadow(0 0 22rem rgba(246, 183, 60, 0.4)); animation: breathe 2.4s ease-in-out infinite; }
+.opening b { font-size: 16rem; font-weight: 650; }
+.opening span { max-width: 360rem; margin-top: 8rem; color: #8d97ab; font-size: 11rem; line-height: 1.5; }
+@keyframes breathe { 50% { opacity: 0.55; transform: scale(0.94); } }
+
+.connect { position: absolute; top: 0; right: 0; bottom: 0; left: 0; overflow: hidden; }
+.aura { position: absolute; top: 0; right: 0; bottom: 0; left: 0; pointer-events: none;
+  background: radial-gradient(circle at 50% 52%, rgba(46, 63, 122, 0.45) 0, transparent 460rem), radial-gradient(circle at 10% 105%, rgba(36, 80, 106, 0.32) 0, transparent 403rem), radial-gradient(circle at 95% -5%, rgba(46, 63, 122, 0.28) 0, transparent 365rem); }
+.connect-body { position: relative; display: flex; flex-direction: column; align-items: center; height: 100%; padding-top: 120rem;
+  transition: transform 320ms cubic-bezier(0.2, 0, 0, 1), opacity 320ms cubic-bezier(0.2, 0, 0, 1); }
+.connect-body.behind { transform: scale(0.96); opacity: 0.35; }
+.eyebrow { color: #8d97ab; font-size: 7.5rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+.corner { position: absolute; top: 44rem; left: 72rem; font-size: 9rem; letter-spacing: 0.18em; }
+h1 { margin: 0; font: 700 34rem/1.1 'Big Shoulders', sans-serif; letter-spacing: 0.02em; }
+.hint { margin: 10rem 0 0; color: #8d97ab; font-size: 10.5rem; text-align: center; }
+.status { min-height: 14rem; margin: 18rem 0 0; color: #8d97ab; font-size: 10.5rem; text-align: center; }
+
+.tiles { display: flex; justify-content: center; margin-top: 34rem; padding: 12rem 24rem; }
+.tile { position: relative; display: flex; flex-direction: column; width: 220rem; height: 160rem; margin: 9rem; padding: 18rem; border: 0; border-radius: 22rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.04)); box-shadow: inset 0 0 0 0.8rem rgba(255, 255, 255, 0.12); text-align: left;
+  transition: transform 240ms cubic-bezier(0.2, 0, 0, 1), box-shadow 240ms cubic-bezier(0.2, 0, 0, 1), background 180ms; }
+.tile:focus { outline: none; background: linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.13));
+  box-shadow: inset 0 0 0 1.2rem rgba(255, 255, 255, 0.7), 0 14rem 30rem rgba(0, 0, 0, 0.45); transform: scale(1.05); }
+.tile-top { display: flex; width: 100%; justify-content: space-between; margin-bottom: auto; }
+.tile-top svg { flex: none; margin-left: auto; width: 22rem; height: 22rem; opacity: 0.7; }
+.tile-name { overflow: hidden; font: 700 26rem/1.1 'Big Shoulders', sans-serif; white-space: nowrap; text-overflow: ellipsis; }
+.tile-sub { margin-top: 5rem; color: #8d97ab; font-size: 10rem; }
+
+.panel-scrim { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: flex; justify-content: center; align-items: flex-start; background: rgba(5, 8, 15, 0.55); animation: fade 260ms both; }
+.panel { display: flex; flex-direction: column; align-items: center; width: 560rem; margin-top: 48rem; padding: 28rem 32rem 26rem; border-radius: 26rem;
+  background: linear-gradient(180deg, #141b2b, #0e1320); box-shadow: inset 0 0 0 0.8rem rgba(255, 255, 255, 0.14), 0 24rem 60rem rgba(0, 0, 0, 0.55);
+  animation: panel-in 360ms cubic-bezier(0.2, 0, 0, 1) both; }
+@keyframes panel-in { from { opacity: 0; transform: translateY(-24rem); } }
+@keyframes fade { from { opacity: 0; } }
+.panel-heading { font: 700 28rem/1.1 'Big Shoulders', sans-serif; }
+.panel-text { margin: 10rem 0 0; color: #8d97ab; font-size: 10.5rem; line-height: 1.5; text-align: center; }
+.field { display: block; width: 100%; height: 50rem; margin-top: 20rem; padding: 0 20rem; border: 0; border-radius: 24rem; background: rgba(22, 28, 41, 0.85);
+  color: #eef1f7; font: inherit; font-size: 15rem; text-align: center; }
+.field:focus { outline: none; background: rgba(37, 44, 60, 0.95); }
+.field::placeholder { color: #8d97ab; }
+.panel-buttons { display: flex; margin-top: 18rem; }
+.pill { min-width: 100rem; height: 40rem; margin: 0 5rem; padding: 0 22rem; border: 0; border-radius: 20rem; background: rgba(255, 255, 255, 0.1); font-size: 12rem; font-weight: 600; }
+.pill.go { min-width: 120rem; padding: 0 24rem; }
+.forget-row { display: flex; justify-content: center; margin-top: 14rem; }
+.pill.forget { height: 32rem; font-size: 10.5rem; color: #c4cbd8; }
+.pill:focus { outline: none; background: rgba(255, 255, 255, 0.96); color: #090d16; }
+.panel-status { min-height: 14rem; margin: 14rem 0 0; font-size: 10.5rem; text-align: center; }

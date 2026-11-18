@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A live player button's caption: white when its button is focused, else soft. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="#FFFFFFFF" android:state_focused="true" />
+    <item android:color="#B3DCE2EC" />
+</selector>

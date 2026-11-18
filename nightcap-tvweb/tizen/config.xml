@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Nightcap's launcher for Samsung TVs (Tizen 5.5+, 2020 and newer). It opens the TV app from the
+     household's own Nightcap server, so it may load from and go to any address (access, allow-navigation). -->
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="http://nightcap.tv/launcher" version="1.0.0" viewmodes="maximized">
+    <tizen:application id="NightcapTV.Nightcap" package="NightcapTV" required_version="5.5"/>
+    <content src="index.html"/>
+    <icon src="icon.png"/>
+    <name>Nightcap</name>
+    <feature name="http://tizen.org/feature/screen.size.normal.1080.1920"/>
+    <tizen:profile name="tv-samsung"/>
+    <access origin="*" subdomains="true"/>
+    <tizen:allow-navigation>*</tizen:allow-navigation>
+    <tizen:privilege name="http://tizen.org/privilege/internet"/>
+    <tizen:privilege name="http://tizen.org/privilege/tv.inputdevice"/>
+    <tizen:privilege name="http://developer.samsung.com/privilege/productinfo"/>
+    <tizen:setting screen-orientation="landscape" context-menu="disable" background-support="disable" encryption="disable" install-location="auto" hwkey-event="enable"/>
+</widget>
