@@ -448,22 +448,22 @@ CREATE INDEX IF NOT EXISTS wrong_tries_by ON wrong_tries (kind, at, who);
 ALTER TABLE account_secrets ADD COLUMN IF NOT EXISTS debrid_keys bytea;
 ALTER TABLE account_secrets ADD COLUMN IF NOT EXISTS aiostreams_setup bytea;
 
--- Whether this server has its own AIOStreams, put in by the server's owner (see own_aiostreams.py):
--- its address ("http://localhost:3000"), the household setup new households start from (an
--- AIOStreams setup, as JSON, its debrid services' keys left empty), the debrid services a
--- household can give a key for ({AIOStreams' id: the name shown}, {"servicea": "ServiceA"}), and the
--- kinds of the template's add-ons that only work through one (["kindA", …]: off without a key). One
--- row or none: none, and households give their own AIOStreams address.
+-- The household setup the server's owner chose for this server's own AIOStreams (an AIOStreams
+-- setup, as JSON, its debrid services' keys left empty), in place of the built-in one (see
+-- own_aiostreams.py; its address is a setting). One row or none.
 CREATE TABLE IF NOT EXISTS own_aiostreams (
     one             boolean PRIMARY KEY DEFAULT true CHECK (one),
-    url             text NOT NULL,
     template        jsonb NOT NULL,
-    services        jsonb NOT NULL DEFAULT '{}',
-    need_a_service  jsonb NOT NULL DEFAULT '[]',
     updated_at      timestamptz NOT NULL DEFAULT now()
 );
-ALTER TABLE own_aiostreams ADD COLUMN IF NOT EXISTS services jsonb NOT NULL DEFAULT '{}';
-ALTER TABLE own_aiostreams ADD COLUMN IF NOT EXISTS need_a_service jsonb NOT NULL DEFAULT '[]';
+-- (A row from before the address became a setting is taken out once, so the built-in setup is used.)
+DO $$ BEGIN
+    IF EXISTS (SELECT 1 FROM information_schema.columns
+               WHERE table_schema = current_schema() AND table_name = 'own_aiostreams' AND column_name = 'url') THEN
+        DELETE FROM own_aiostreams;
+        ALTER TABLE own_aiostreams DROP COLUMN url, DROP COLUMN IF EXISTS services, DROP COLUMN IF EXISTS need_a_service;
+    END IF;
+END $$;
 
 -- Invites, one device each: an invite's code joins one TV or browser, then stops working (or after
 -- 24 hours unused). Several may be open at once. [label] is who or what it's for ("Bedroom TV"),

@@ -18,9 +18,15 @@ dist/
 # Optional extension, never part of this repository
 nightcap-server/nightcap/private/
 
-# Server notes stay out: only the README
+# Notes stay out: only the READMEs
 nightcap-server/**/*.md
 !nightcap-server/README.md
+nightcap-setup/**/*.md
+!nightcap-setup/README.md
+
+# Setup tool builds
+nightcap-setup/release/
+nightcap-setup/nightcap
 
 # Editors and OS
 .DS_Store

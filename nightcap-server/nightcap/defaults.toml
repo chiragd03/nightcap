@@ -21,6 +21,9 @@ port = 7171                  # PORT
 discovery_port = 7171        # DISCOVERY_PORT: at home, the UDP port TVs ask on
 advertise_port = 0           # ADVERTISE_PORT: the port TVs are told to use (a NodePort); 0 = same as port
 public_url = ""              # PUBLIC_URL: "https://nightcap.example.com"; empty = worked out per request
+# OWN_AIOSTREAMS_URL: your own AIOStreams' address, if this server has one ("http://localhost:3000");
+# empty = none, and households give their own
+own_aiostreams_url = ""
 timezone = "UTC"             # TZ: for a household that hasn't set its own
 country = "US"               # DEFAULT_COUNTRY: for a household that hasn't set its own (release dates, Top 10, streaming)
 trusted_proxy = false        # TRUSTED_PROXY: behind a load balancer that adds X-Forwarded-For

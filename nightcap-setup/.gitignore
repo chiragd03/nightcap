@@ -1,0 +1,4 @@
+dist/
+testdata/
+/nightcap-setup
+release/

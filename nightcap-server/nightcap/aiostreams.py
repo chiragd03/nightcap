@@ -1,5 +1,5 @@
 """Nightcap's own AIOStreams, running next to the server and reachable only by
-it (its address and template are in the database: own_aiostreams.py). A household's admin gives its
+it (its address is a setting and its template built in or chosen by the owner: own_aiostreams.py). A household's admin gives its
 debrid keys (one per service); the server makes the household's setup there from the shared
 template (its add-ons, filters and sorting) with those keys, and the household's AIOStreams address is that setup's.
 Changing a key updates it. Without any key, the setup has only what needs no debrid service (files

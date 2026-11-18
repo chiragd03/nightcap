@@ -250,7 +250,7 @@ if __name__ == "__main__":
 
 
 class OwnAIOStreams(unittest.TestCase):
-    """This server has its own AIOStreams (as if put in the database: own_aiostreams.py)."""
+    """This server has its own AIOStreams (as if set up: own_aiostreams.py)."""
 
     def setUp(self):
         from nightcap import own_aiostreams

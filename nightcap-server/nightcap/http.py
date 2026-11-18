@@ -6,7 +6,7 @@ service. The host is looked up once, each address checked, and the connection ma
 address (so a second lookup can't swap it), again on every redirect. In the cloud only public
 addresses on ports 80 and 443 are reached; at home the network's own (a self-hosted AIOStreams at
 192.168.x.x:3000) are too. The one exception is Nightcap's own AIOStreams (own_aiostreams.py), which runs
-next to the server (localhost:3000): its address is put in the database by the server's owner, so
+next to the server (localhost:3000): its address is set by the server's owner, so
 its exact host and port are let through, nothing else.
 
 A household's own AI address (an OpenAI-compatible service, see ai.py) is fetched the same way, through

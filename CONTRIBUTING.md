@@ -11,8 +11,9 @@ Thanks for helping. Nightcap is a self-hosted streaming system: a setup tool (`n
 ## Where the code is
 - `nightcap-server/`: the server (Python, FastAPI, PostgreSQL). Tests: `python -m unittest discover -s tests`.
 - `nightcap-web/`: the web app and the Samsung/LG TV app (React, TypeScript, Vite). Tests: `npm test`, lint: `npm run lint`.
+- `nightcap-setup/`: the setup tool, the `nightcap` command (Go). Tests: `go test ./...`.
 
-Each folder's README says how to run it. The setup tool and the Android TV app are released as ready-built files only.
+Each folder's README says how to run it. The Android TV app is released as a ready-built file only.
 
 ## Pull requests
 1. Fork the repo and make a branch from `main`.

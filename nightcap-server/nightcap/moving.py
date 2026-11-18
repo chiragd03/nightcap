@@ -52,7 +52,7 @@ OTHER = {"account_secrets": "decrypted, saved again under the new server's key",
          "wrong_tries": "wrong join codes and owner keys, kept minutes",
          "invites": "their codes are keyed to this server's SECRETS_KEY: the owner makes new ones there",
          "schema_applied": "the server's own note of which table setup it applied, not a household's",
-         "own_aiostreams": "the server's own AIOStreams, put in by its owner, not a household's"}
+         "own_aiostreams": "the template the server's owner chose, not a household's"}
 
 
 class WrongPassword(Exception):
