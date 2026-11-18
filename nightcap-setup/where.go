@@ -46,11 +46,11 @@ func whereChoices(tools []*tool, cursor int) choices {
 	c := choices{cursor: cursor, later: "AWS, Fly.io, Railway"}
 	c.opts = []option{
 		{value: "docker", title: "This computer", why: need(tools[0], "Docker"), badge: "Recommended",
-			desc: "Free, for your home. Your TVs find it on the Wi-Fi.\nRuns in Docker"},
+			desc: "Free, for your home. Android TVs find it on the Wi-Fi.\nRuns in Docker"},
 		{value: "kubernetes", title: "My Kubernetes cluster", why: need(tools[1], "kubectl"),
 			desc: "Free, for your home, on your own cluster.\n" + cluster},
 		{value: "cloudrun", title: "Google Cloud", why: need(tools[2], "the Google Cloud CLI (gcloud)"),
-			desc: "Reachable from anywhere. Usually free for a household.\nCloud Run; the cost is shown before anything is made"},
+			desc: "Reachable from anywhere. Low cost: it sleeps when nobody watches.\nCloud Run; the cost is shown before anything is made"},
 		{value: "files", title: "Another machine",
 			desc: "Get the files, copy them to a NAS, VM or server, and start them there.\nAny machine with Docker"},
 	}
@@ -75,7 +75,7 @@ func whereChoices(tools []*tool, cursor int) choices {
 func audienceChoices(cursor int) choices {
 	return choices{cursor: cursor, opts: []option{
 		{value: "home", title: "Just my home", badge: "Recommended",
-			desc: "TVs on your Wi-Fi find it. No codes to type."},
+			desc: "No codes: Android TVs find it, Samsung and LG type its address once."},
 		{value: "cloud", title: "People anywhere",
 			desc: "Friends and family join with an invite code.\nNeeds a web address (https://…)"},
 	}}

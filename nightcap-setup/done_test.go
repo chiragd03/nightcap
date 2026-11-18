@@ -20,13 +20,13 @@ func TestDoneSaysWhatsTrue(t *testing.T) {
 		want []string
 		not  string
 	}{
-		{"anywhere", plan{mode: "cloud", keys: keys}, &deployer{here: true, cloud: true, cloudURL: "https://x.run.app"}, []string{"make an invite", "https://x.run.app/app/server"}, "pick this server"},
-		{"docker desktop", plan{mode: "home", keys: keys}, &deployer{here: true, b: bundle{hostNet: false}}, []string{"type its address", "http://localhost:7171"}, "pick this server"},
-		{"linux docker", plan{mode: "home", keys: keys}, &deployer{here: true, b: bundle{hostNet: true}}, []string{"pick this server", "find it by themselves"}, "type its address"},
+		{"anywhere", plan{mode: "cloud", keys: keys}, &deployer{here: true, cloud: true, cloudURL: "https://x.run.app"}, []string{"make an invite", "Settings, Household, Invites", "open its invite in this browser", "https://x.run.app/app/server"}, "pick this server"},
+		{"docker desktop", plan{mode: "home", keys: keys}, &deployer{here: true, b: bundle{hostNet: false}}, []string{"type its address", "http://localhost:7171/app/server", "http://<this computer's address>:7171"}, "pick this server"},
+		{"linux docker", plan{mode: "home", keys: keys}, &deployer{here: true, b: bundle{hostNet: true}}, []string{"pick this server", "on your Wi-Fi find it", "on Samsung and LG, type its address"}, "install Nightcap and type"},
 		{"another machine", plan{mode: "home", keys: keys}, &deployer{b: bundle{hostNet: true}}, []string{"<that machine's address>"}, "localhost"},
 	}
 	for _, c := range cases {
-		v := doneView(c.p, c.d, 90, doneChoices(c.d))
+		v := strings.Join(strings.Fields(ansi.ReplaceAllString(doneView(c.p, c.d, 90, doneChoices(c.d)), "")), " ") // (as read: lines joined)
 		for _, w := range c.want {
 			if !strings.Contains(v, w) {
 				t.Errorf("%s: doesn't say %q", c.name, w)

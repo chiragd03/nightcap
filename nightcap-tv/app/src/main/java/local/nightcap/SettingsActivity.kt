@@ -109,6 +109,9 @@ class SettingsActivity : TvActivity() {
             }
         }
         showHomeSwitch(animate = false)
+        // (Not offered yet: opening on its own when the TV starts or wakes needs permissions a TV
+        // doesn't give an app without ADB.)
+        findViewById<View>(R.id.homeSwitchCard).visibility = View.GONE
         findViewById<TextView>(R.id.serverLink).apply {
             text = "Nightcap server · ${Server.url.removePrefix("http://").removePrefix("https://")}"
             setOnClickListener { startActivity(ConnectActivity.intent(this@SettingsActivity)) }
@@ -217,9 +220,7 @@ class SettingsActivity : TvActivity() {
         }
         val u = usage
         findViewById<View>(R.id.usageCard).visibility = if (u != null) View.VISIBLE else View.GONE
-        // (A hidden card keeps its place in the grid: the next one takes it, so there's no gap.)
-        placeInLastRow(R.id.usageCard, 1.takeIf { u != null } ?: 2)
-        placeInLastRow(R.id.homeSwitchCard, 2.takeIf { u != null } ?: 1)
+        placeInLastRow(R.id.usageCard, 1)
         if (u != null) {
             findViewById<TextView>(R.id.usageValue).text = monthCost(u)
             val calls = u.optInt("month_calls")

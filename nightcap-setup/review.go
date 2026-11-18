@@ -270,7 +270,8 @@ func doneView(p plan, d *deployer, width int, next choices) string {
 			muted.Render("Your admin password. Save it now (it's also in "+keyFile+")."))
 	col.WriteString(key + "\n\n")
 	step := func(n int, what, link, detail string) {
-		col.WriteString(accentB.Render(itoa(n)) + "  " + plain.Render(what) + "\n")
+		// (A long one wraps under itself, not under the number.)
+		col.WriteString(accentB.Render(itoa(n)) + "  " + strings.TrimPrefix(wrap(what, 3, plain.Render), "   ") + "\n")
 		if link != "" {
 			col.WriteString(wrap(link, 3, accent.Render) + "\n")
 		}
@@ -281,12 +282,20 @@ func doneView(p plan, d *deployer, width int, next choices) string {
 	}
 	// How TVs join: by invite code (for people anywhere), by typing its address (Docker Desktop can't
 	// let TVs find it), or by picking it (found on the Wi-Fi).
-	tvs, tvsDetail := "On each TV, install Nightcap and pick this server.", "TVs on your Wi-Fi find it by themselves."
+	// (A TV can't reach "localhost": when this computer's address isn't known, it's said so.)
+	tvAddr := addr
+	if tvAddr == local {
+		tvAddr = fmt.Sprintf("http://<this computer's address>:%d", serverPortN)
+		if !d.here {
+			tvAddr = fmt.Sprintf("http://<that machine's address>:%d", serverPortN)
+		}
+	}
+	tvs, tvsDetail := "On each TV, install Nightcap and pick this server.", "Android TVs on your Wi-Fi find it; on Samsung and LG, type its address: "+tvAddr
 	switch {
 	case p.mode == "cloud":
-		tvs, tvsDetail = "On the owner page, make an invite for each TV or phone.", "Each one joins with its code."
+		tvs, tvsDetail = "In the web app, as the household's admin, make an invite for each TV or phone (Settings, Household, Invites).", "Each one joins with its code."
 	case d.here && !d.kube && !d.b.hostNet:
-		tvs, tvsDetail = "On each TV, install Nightcap and type its address:", addr
+		tvs, tvsDetail = "On each TV, install Nightcap and type its address:", tvAddr
 	}
 	if !d.here {
 		if open == fmt.Sprintf("http://localhost:%d", serverPortN) { // (no address given: that machine's)
@@ -294,10 +303,10 @@ func doneView(p plan, d *deployer, width int, next choices) string {
 		}
 		step(1, "Copy the folder to the machine Nightcap runs on.", "", tildePath(d.dir))
 		step(2, "Start it there, in the folder:", "docker compose up -d", "")
-		step(3, "Open the owner page:", open+"/app/server", "Sign in with the owner key and add your household.")
+		step(3, "Open the owner page:", open+"/app/server", "Sign in with the owner key, add your household, and open its invite in this browser.")
 		step(4, tvs, "", tvsDetail)
 	} else {
-		step(1, "Open the owner page:", open+"/app/server", "Sign in with the owner key and add your household.")
+		step(1, "Open the owner page:", open+"/app/server", "Sign in with the owner key, add your household, and open its invite in this browser.")
 		step(2, tvs, "", tvsDetail)
 		col.WriteString(muted.Render("Address") + "\n" + wrap(addr, 3, plain.Render) + "\n")
 		col.WriteString(muted.Render("Files") + "\n" + wrap(tildePath(d.dir), 3, muted.Render))

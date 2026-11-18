@@ -282,8 +282,9 @@ func (b bundle) readme() string {
 		w("## TVs")
 		w("")
 		if b.hostNet {
-			w("On Linux, TVs on the same network find the server by themselves. Elsewhere (Docker Desktop")
-			w("on a Mac or Windows) give them its address, http://<this machine>:%d.", serverPortN)
+			w("On Linux, Android TVs on the same network find the server by themselves; Samsung and LG type")
+			w("its address once, http://<this machine>:%d. Elsewhere (Docker Desktop on a Mac or Windows)", serverPortN)
+			w("give every TV that address.")
 		} else {
 			w("Give the TVs its address, http://<this machine>:%d (Docker Desktop can't let them find it).", serverPortN)
 		}
