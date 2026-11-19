@@ -1,0 +1,41 @@
+/* Licences and credits: the credits on top; below, the parts on the left and the chosen one's licence. */
+.lic { display: flex; flex-direction: column; height: 100vh; padding: 0 var(--gutter) 28px; box-sizing: border-box; }
+.lic-top { display: flex; align-items: center; gap: 14px; padding-top: 36px; }
+.lic-top .eyebrow { letter-spacing: 0.18em; }
+.lic-back {
+  display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 18px;
+  background: rgba(19, 26, 40, 0.7); box-shadow: inset 0 0 0 1px rgba(238, 241, 247, 0.12); color: var(--text);
+}
+.lic-back svg { transform: scaleX(-1); }
+.lic-back:hover, .lic-back:focus-visible { background: rgba(238, 241, 247, 0.14); }
+.lic-credits { display: flex; align-items: center; gap: 24px; margin-top: 28px; }
+.lic-credits img { width: 190px; height: auto; flex: none; }
+.lic-notice { margin: 0; color: var(--text); font-size: 15px; }
+.lic-data { margin: 6px 0 0; color: var(--muted); font-size: 13px; white-space: pre-wrap; }
+.lic-data a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.lic-data a:hover { color: var(--text); }
+.lic-main { display: flex; flex: 1; min-height: 0; gap: 18px; margin-top: 28px; }
+.lic-parts { display: flex; flex-direction: column; gap: 4px; width: 280px; flex: none; overflow-y: auto; }
+.lic-part {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px; flex: none; min-height: 42px; padding: 0 16px;
+  border: 0; border-radius: 21px; background: transparent; color: var(--muted); font-size: 14px; font-weight: 600; text-align: left; cursor: pointer;
+}
+.lic-part small { color: inherit; opacity: 0.75; font-size: 12px; font-weight: 500; white-space: nowrap; }
+.lic-part:hover { color: var(--text); background: rgba(238, 241, 247, 0.06); }
+.lic-part.on { background: var(--text); color: var(--ink); }
+.lic-text {
+  flex: 1; min-width: 0; margin: 0; padding: 22px; overflow: auto; border-radius: 18px;
+  background: rgba(19, 26, 40, 0.7); box-shadow: inset 0 0 0 1px rgba(238, 241, 247, 0.1);
+  color: var(--text); font: 12px/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap;
+}
+
+/* A phone: everything one under the other, the page scrolling. */
+@media (max-width: 720px) {
+  .lic { height: auto; min-height: 100vh; padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
+  .lic-data a { display: block; width: fit-content; margin-top: 4px; }
+  .lic-data span { display: none; }
+  .lic-credits { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .lic-main { flex-direction: column; }
+  .lic-parts { width: auto; overflow: visible; }
+  .lic-text { max-height: 60vh; }
+}

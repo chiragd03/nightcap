@@ -322,7 +322,7 @@ NETFLIX_TOP10 = "https://www.netflix.com/tudum/top10/data/all-weeks-countries.ts
 def netflix_top10():
     """{country code: [(title, "Films"|"TV", rank)]} for the latest week of Netflix's public charts."""
     def fetch():
-        req = Request(NETFLIX_TOP10, headers={"User-Agent": "Mozilla/5.0"})
+        req = Request(NETFLIX_TOP10, headers={"User-Agent": "nightcap-server/1.0"})
         charts, latest = {}, ""
         with urlopen(req, timeout=S.advanced.timeouts.netflix_seconds, context=SSL_CONTEXT) as r:
             next(r)

@@ -29,4 +29,7 @@ Each folder's README says how to run it.
 - Nightcap doesn't host any content. Please don't open issues or pull requests that name, link or add sources of pirated material; they'll be closed.
 - Security problems go through [SECURITY.md](SECURITY.md), never a public issue.
 
-By contributing, you agree your contribution is shared under this repository's licence.
+## Sign-off
+Each commit needs a `Signed-off-by:` line with your name (`git commit -s` adds it). It says you agree to the [Developer Certificate of Origin](https://developercertificate.org): you wrote the change, or otherwise have the right to submit it under this repository's licence.
+
+By contributing, you agree your contribution is shared under this repository's licence (AGPL-3.0).

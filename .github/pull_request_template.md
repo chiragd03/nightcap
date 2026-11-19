@@ -13,3 +13,4 @@
 - [ ] One change in this pull request
 - [ ] Tests added or updated where the part has them, and they pass
 - [ ] No keys, secrets or media I don't have the right to share
+- [ ] Commits signed off (`git commit -s`), as CONTRIBUTING.md asks

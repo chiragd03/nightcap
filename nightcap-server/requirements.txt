@@ -14,7 +14,7 @@ uvicorn==0.34.2
 # Nightcap's own database (PostgreSQL)
 psycopg[binary]==3.3.6
 psycopg-pool==3.3.3
-# Which episode a file name is (release names are messy: this is made for them), and what it needs.
+# Which episode a file name is (file names are messy: this is made for them), and what it needs.
 guessit==4.4.0
 rebulk==6.0.1
 babelfish==0.6.1

@@ -410,6 +410,23 @@
             android:textColor="@color/nav_item_fg"
             android:textSize="10sp" />
 
+        <!-- Licences and credits (LicencesActivity), small in the top corner. -->
+        <TextView
+            android:id="@+id/licencesLink"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_gravity="top|end"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/nav_item_bg"
+            android:focusable="true"
+            android:fontVariationSettings="'wght' 500"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="10dp"
+            android:text="Licences and credits"
+            android:textColor="@color/nav_item_fg"
+            android:textSize="8sp" />
+
         <!-- Android's own settings, out of the way in the corner. -->
         <TextView
             android:id="@+id/tvSettings"

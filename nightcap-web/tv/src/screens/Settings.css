@@ -144,3 +144,8 @@
 
 /* The app's version, small in the corner (Android: bottom|end, 28 dp in, 18 dp up, 8 sp, 60%). */
 .set-version { position: absolute; right: 28rem; bottom: 18rem; font-size: 8rem; color: var(--muted); opacity: 0.6; }
+.set-licences {
+  position: absolute; top: 16rem; right: 20rem; display: flex; align-items: center; height: 24rem; padding: 0 10rem;
+  border: 0; border-radius: 12rem; background: transparent; color: var(--muted); font-size: 8rem; font-weight: 500; outline: none;
+}
+.set-licences:focus { background: rgba(255, 255, 255, 0.96); color: var(--ink); }

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Licences and credits (LicencesActivity): the data sources' credits on top; below, the parts
+     Nightcap is made with on the left, and the licence of the one focused on the right. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ink">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="44dp"
+        android:fontVariationSettings="'wght' 700"
+        android:letterSpacing="0.18"
+        android:text="LICENCES AND CREDITS"
+        android:textColor="@color/muted"
+        android:textSize="9sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="72dp"
+        android:layout_marginBottom="32dp"
+        android:orientation="vertical">
+
+        <!-- Where the titles, the weather and the episodes come from. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="140dp"
+                android:layout_height="18dp"
+                android:contentDescription="The Movie Database (TMDB)"
+                android:src="@drawable/tmdb_logo" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="22dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This product uses the TMDB API but is not endorsed or certified by TMDB."
+                    android:textColor="@color/text"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Weather data by Open-Meteo.com  ·  Episode data from TVmaze"
+                    android:textColor="@color/muted"
+                    android:textSize="9sp" />
+
+                <!-- Nightcap's own licence, and where its source is (the AGPL asks for the way to it to be shown). -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Nightcap is free software under the GNU AGPL-3.0. Source: github.com/chiragd03/nightcap"
+                    android:textColor="@color/muted"
+                    android:textSize="9sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="22dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ScrollView
+                android:layout_width="220dp"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+
+                <!-- One entry per part (LicencesActivity.PARTS). -->
+                <LinearLayout
+                    android:id="@+id/parts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </ScrollView>
+
+            <!-- The licence: Up and Down scroll it. -->
+            <ScrollView
+                android:id="@+id/licence"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:background="@drawable/settings_card"
+                android:focusable="true"
+                android:padding="18dp"
+                android:scrollbars="none">
+
+                <TextView
+                    android:id="@+id/licenceText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="monospace"
+                    android:textColor="@color/text"
+                    android:textSize="8.5sp" />
+            </ScrollView>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

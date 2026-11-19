@@ -12,6 +12,7 @@ import AvatarCarousel from '../ui/AvatarCarousel'
 import Icon from '../ui/Icon'
 import { notify } from '../ui/Notice'
 import Connect from './Connect'
+import Licences from './Licences'
 import './Settings.css'
 import * as keyboard from '../keyboard'
 import { useLimitsReady } from '../../../src/limits'
@@ -157,6 +158,8 @@ function SettingsScreen() {
         <span className="eyebrow corner-eyebrow">Settings</span>
         {/* Which version of the app this is, small in the corner (as the Android TV's Settings). */}
         <span className="set-version">Nightcap {APP_VERSION}</span>
+        {/* Licences and credits, small in the top corner (as the Android TV's). */}
+        <button className="set-licences" data-f="" onClick={() => nav.push(<Licences />)}>Licences and credits</button>
         <div className="set-cards">
           <button ref={profileCard} className="set-card set-profile" data-f="" data-autofocus="" onClick={() => { if (loaded()) setEditing(true) }}>
             <span className="set-disc" style={{ background: a.tint }}><img src={profiles.avatarSrc(a.image)} alt="" /></span>

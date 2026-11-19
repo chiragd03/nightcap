@@ -10,7 +10,6 @@ object Apps {
     const val GOOGLE_HOME = "com.google.android.apps.tv.launcherx"
 
     private val FAVOURITES = listOf(
-        "org.smarttube.stable",              // SmartTube
         "com.amazon.amazonvideo.livingroom", // Prime Video
         "com.netflix.ninja",
         "com.disney.disneyplus",

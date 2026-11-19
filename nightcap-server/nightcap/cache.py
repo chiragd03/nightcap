@@ -3,7 +3,7 @@ bounded copy in memory for speed.
 
 What's kept in the database is what came from other services (TMDB, Cinemeta, TVmaze, Netflix,
 the AI) and the pages built from it (KEPT below), so a fresh copy of the server, or another one,
-answers from them. What isn't: the account's stream and add-on lists (they carry its debrid
+answers from them. What isn't: the account's stream and add-on lists (they carry its playback
 links, and go stale in minutes) and quick copies of what the database already has.
 
 Each entry is (saved at, value); whoever reads it decides how old is too old. Clearing an entry

@@ -36,7 +36,8 @@ One tag may play several roles, and a role set to "-" (NO_FIELD) reads nothing: 
 group-title says each channel's country, not its category, has country "group-title" and kind "-".
 An optional extension (nightcap/private/, not in the repository) may say how some items' streams are
 opened: it reads that from the list, and the device that plays one gets it at play time. Without it,
-such items are left out.
+such items are left out. Like the lists themselves, it's for streams the household has the right to
+watch.
 
 How often a list is read again: what its settings say, else S.livetv.refresh_hours (at least
 S.livetv.min_refresh_hours).

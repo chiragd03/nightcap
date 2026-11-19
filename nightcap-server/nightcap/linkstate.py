@@ -5,8 +5,8 @@ inside its debrid service's own limits. Everything here is per household (accoun
 debrid service: a household can have several, each with its own limits. Lost when the server
 restarts or sleeps, which only means asking once more.
 
-The debrid service's limits (its "API Rate Limits" article): 300 calls a minute per API key, per endpoint;
-creating a usenet download 60 an hour; adding a torrent it hasn't got 60 an hour.
+The service's published limits: 300 calls a minute per API key, per endpoint; and 60 new files an
+hour that it has to fetch first, of each kind.
 """
 
 import threading

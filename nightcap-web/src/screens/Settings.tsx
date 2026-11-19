@@ -177,6 +177,8 @@ function SettingsScreen() {
             )}
           </div>
         )}
+        {/* Licences and credits, small in the top corner (as the Android TV's). */}
+        <Link className="st-licences" to="/licences">Licences and credits</Link>
         <Link className="st-server" to="/server" title="Server owner" aria-label="Server owner"><Icon name="nav_home" size={16} /><span>Server owner</span></Link>
         </div>
       </div>
@@ -288,8 +290,10 @@ function SettingsScreen() {
         </div>
       )}
 
-      {/* Signing out is in the left panel; here only on phones, where the bottom bar has no room. */}
+      {/* Signing out is in the left panel; here only on phones, where the bottom bar has no room (and
+          Licences and credits, which the top has no room for there). */}
       <div className="st-foot phone-only">
+        <Link className="st-foot-link" to="/licences">Licences and credits</Link>
         <button className="st-foot-link quit" onClick={() => setConfirm({
           title: 'Sign out of this browser?',
           subtitle: "This browser leaves the household and forgets everything here. To sign in again you'll need a new invite from the household's admin or the server owner.",
@@ -1284,7 +1288,7 @@ function SourcesSummary({ sources: s }: { sources?: api.Sources }) {
   if (!s) return <><span className="st-big">Add-ons, AI key</span><span className="st-small">Loading…</span></>
   const extras = s.streamAddons.length + s.subtitleAddons.length
   const nightcap = s.nightcapAiostreams
-  // Where streams come from: the debrid services given (through Nightcap's AIOStreams), or an AIOStreams of its own.
+  // Where streams come from: the link services given (through Nightcap's AIOStreams), or an AIOStreams of its own.
   const keyed = nightcap?.inUse ? nightcap.services.filter(x => x.key).map(x => x.name) : []
   const streams = s.aiostreams ? 'AIOStreams' : keyed.length ? keyed.join(' + ') : nightcap?.inUse ? 'Streams' : 'AIOStreams'
   return (
@@ -1395,7 +1399,7 @@ function SourcesPanel({ sources: s, save, saveAi, setConfirm, onRefresh }: { sou
     return (
       <div className="pn-items">
         <Back onClick={() => setOpen(chosen && !chosen.key ? { kind: 'add', what: 'debrid' } : undefined)}
-          title={chosen ? `${chosen.name} key` : 'Add a debrid service'}>{chosen && !chosen.key ? 'Debrid services' : 'Sources and keys'}</Back>
+          title={chosen ? `${chosen.name} key` : 'Add a link service'}>{chosen && !chosen.key ? 'Link services' : 'Sources and keys'}</Back>
         {chosen ? (
           <>
             <NewDebridKey name={chosen.name}
@@ -1421,7 +1425,7 @@ function SourcesPanel({ sources: s, save, saveAi, setConfirm, onRefresh }: { sou
         {x && <Pill icon="act_unwatched" onClick={() => setOpen({ kind: 'add', what: 'debrid', id: x.id })}>Replace the key</Pill>}
         {x && <Pill icon="act_remove" danger onClick={() => setConfirm({
           title: `Remove the ${x.name} key?`,
-          subtitle: nightcap?.services.some(y => y.key && y.id !== x.id) ? 'The other services keep working.' : 'Without a debrid key, only files add-ons host themselves can play.',
+          subtitle: nightcap?.services.some(y => y.key && y.id !== x.id) ? 'The other services keep working.' : 'Without a link service key, only files add-ons host themselves can play.',
           actions: [{ icon: 'act_remove', label: `Remove the ${x.name} key`, run: () => { setOpen(undefined); save(api.setDebridKey(x.id, null), `${x.name} key removed`) } },
                     { icon: 'act_close', label: 'Keep', run: () => {} }],
         })}>Remove</Pill>}
@@ -1506,11 +1510,11 @@ function SourcesPanel({ sources: s, save, saveAi, setConfirm, onRefresh }: { sou
     <div className="pn-items">
       {offered && (
         <>
-          <h4 className="pn-sub">Debrid services</h4>
+          <h4 className="pn-sub">Link services</h4>
           {!nightcap?.inUse ? <p className="pn-note top">Not in use: your own AIOStreams is.</p>
             : !keys.length ? <p className="pn-note top">No key: only free files play.</p> : null}
           {keys.map(x => <Row key={x.id} mark={<Mark name={x.name} />} name={x.name} sub={`Key ${x.key}`} status={nightcap?.inUse ? 'ok' : undefined} onClick={() => setOpen({ kind: 'debrid', id: x.id })} />)}
-          {keys.length < (nightcap?.services.length ?? 0) && <AddRow onClick={() => setOpen({ kind: 'add', what: 'debrid' })}>Add a debrid service</AddRow>}
+          {keys.length < (nightcap?.services.length ?? 0) && <AddRow onClick={() => setOpen({ kind: 'add', what: 'debrid' })}>Add a link service</AddRow>}
         </>
       )}
 
@@ -1696,7 +1700,7 @@ function AiForm({ providers, saved, replacing, onSave, onLocked }: {
   )
 }
 
-/** A debrid service's key: saved straight away (the household's setup is updated with it). */
+/** A link service's key: saved straight away (the household's setup is updated with it). */
 function NewDebridKey({ name, onSave }: { name: string; onSave: (key: string) => void }) {
   const [key, setKey] = useState('')
   const clean = key.trim()

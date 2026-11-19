@@ -1,0 +1,23 @@
+/* Licences and credits, as the Android TV's layout: 1rem is the Android TV's dp. */
+.lic { position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: var(--ink); }
+.lic-body { position: absolute; top: 72rem; right: 72rem; bottom: 32rem; left: 72rem; display: flex; flex-direction: column; }
+.lic-credits { display: flex; align-items: center; }
+.lic-credits img { width: 140rem; height: 18rem; flex: none; }
+.lic-credits div { margin-left: 22rem; }
+.lic-notice { margin: 0; color: var(--text); font-size: 10rem; }
+.lic-data { margin: 4rem 0 0; color: var(--muted); font-size: 9rem; white-space: pre; }
+.lic-main { display: flex; flex: 1; min-height: 0; margin-top: 22rem; }
+.lic-parts { display: flex; flex-direction: column; width: 220rem; flex: none; overflow: hidden; }
+.lic-part {
+  display: flex; align-items: center; flex: none; height: 34rem; margin-bottom: 4rem; padding: 0 14rem;
+  border: 0; border-radius: 17rem; background: transparent; color: var(--muted);
+  font-size: 10rem; font-weight: 500; text-align: left; white-space: pre; outline: none;
+}
+.lic-part:focus { background: rgba(255, 255, 255, 0.96); color: var(--ink); }
+.lic-text {
+  flex: 1; margin-left: 16rem; padding: 18rem; overflow: hidden; border-radius: 14rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.05));
+  box-shadow: inset 0 0 0 1rem rgba(255, 255, 255, 0.08); color: var(--text);
+  font: 8.5rem/1.5 monospace; white-space: pre-wrap; outline: none;
+}
+.lic-text:focus { box-shadow: inset 0 0 0 1.2rem rgba(255, 255, 255, 0.7); }

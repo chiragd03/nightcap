@@ -2,7 +2,8 @@
 // link, its recipe and where the link leads, and gives back an address the player can play (an HLS
 // playlist), optionally with hls.js settings of its own (`hls`: its loaders, `xhrSetup`…) so its logic
 // runs on every request for that stream; or null if it can't open it, and the player moves on to the
-// next stream.
+// next stream. Like the household's lists themselves, it's for streams the household has the right to
+// watch.
 
 import type { HlsConfig } from 'hls.js'
 import type { LiveRecipe } from './api'

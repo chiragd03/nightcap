@@ -112,4 +112,4 @@ Nightcap is free software under the [GNU Affero General Public License v3.0](LIC
 
 ---
 
-<sub>This product uses the TMDB API but is not endorsed or certified by TMDB. Screenshots show open movies from the Blender Foundation (CC BY) and public-domain films; all titles and images belong to their owners.</sub>
+<sub>This product uses the TMDB API but is not endorsed or certified by TMDB. Nightcap doesn't use TMDB data to train AI models: AI picks and Smart Search send title details (and, for Smart Search, what was typed) to the AI service your household chooses, only to pick and explain titles. Screenshots show a demo library: open movies © Blender Foundation (studio.blender.org), such as <i>Sintel</i> (2010) and <i>Tears of Steel</i> (2012), both CC BY 3.0, and films that are public domain in the US, such as <i>Charade</i> (1963) and <i>My Man Godfrey</i> (1936). Full credits: <a href="https://mynightcap.tv/credits">mynightcap.tv/credits</a>.</sub>

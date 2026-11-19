@@ -100,6 +100,7 @@ class SettingsActivity : TvActivity() {
                 setOnClickListener { open(id) }
             }
         }
+        findViewById<View>(R.id.licencesLink).setOnClickListener { startActivity(LicencesActivity.intent(this)) }
         findViewById<View>(R.id.tvSettings).setOnClickListener { startActivity(Intent(android.provider.Settings.ACTION_SETTINGS)) }
         findViewById<View>(R.id.homeSwitchCard).apply {
             setOnFocusChangeListener { v, has -> lift(v, has) }

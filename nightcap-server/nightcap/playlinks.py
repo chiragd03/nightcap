@@ -376,10 +376,10 @@ def _follow(url, follow=None):
                     continue
                 log.info("A playback link's AIOStreams is still starting")
                 raise Starting()
-            # A usenet file that AIOStreams is still waiting for the debrid service to get ready (cache-and-play):
-            # being prepared, not dead.
+            # A file the household's service is still fetching before AIOStreams can play it: being
+            # prepared, not dead.
             if _own(url) and follow and follow.kind == "usenet" and "timed out" in str(getattr(e, "reason", e)).lower():
-                log.info("A usenet playback link is still being prepared")
+                log.info("A playback link is still being prepared")
                 raise Preparing()
             log.info("A playback link didn't answer: %s", type(e).__name__)
             raise Unavailable()

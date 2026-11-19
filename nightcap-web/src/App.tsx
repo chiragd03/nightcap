@@ -23,6 +23,7 @@ const Player = lazyScreen(() => import('./screens/Player'), m => m.default)
 const Settings = lazyScreen(() => import('./screens/Settings'), m => m.default)
 const Owner = lazyScreen(() => import('./screens/Owner'), m => m.default)
 const Sent = lazyScreen(() => import('./screens/Sent'), m => m.default)
+const Licences = lazyScreen(() => import('./screens/Licences'), m => m.default)
 const LiveTv = lazyScreen(loadLive, m => m.default)
 const LiveBrowse = lazyScreen(loadLive, m => m.LiveBrowse)
 const LivePlayer = lazyScreen(loadLive, m => m.LivePlayer)
@@ -64,6 +65,7 @@ function Gate() {
               <Route path="/sent" element={<Sent />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/settings/profiles" element={<Settings />} />
+              <Route path="/licences" element={<Licences />} />
               <Route path="/title/:type/:id" element={<TitlePage kind="title" />} />
               <Route path="/person/:id" element={<TitlePage kind="person" />} />
               <Route path="/browse/:key" element={<TitlePage kind="browse" />} />

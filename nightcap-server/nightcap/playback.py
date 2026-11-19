@@ -478,7 +478,7 @@ def parse_stream(addon, s, order):
         "via": via if via != addon else None,
         "threeD": bool(re.search(r"\b3d\b|\bhsbs\b|\bhou\b", clean, re.I)),
         "bingeGroup": hints.get("bingeGroup"), "direct": direct,
-        # AIOStreams' stream type (usenet, debrid, http) and a torrent's info hash: part of the file's key.
+        # AIOStreams' stream type and the file's hash (when it gives one): part of the file's key.
         "kind": data.get("type") if data else None,
         "infoHash": (data.get("torrent") or {}).get("infoHash") if isinstance(data.get("torrent"), dict) else s.get("infoHash"),
         # From an extra add-on, not through AIOStreams.
@@ -645,7 +645,7 @@ def other_title(filename, names):
 
 
 # Which episode a file is: AIOStreams' own reading of its name when it gives one (parsedFile), else
-# guessit's (a library made for release names, tested on a great many). Neither is ours to get wrong:
+# guessit's (a library made for reading file names, tested on a great many). Neither is ours to get wrong:
 # hand-made patterns read "S02E05.720p" as episodes 5 to 720. The rules guessit needn't run are left
 # out (it's then about 10 ms a name, and each name is read once). A bare number stays a number: by
 # default guessit splits "One.Piece.1071" into season 10, episode 71 (an anime's episodes are often
