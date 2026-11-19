@@ -12,12 +12,19 @@
 // there, then come back to [me]; &status=what to show there).
 'use strict'
 
-// 1rem = 1 dp of a 960 x 540 dp screen, as large as fits the window.
-function fit() { document.documentElement.style.fontSize = Math.min(innerWidth / 960, innerHeight / 540) + 'px' }
+// 1rem = 1 dp of a 960 x 540 dp screen, as large as fits the window, by the tallest the window has
+// been: the TV's on-screen keyboard makes it shorter, and the page mustn't shrink while typing.
+var tallest = 0
+function fit() {
+  tallest = Math.max(tallest, innerHeight)
+  document.documentElement.style.fontSize = Math.min(innerWidth / 960, tallest / 540) + 'px'
+}
 fit()
 window.addEventListener('resize', fit)
 
 var SAVED = 'nightcap.launcher.server'
+// Short links the TV can follow: these shorteners say where a link leads to any page that asks.
+var SHORTENERS = ['is.gd', 'v.gd']
 var SERVERS = 'nightcap.launcher.servers'
 var WAKING_AFTER_MS = 1500
 var PROBE_TIMEOUT_MS = 90000
@@ -115,7 +122,7 @@ function atHome(host) {
   return a === 10 || a === 127 || (a === 172 && b >= 16 && b <= 31) || (a === 192 && b === 168)
 }
 
-/** What was typed, as { url, code } or { error }. */
+/** What was typed, as { url, code }, { short } (an is.gd or v.gd link: its lookup address) or { error }. */
 function addressFrom(typed) {
   var t = typed.trim()
   if (!t) return { error: 'Type the address you were given.' }
@@ -129,7 +136,10 @@ function addressFrom(typed) {
   var path = u.pathname.replace(/\/+$/, '')
   // An address, or an invite link to the server's web app (its join page, or any page of it).
   if (u.search || (path && !/^\/app(\/|$)/.test(path))) {
-    return { error: "Short links can't be opened on the TV. Type the server's address, or its full invite link." }
+    if (SHORTENERS.indexOf(u.hostname.toLowerCase()) >= 0 && /^\/[A-Za-z0-9_-]+$/.test(path) && !u.search) {
+      return { short: 'https://' + u.hostname.toLowerCase() + '/forward.php?format=json&shorturl=' + path.slice(1) }
+    }
+    return { error: "Only is.gd and v.gd short links can be opened on the TV. Type the server's address, or its full invite link." }
   }
   var scheme = schemed ? u.protocol : atHome(u.hostname) ? 'http:' : 'https:'
   if (scheme === 'http:' && !atHome(u.hostname)) return { error: "That address isn't secure. Ask for its secure version." }
@@ -259,10 +269,47 @@ function closePanel() {
   if (opener) opener.focus()
 }
 
+/** Where a short link leads, asked of its shortener ([lookup]: its lookup address, which lets any page
+ * read the answer): (a full address or invite link, or null and why not). */
+function followShort(lookup, done) {
+  var xhr = new XMLHttpRequest()
+  xhr.open('GET', lookup)
+  xhr.timeout = PROBE_TIMEOUT_MS
+  xhr.onload = function () {
+    var answer = null
+    try { answer = JSON.parse(xhr.responseText) } catch (e) { /* not an answer */ }
+    if (answer && typeof answer.url === 'string') done(answer.url)
+    else if (answer && answer.errorcode === 1) done(null, "That short link doesn't exist. Its letters are case-sensitive: check the capitals.")
+    else if (answer && answer.errorcode === 2) done(null, "That short link has been turned off by its shortener. Type the server's address instead.")
+    else done(null, "Couldn't look up that short link. Type the server's address instead.")
+  }
+  xhr.onerror = xhr.ontimeout = function () { done(null, "Couldn't look up that short link. Type the server's address instead.") }
+  xhr.send()
+}
+
 function connect() {
   if (busy) return
   var got = addressFrom($('address').value)
   if (got.error) { $('panel-status').textContent = got.error; return }
+  busy = true
+  $('panel-status').textContent = 'Connecting…'
+  if (got.short) {
+    followShort(got.short, function (long, why) {
+      busy = false
+      if (screen !== 'panel') return
+      // (Followed once: a short link to another short link isn't.)
+      var to = long ? addressFrom(long) : { error: why }
+      if (to.short) to = { error: "That short link leads to another short link. Type the server's address instead." }
+      if (to.error) { $('panel-status').textContent = to.error; return }
+      reach(to)
+    })
+    return
+  }
+  reach(got)
+}
+
+/** Opens the server [got] ({ url, code }) if it answers as a Nightcap server. */
+function reach(got) {
   busy = true
   $('panel-status').textContent = 'Connecting…'
   probe(got.url, function (ok) {

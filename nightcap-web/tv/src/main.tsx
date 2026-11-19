@@ -23,8 +23,13 @@ keyboard.watch()
 // What the server allows (profiles, name lengths, the PIN…), asked once; the screens show again when it's in.
 loadLimits()
 // 1rem = 1 dp of the Android TV's 960 x 540 dp screen, as large as fits (CSS min() is too new for
-// 2020 TVs, so it's set here).
-const fit = () => { document.documentElement.style.fontSize = `${Math.min(innerWidth / 960, innerHeight / 540)}px` }
+// 2020 TVs, so it's set here), by the tallest the window has been: the TV's on-screen keyboard makes
+// it shorter, and the page mustn't shrink while typing.
+let tallest = 0
+const fit = () => {
+  tallest = Math.max(tallest, innerHeight)
+  document.documentElement.style.fontSize = `${Math.min(innerWidth / 960, tallest / 540)}px`
+}
 fit()
 window.addEventListener('resize', fit)
 createRoot(document.getElementById('root')!).render(
