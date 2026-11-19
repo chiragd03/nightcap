@@ -1,4 +1,4 @@
-// A YouTube video (the YouTube add-on's streams: an id, no address) in YouTube's own player, made to
+// A YouTube video (from an add-on: an id, no address) in YouTube's own player, made to
 // look like the <video> the rest of the player works with: currentTime, duration, paused, play(),
 // pause() and the same events (loadedmetadata, playing, pause, waiting, timeupdate, ended, error).
 // So the player's own controls, resume, progress saving and Up next work on it unchanged.

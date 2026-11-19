@@ -129,11 +129,11 @@ export type Stream = {
   otherLength?: string
   /** Known to be this film or episode (false: kept as a backup, it may be another one). */
   verified?: boolean
-  /** From a last-resort add-on (the player sites one): it adapts its quality. */
+  /** From a last-resort add-on (a plugin): it adapts its quality. */
   plugin?: boolean
   /** An HLS stream (its address, a playback link, won't say). */
   hls?: boolean
-  /** A YouTube video (the YouTube add-on's): its id, played in YouTube's own player; no url then. */
+  /** A YouTube video from an add-on: its id, played in YouTube's own player; no url then. */
   youtube?: string
   /** For a plugin's stream: whether a web page may play it (false: TVs only). */
   browser?: boolean

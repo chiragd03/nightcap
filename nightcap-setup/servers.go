@@ -40,6 +40,8 @@ type savedServer struct {
 	OwnAIO string `json:"ownAIO,omitempty"`
 	// An owner's household setup was put in its database from here (nightcap template).
 	OwnTemplate bool `json:"ownTemplate,omitempty"`
+	// The plugins running next to it.
+	Plugins []savedPlugin `json:"plugins,omitempty"`
 }
 
 // setupHome is this tool's own folder: NIGHTCAP_SETUP_HOME when set (tests), else ~/.nightcap-setup.

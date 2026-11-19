@@ -28,6 +28,14 @@ var (
 
 const releasePrefix = "setup-v"
 
+// versionLabel is this version as shown: "v1.0.0", or "dev" for a build that isn't a release.
+func versionLabel() string {
+	if version == "dev" {
+		return "dev"
+	}
+	return "v" + version
+}
+
 // release is a newer version of this tool, published on GitHub.
 type release struct{ version, page string }
 

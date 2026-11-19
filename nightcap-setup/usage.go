@@ -123,37 +123,23 @@ func costOf(s savedServer) (*cloudCost, error) {
 	if err != nil {
 		return nil, err
 	}
-	// One copy's size: every container's limits added up.
-	svc, _, err := api.do(ctx, http.MethodGet, api.url(s.Slug), nil)
-	if err != nil {
-		return nil, err
+	// Each service (the server, and its plugins on Google Cloud): one copy's size (every container's
+	// limits added up), and its use this month and over the last week (or its life so far).
+	type service struct {
+		name  string
+		since time.Time
 	}
-	var cpu, mem float64
-	containers, _ := at(svc, "spec", "template", "spec", "containers").([]any)
-	for _, c := range containers {
-		lim, _ := at(c.(map[string]any), "resources", "limits").(map[string]any)
-		if v, err := strconv.ParseFloat(fmt.Sprint(lim["cpu"]), 64); err == nil {
-			cpu += v
-		}
-		if m := fmt.Sprint(lim["memory"]); strings.HasSuffix(m, "Mi") {
-			v, _ := strconv.ParseFloat(strings.TrimSuffix(m, "Mi"), 64)
-			mem += v / 1024
-		} else if strings.HasSuffix(m, "Gi") {
-			v, _ := strconv.ParseFloat(strings.TrimSuffix(m, "Gi"), 64)
-			mem += v
-		}
+	services := []service{{s.Slug, s.Created}}
+	for _, p := range s.Plugins {
+		services = append(services, service{p.Service, p.Added})
 	}
 	now := time.Now().UTC()
 	start := time.Date(now.Year(), now.Month(), 1, 0, 0, 0, 0, time.UTC)
-	week := now.Add(-7 * 24 * time.Hour)
-	days := 7.0 // (the pace of the last week, or of its life so far when younger)
-	if !s.Created.IsZero() && s.Created.After(week) {
-		week = s.Created.UTC()
-		days = max(now.Sub(week).Hours()/24, 0.25)
-	}
-	metric := func(name string, from time.Time) (float64, error) {
+	end := start.AddDate(0, 1, 0)
+	left := end.Sub(now).Hours() / 24
+	metric := func(svcName, name string, from time.Time) (float64, error) {
 		q := url.Values{
-			"filter":                         {fmt.Sprintf(`metric.type="%s" AND resource.labels.service_name="%s"`, name, s.Slug)},
+			"filter":                         {fmt.Sprintf(`metric.type="%s" AND resource.labels.service_name="%s"`, name, svcName)},
 			"interval.startTime":             {from.Format(time.RFC3339)},
 			"interval.endTime":               {now.Format(time.RFC3339)},
 			"aggregation.alignmentPeriod":    {"2678400s"},
@@ -196,25 +182,66 @@ func costOf(s savedServer) (*cloudCost, error) {
 		return sum, nil
 	}
 	const billed, requests, sent = "run.googleapis.com/container/billable_instance_time", "run.googleapis.com/request_count", "run.googleapis.com/container/network/sent_bytes_count"
-	vals := map[string]float64{}
-	for _, m := range []struct {
-		key, name string
-		from      time.Time
-	}{{"b", billed, start}, {"r", requests, start}, {"s", sent, start}, {"wb", billed, week}, {"wr", requests, week}, {"ws", sent, week}} {
-		v, err := metric(m.name, m.from)
-		if err != nil && strings.Contains(err.Error(), "has not been used") {
-			if !s.MadeProject { // (a project of theirs: not changed from here)
-				return nil, fmt.Errorf("Google's usage numbers are off in this project")
-			}
-			// Google's usage numbers aren't on in its own project yet: turned on (free), asked again.
-			if _, err := gcloud(ctx, "services", "enable", "monitoring.googleapis.com", "--project="+s.Project, as(s.Account)); err == nil {
-				v, err = metric(m.name, m.from)
-			}
+	// Added up across the services: vCPU-seconds, GiB-seconds, requests and bytes sent, this month
+	// so far and by its end at each one's pace.
+	var soFar, month struct{ cpuSec, memSec, req, sent float64 }
+	for _, sv := range services {
+		svc, code, err := api.do(ctx, http.MethodGet, api.url(sv.name), nil)
+		if code == http.StatusNotFound && sv.name != s.Slug {
+			continue // (a plugin gone: nothing more to count)
 		}
 		if err != nil {
 			return nil, err
 		}
-		vals[m.key] = v
+		var cpu, mem float64
+		containers, _ := at(svc, "spec", "template", "spec", "containers").([]any)
+		for _, c := range containers {
+			lim, _ := at(c.(map[string]any), "resources", "limits").(map[string]any)
+			if v, err := strconv.ParseFloat(fmt.Sprint(lim["cpu"]), 64); err == nil {
+				cpu += v
+			}
+			if m := fmt.Sprint(lim["memory"]); strings.HasSuffix(m, "Mi") {
+				v, _ := strconv.ParseFloat(strings.TrimSuffix(m, "Mi"), 64)
+				mem += v / 1024
+			} else if strings.HasSuffix(m, "Gi") {
+				v, _ := strconv.ParseFloat(strings.TrimSuffix(m, "Gi"), 64)
+				mem += v
+			}
+		}
+		week := now.Add(-7 * 24 * time.Hour)
+		days := 7.0 // (the pace of the last week, or of its life so far when younger)
+		if !sv.since.IsZero() && sv.since.After(week) {
+			week = sv.since.UTC()
+			days = max(now.Sub(week).Hours()/24, 0.25)
+		}
+		vals := map[string]float64{}
+		for _, m := range []struct {
+			key, name string
+			from      time.Time
+		}{{"b", billed, start}, {"r", requests, start}, {"s", sent, start}, {"wb", billed, week}, {"wr", requests, week}, {"ws", sent, week}} {
+			v, err := metric(sv.name, m.name, m.from)
+			if err != nil && strings.Contains(err.Error(), "has not been used") {
+				if !s.MadeProject { // (a project of theirs: not changed from here)
+					return nil, fmt.Errorf("Google's usage numbers are off in this project")
+				}
+				// Google's usage numbers aren't on in its own project yet: turned on (free), asked again.
+				if _, err := gcloud(ctx, "services", "enable", "monitoring.googleapis.com", "--project="+s.Project, as(s.Account)); err == nil {
+					v, err = metric(sv.name, m.name, m.from)
+				}
+			}
+			if err != nil {
+				return nil, err
+			}
+			vals[m.key] = v
+		}
+		soFar.cpuSec += vals["b"] * cpu
+		soFar.memSec += vals["b"] * mem
+		soFar.req += vals["r"]
+		soFar.sent += vals["s"]
+		month.cpuSec += (vals["b"] + vals["wb"]/days*left) * cpu
+		month.memSec += (vals["b"] + vals["wb"]/days*left) * mem
+		month.req += vals["r"] + vals["wr"]/days*left
+		month.sent += vals["s"] + vals["ws"]/days*left
 	}
 	r, _ := regionByID(s.Region)
 	vcpus, gibs, freeSent := runVCPUs, runGiBs, 0.0
@@ -224,19 +251,18 @@ func costOf(s savedServer) (*cloudCost, error) {
 	if r.area == "North America" {
 		freeSent = 1
 	}
-	cost := func(req, sec, sentGiB float64) float64 {
-		return math.Max(0, sec*cpu*vcpus-freeVCPUs*runVCPUs) + math.Max(0, sec*mem*gibs-freeGiBs*runGiBs) +
+	gib := func(b float64) float64 { return b / (1 << 30) }
+	// (The free allowance is the billing account's, taken off once for all of them.)
+	cost := func(cpuSec, memSec, req, sentGiB float64) float64 {
+		return math.Max(0, cpuSec*vcpus-freeVCPUs*runVCPUs) + math.Max(0, memSec*gibs-freeGiBs*runGiBs) +
 			math.Max(0, req-freeRequests)/1e6*runPerMRequests + math.Max(0, sentGiB-freeSent)*r.egress
 	}
-	gib := func(b float64) float64 { return b / (1 << 30) }
-	end := start.AddDate(0, 1, 0)
-	left := end.Sub(now).Hours() / 24
 	c := &cloudCost{
-		soFar:   cost(vals["r"], vals["b"], gib(vals["s"])),
-		cpuPct:  vals["b"] * cpu * vcpus / (freeVCPUs * runVCPUs) * 100,
-		sentGiB: gib(vals["s"]),
+		soFar:   cost(soFar.cpuSec, soFar.memSec, soFar.req, gib(soFar.sent)),
+		cpuPct:  soFar.cpuSec * vcpus / (freeVCPUs * runVCPUs) * 100,
+		sentGiB: gib(soFar.sent),
 	}
-	c.month = cost(vals["r"]+vals["wr"]/days*left, vals["b"]+vals["wb"]/days*left, gib(vals["s"]+vals["ws"]/days*left))
+	c.month = cost(month.cpuSec, month.memSec, month.req, gib(month.sent))
 	return c, nil
 }
 

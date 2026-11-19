@@ -384,15 +384,20 @@ class TitleActivity : TvActivity() {
                     org.json.JSONObject().put("id", card.id).put("kind", "notInterested").put("hidden", true)
                         .put("name", card.name).put("type", type))
             },
-            Sheet.Action(R.drawable.ic_add, "Add to My List") { addToList(card.id, type, card.name) },
+            Sheet.Action(R.drawable.ic_add, "Add to My List") {
+                addToList(card.id, type, card.name, MyListEdits.item(card.id, type, card.name, card.year, card.poster, card.backdrop))
+            },
         ))
     }
 
     /** A title shown on this page (not the page's own) put on My List: nothing on the page changes. */
-    private fun addToList(id: String, type: String, name: String) {
+    private fun addToList(id: String, type: String, name: String, item: Item) {
         saving++
+        val who = Profiles.currentId
         io.execute {
-            val ok = Feed.post("/launcher/mylist", org.json.JSONObject().put("id", id).put("type", type).put("on", true))
+            val ok = Feed.post("/launcher/mylist", org.json.JSONObject().put("id", id).put("type", type).put("on", true), changes = false)
+            // (Noted before Home hears of the change, so it never sees one without the other.)
+            if (ok) { MyListEdits.note(who, item, true); Feed.markChanged() }
             runOnUiThread {
                 saved()
                 Notice.show(this, if (ok) "$name added to My List" else "Couldn't save that. Try again.")
@@ -470,8 +475,12 @@ class TitleActivity : TvActivity() {
         val before = page ?: return
         page = before.copy(header = h.copy(inList = on))
         saving++
+        val who = Profiles.currentId
         io.execute {
-            val ok = Feed.post("/launcher/mylist", org.json.JSONObject().put("id", h.id).put("type", h.type).put("on", on))
+            val ok = Feed.post("/launcher/mylist", org.json.JSONObject().put("id", h.id).put("type", h.type).put("on", on), changes = false)
+            // (No poster on this page: Home uses its own card for the title if it has one. Noted before
+            // Home hears of the change, so it never sees one without the other.)
+            if (ok) { MyListEdits.note(who, MyListEdits.item(h.id, h.type, h.name, null, null, h.backdrop), on); Feed.markChanged() }
             runOnUiThread {
                 saved()
                 if (!ok) page = before

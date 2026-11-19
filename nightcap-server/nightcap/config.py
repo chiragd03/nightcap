@@ -28,6 +28,7 @@ ENVIRONMENT = {
     "SERVER_NAME": "server.name", "MODE": "server.mode", "PORT": "server.port",
     "DISCOVERY_PORT": "server.discovery_port", "ADVERTISE_PORT": "server.advertise_port",
     "PUBLIC_URL": "server.public_url", "OWN_AIOSTREAMS_URL": "server.own_aiostreams_url",
+    "PLUGIN_URLS": "server.plugin_urls",
     "TZ": "server.timezone", "DEFAULT_COUNTRY": "server.country",
     "TRUSTED_PROXY": "server.trusted_proxy",
     "MAX_BODY_BYTES": "server.max_body_bytes", "MAX_IMPORT_BYTES": "server.max_import_bytes",

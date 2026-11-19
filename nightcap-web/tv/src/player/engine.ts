@@ -44,7 +44,7 @@ export type Events = {
 
 export interface Engine {
   /** [hls]: an HLS stream (its address, a playback link, may not say). [youtube]: a YouTube video's id
-   * instead of an address (the YouTube add-on's; only the engine createEngine gives takes it). */
+   * instead of an address (from an add-on; only the engine createEngine gives takes it). */
   open(url: string, startMs: number, hls?: boolean, youtube?: string, hlsConfig?: object): void
   play(): void
   pause(): void

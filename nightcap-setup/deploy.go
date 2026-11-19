@@ -269,8 +269,10 @@ func (d *deployer) run(from int) {
 				fmt.Fprintf(f, "\n--- update %s ---\n", time.Now().Format(time.RFC3339))
 			}
 		}
-		_ = step("Getting the newest images", func() (string, error) { return "", d.compose(ctx, "pull", "--quiet") }) &&
-			step("Restarting Nightcap", func() (string, error) { return "", d.compose(ctx, "up", "-d") }) &&
+		// (The server's own services only: its plugins are updated from their own screen.)
+		own := composeServices(d.dir)
+		_ = step("Getting the newest images", func() (string, error) { return "", d.compose(ctx, append([]string{"pull", "--quiet"}, own...)...) }) &&
+			step("Restarting Nightcap", func() (string, error) { return "", d.compose(ctx, append([]string{"up", "-d"}, own...)...) }) &&
 			step("Checking it answers", d.waitAnswers) &&
 			func() bool { d.say(deployMsg{step: -1, end: true}); return true }()
 		return
@@ -431,4 +433,22 @@ func tildePath(p string) string {
 func (d *deployer) ownContainers(ctx context.Context) bool {
 	out, err := exec.CommandContext(ctx, "docker", "compose", "-p", d.b.slug, "ps", "-q").Output()
 	return err == nil && strings.TrimSpace(string(out)) != ""
+}
+
+// composeServices is the services of a server's own Compose file (not its plugins').
+func composeServices(dir string) []string {
+	data, _ := os.ReadFile(filepath.Join(dir, "docker-compose.yml"))
+	var out []string
+	in := false
+	for _, l := range strings.Split(string(data), "\n") {
+		switch {
+		case l == "services:":
+			in = true
+		case in && l != "" && !strings.HasPrefix(l, " ") && !strings.HasPrefix(l, "#"):
+			in = false
+		case in && strings.HasPrefix(l, "  ") && !strings.HasPrefix(l, "   ") && strings.HasSuffix(strings.TrimSpace(l), ":"):
+			out = append(out, strings.TrimSuffix(strings.TrimSpace(l), ":"))
+		}
+	}
+	return out
 }

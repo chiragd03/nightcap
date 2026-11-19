@@ -53,7 +53,21 @@ func (d *deployer) runKube(ctx context.Context, step func(string, func() (string
 			if n, err := kubectl(ctx, k.context, "-n", k.namespace, "get", "deployment/"+serverName, "-o", "jsonpath={.spec.replicas}"); err == nil && strings.TrimSpace(n) == "0" {
 				return "", errors.New("it's stopped: start it first, then update it")
 			}
-			_, err := kubectl(ctx, k.context, "-n", k.namespace, "rollout", "restart", "deployment", "-l", sel)
+			// (The server's own Deployments only: its plugins are updated from their own screen.)
+			names, err := kubectl(ctx, k.context, "-n", k.namespace, "get", "deployment", "-l", sel, "-o", "name")
+			if err != nil {
+				return "", err
+			}
+			var own []string
+			for _, n := range strings.Fields(names) {
+				if !strings.Contains(n, "-plugin-") {
+					own = append(own, n)
+				}
+			}
+			if len(own) == 0 {
+				return "", errors.New("its parts aren't on the cluster")
+			}
+			_, err = kubectl(ctx, k.context, append([]string{"-n", k.namespace, "rollout", "restart"}, own...)...)
 			return "", err
 		}) && step("Starting Nightcap", func() (string, error) {
 			_, err := kubectl(ctx, k.context, "-n", k.namespace, "rollout", "status", "deployment/"+serverName, "--timeout", "8m")

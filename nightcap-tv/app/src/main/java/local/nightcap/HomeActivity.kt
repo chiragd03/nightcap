@@ -156,14 +156,17 @@ class HomeActivity : TvActivity() {
         Updater.check(this)
         // A Home that arrived while you were browsing, held back: now, keeping focus where it was.
         pending?.let { pending = null; apply(it, focused?.let { (row, item) -> row.id to item.id }) }
+        val listEdits = myListEdits()
+        // (And a save that lands while Home's in front: Back pressed before it was done.)
+        Feed.onChange = ::catchUpMyList
         focused?.let { (row, item) -> hero.show(row, item) }
         widgets.start()
         glassTicker?.let { handler.removeCallbacks(it); handler.post(it) }
         when {
             // Something changed on another screen (watched, alerts, a saved position): show it now.
-            Feed.changedAt > seenChange -> {
+            Feed.changedAt > seenChange || listEdits -> {
                 seenChange = Feed.changedAt
-                refresh(keepFocus = focused?.let { (row, item) -> row.id to item.id } ?: ("" to ""))
+                refresh(keepFocus = focused?.let { (row, item) -> row.id to item.id } ?: ("" to ""), afterEdit = listEdits)
             }
             SystemClock.elapsedRealtime() - lastFetch > 60_000 -> refresh()
             // Still nothing to show, or a first Home still setting up: asked again now (not right after
@@ -175,6 +178,7 @@ class HomeActivity : TvActivity() {
 
     override fun onPause() {
         super.onPause()
+        if (Feed.onChange == ::catchUpMyList) Feed.onChange = null
         handler.removeCallbacks(retry)
         hero.pause()
         widgets.stop()
@@ -355,16 +359,21 @@ class HomeActivity : TvActivity() {
         showProfile()
     }
 
-    private fun refresh(keepFocus: Pair<String, String>? = null) {
+    /** [afterEdit]: My List was just changed here from another screen's save (see [myListEdits]): the
+     *  Home saved before it isn't shown meanwhile, as for a change made on Home. */
+    private fun refresh(keepFocus: Pair<String, String>? = null, afterEdit: Boolean = false) {
         lastFetch = SystemClock.elapsedRealtime()
         val startedAt = generation
         // (A Home asked for one profile is never shown, or kept, as another's.)
         val who = Profiles.currentId
+        if (afterEdit) changesSaving++
         io.execute {
             val p = page
             val result = runCatching { Feed.download(this, p) }
+            val slow = result.getOrNull()?.stale == true
             // Home first: the other calls below don't hold it up.
             runOnUiThread {
+                if (afterEdit && !slow) changesSaving--
                 if (isFinishing) return@runOnUiThread
                 // The profile was removed elsewhere (the server didn't know it): Who's watching.
                 if (who != null && Profiles.currentId == null) {
@@ -387,9 +396,10 @@ class HomeActivity : TvActivity() {
             // Home as saved is out of date: the server brings it up to date, and that's shown the
             // same way (as any background update: never pulling focus); then the Browse pages are built
             // ahead of time.
-            if (result.getOrNull()?.stale == true) slowIo.execute {
+            if (slow) slowIo.execute {
                 val fresh = runCatching { Feed.refresh(this, p) }.onFailure { Log.w(TAG, "Home refresh failed", it) }.getOrNull()
                 runOnUiThread {
+                    if (afterEdit) changesSaving--
                     if (isFinishing || who != Profiles.currentId) return@runOnUiThread
                     if (fresh != null) {
                         setupRetryMs = SETUP_RETRY_FIRST_MS
@@ -621,6 +631,34 @@ class HomeActivity : TvActivity() {
         val after = adapter.rows.indexOfFirst { it.id == "continue" }.takeIf { it >= 0 }
             ?: adapter.rows.indexOfFirst { it.id == Feed.FEATURED }
         adapter.setRow("mylist", Row("mylist", "My List", listOf(item)), after + 1)
+    }
+
+    /**
+     * My List changes saved on another screen (a title's page, Search) for the profile on screen, shown
+     * now, in place, as Home's own are; true if there were any. (The Home the server brings up to date
+     * after them can be held back while browsing.) Home only: a Shows or Movies page leaves them for it.
+     */
+    private fun myListEdits(): Boolean {
+        if (page != null) return false
+        val edits = MyListEdits.take().filter { it.profile == Profiles.currentId }
+        // (Nothing on screen yet, a Home on its way: the one the server brings up to date has them.)
+        if (edits.isEmpty() || shown == null) return false
+        // (A download begun before them would undo them; a Home held back from before them too.)
+        generation++
+        pending = null
+        for (e in edits) {
+            if (!e.on) removeFromRow("mylist", e.item.id)
+            // (Home's own card for it when it has one: it has the poster.)
+            else addToMyList(adapter.rows.firstNotNullOfOrNull { r -> r.items.firstOrNull { it.id == e.item.id } } ?: e.item)
+        }
+        return true
+    }
+
+    /** A change saved while Home's in front: a My List one from another screen is shown now. */
+    private fun catchUpMyList() {
+        if (!myListEdits()) return
+        seenChange = Feed.changedAt
+        refresh(keepFocus = focusedIds() ?: ("" to ""), afterEdit = true)
     }
 
     /** Takes a title out of one row (in place); the row goes if it's left empty. */

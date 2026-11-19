@@ -455,8 +455,11 @@ class SearchActivity : TvActivity() {
     private fun menu(section: Section, card: Card) {
         val type = card.type?.takeIf { it == "movie" || it == "series" } ?: return
         if (section.kind == "cast" || section.kind == "prompt") return
-        fun save(path: String, body: org.json.JSONObject, done: String, drop: Boolean = false) = io.execute {
-            val ok = Feed.post(path, body)
+        val who = Profiles.currentId
+        fun save(path: String, body: org.json.JSONObject, done: String, drop: Boolean = false, onList: Boolean = false) = io.execute {
+            val ok = Feed.post(path, body, changes = !onList)
+            // (Noted before Home hears of the change, so it never sees one without the other.)
+            if (ok && onList) { MyListEdits.note(who, MyListEdits.item(card.id, type, card.name, card.year, card.poster, card.backdrop), true); Feed.markChanged() }
             runOnUiThread {
                 Notice.show(this, if (ok) done else "Couldn't save that. Try again.")
                 // ("You won't see it again": it goes from the results too.)
@@ -479,7 +482,7 @@ class SearchActivity : TvActivity() {
             },
             Sheet.Action(R.drawable.ic_add, "Add to My List") {
                 save("/launcher/mylist", org.json.JSONObject().put("id", card.id).put("type", type).put("on", true),
-                    "${card.name} added to My List")
+                    "${card.name} added to My List", onList = true)
             },
         ))
     }

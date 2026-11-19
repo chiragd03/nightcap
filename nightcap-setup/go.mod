@@ -8,6 +8,7 @@ require (
 	github.com/charmbracelet/lipgloss v1.1.0
 	github.com/jackc/pgx/v5 v5.12.0
 	github.com/muesli/termenv v0.16.0
+	go.yaml.in/yaml/v3 v3.0.6
 	golang.org/x/sys v0.38.0
 )
 

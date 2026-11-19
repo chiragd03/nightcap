@@ -30,8 +30,9 @@ type serverStatus struct {
 	name, mode string
 	households int
 	image      string
-	newer      string // "yes", "no", or "" (couldn't tell)
-	notAsked   bool   // whether it answers wasn't asked (a quiet look on Google Cloud: it would wake it)
+	newer      string            // "yes", "no", or "" (couldn't tell)
+	notAsked   bool              // whether it answers wasn't asked (a quiet look on Google Cloud: it would wake it)
+	plugins    map[string]string // its plugins' states, by ID ("running", "stopped"…), kept out of parts
 	// A full look's extras (opening the screen, or r), kept through the quiet looks:
 	owner    *ownerInfo // who's using it, its versions
 	ownerErr string
@@ -91,6 +92,9 @@ func statusOf(s savedServer, newer bool) serverStatus {
 	wait := 5 * time.Second
 	if s.Where == "cloudrun" {
 		st.parts, st.partsErr = cloudParts(s)
+	}
+	st.parts, st.plugins = splitPlugins(st.parts)
+	if s.Where == "cloudrun" {
 		wait = 30 * time.Second // (a first request after a quiet spell starts a copy of it)
 		if !newer {
 			st.notAsked = true // (a quiet look: Google's word only; asking it would start a copy)
@@ -220,7 +224,7 @@ func composeFor(limit time.Duration, dir string, args ...string) (string, error)
 // serverSecrets are the values in a server's env files that are keys or passwords, so they can be
 // taken out of anything shown (logs).
 func serverSecrets(dir string) []string {
-	var out []string
+	out := pluginSecrets(dir) // (marked secret in their files, whatever their names)
 	for _, f := range []string{"nightcap.env", ".env", "secret.yaml"} {
 		data, err := os.ReadFile(filepath.Join(dir, f))
 		if err != nil {
@@ -253,6 +257,31 @@ func serverSecrets(dir string) []string {
 
 // cloudParts is a Google Cloud server's state, as Cloud Run has it: its newest version ready, on its
 // way, or failed (and why).
+// splitPlugins takes a server's plugins out of its parts (theirs are named plugin-<id>), with their
+// states: they're shown in one line of their own, and don't make the server look up or down.
+func splitPlugins(all []part) ([]part, map[string]string) {
+	var parts []part
+	plugins := map[string]string{}
+	for _, p := range all {
+		id, ok := strings.CutPrefix(p.name, "plugin-")
+		if !ok {
+			parts = append(parts, p)
+			continue
+		}
+		state := p.state
+		switch {
+		case p.state == "running" && p.health == "starting":
+			state = "starting"
+		case p.state == "exited" || p.state == "created":
+			state = "stopped"
+		}
+		if prev := plugins[id]; prev == "" || prev != "running" { // (any copy running: running)
+			plugins[id] = state
+		}
+	}
+	return parts, plugins
+}
+
 func cloudParts(s savedServer) ([]part, string) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
@@ -272,5 +301,18 @@ func cloudParts(s savedServer) ([]part, string) {
 	case why != "":
 		p.health = "unhealthy"
 	}
-	return []part{p}, why
+	parts := []part{p}
+	// Its plugins, by Google's word only (asking them would wake them).
+	for _, sp := range s.Plugins {
+		pp := part{name: "plugin-" + sp.ID, state: "running"}
+		if psvc, code, err := api.do(ctx, http.MethodGet, api.url(sp.Service), nil); code == http.StatusNotFound {
+			pp.state = "gone"
+		} else if err == nil {
+			if ok, _ := serviceReady(psvc); !ok {
+				pp.state = "not ready"
+			}
+		}
+		parts = append(parts, pp)
+	}
+	return parts, why
 }

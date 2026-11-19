@@ -372,9 +372,6 @@ ALTER TABLE account_secrets
     ADD COLUMN IF NOT EXISTS ai_base_url bytea,
     ADD COLUMN IF NOT EXISTS ai_price bytea;
 
--- The player sites list is no longer used.
-ALTER TABLE account_secrets DROP COLUMN IF EXISTS player_sites;
-
 -- A kept lookup or page that was cleared (watch state changed, settings changed…): not used, and
 -- not overwritten by a value that was being worked out before it was cleared.
 ALTER TABLE lookups ADD COLUMN IF NOT EXISTS dropped boolean NOT NULL DEFAULT false;

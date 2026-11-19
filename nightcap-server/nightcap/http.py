@@ -5,13 +5,14 @@ so the server must not be steered by one (or by a redirect) to itself or the clo
 service. The host is looked up once, each address checked, and the connection made to that checked
 address (so a second lookup can't swap it), again on every redirect. In the cloud only public
 addresses on ports 80 and 443 are reached; at home the network's own (a self-hosted AIOStreams at
-192.168.x.x:3000) are too. The one exception is Nightcap's own AIOStreams (own_aiostreams.py), which runs
-next to the server (localhost:3000): its address is set by the server's owner, so
-its exact host and port are let through, nothing else.
+192.168.x.x:3000) are too. The exceptions are Nightcap's own AIOStreams (own_aiostreams.py) and the
+plugins the owner runs next to the server (the setting plugin_urls), on addresses like localhost:3000
+or my-addon:8080: set by the server's owner, so their exact hosts and ports are let through, nothing
+else.
 
 A household's own AI address (an OpenAI-compatible service, see ai.py) is fetched the same way, through
 CheckedTransport: the AI library's requests go over these checked connections, never redirected, and
-Nightcap's own AIOStreams isn't let through for it.
+Nightcap's own AIOStreams and the owner's plugins aren't let through for it.
 """
 
 import http.client
@@ -25,7 +26,7 @@ import threading
 from datetime import datetime
 import time
 from urllib.error import HTTPError, URLError
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlsplit
 from urllib import parse as urllib_parse
 from urllib import request as urllib_request
 from urllib.request import HTTPHandler, HTTPSHandler, Request, build_opener
@@ -48,6 +49,27 @@ class Blocked(OSError):
     """An address the server doesn't fetch from."""
 
 
+def plugin_addresses(text):
+    """{(host, port)} from the setting plugin_urls ("my-addon:8080,[::1]:8081"). One that isn't host:port
+    is left out, said in the logs."""
+    found = set()
+    for n, entry in enumerate((text or "").split(","), 1):
+        entry = entry.strip()
+        if not entry:
+            continue
+        m = re.fullmatch(r"(?:\[([0-9A-Fa-f:.]+)\]|([^\s:/\[\]@?#]+)):(\d{1,5})", entry)
+        port = int(m.group(3)) if m else 0
+        if not m or not 0 < port < 65536:
+            # (Not said as written: a whole address pasted in by mistake may hold a token.)
+            log.warning("Setting plugin_urls: entry %d isn't host:port, left out", n)
+            continue
+        found.add(((m.group(1) or m.group(2)).lower(), port))
+    return found
+
+
+PLUGINS = plugin_addresses(S.server.plugin_urls)
+
+
 def allowed(address, port):
     ip = ipaddress.ip_address(address.split("%")[0])
     if ip.version == 6 and ip.ipv4_mapped:
@@ -58,11 +80,22 @@ def allowed(address, port):
     return True if AT_HOME else ip.is_global and port in (80, 443)
 
 
+def is_plugin(url):
+    """Whether [url] is on one of the owner's plugins (plugin_urls)."""
+    p = urlsplit(url)
+    try:
+        port = p.port or (443 if p.scheme == "https" else 80)
+    except ValueError:
+        return False
+    return p.hostname is not None and (p.hostname.lower(), port) in PLUGINS
+
+
 def _connect(host, port, timeout, source_address=None, own_ok=True):
     """A socket to [host]:[port] on an allowed address. Raises Blocked when it has none. [own_ok]: Nightcap's
-    own AIOStreams is let through (not for an AI address: nothing there is an AI)."""
+    own AIOStreams and the owner's plugins are let through (not for an AI address: nothing there is an AI)."""
     error = None
-    trusted = own_ok and ((host or "").lower(), port) == own_aiostreams.address()
+    where = ((host or "").lower(), port)
+    trusted = own_ok and (where in PLUGINS or where == own_aiostreams.address())
     for family, kind, proto, _, address in socket.getaddrinfo(host, port, type=socket.SOCK_STREAM):
         if not trusted and not allowed(address[0], port):
             error = Blocked(f"Not fetched from: {host}")

@@ -38,6 +38,32 @@ data class Item(
 )
 
 /**
+ * My List changes saved on another screen (a title's page, Search), for Home to show as soon as it's
+ * back in front: the Home the server brings up to date after them can be held back while someone's
+ * browsing (it never moves rows above the one they're on).
+ */
+object MyListEdits {
+    /** [profile]: whose My List it was ([Profiles.currentId] when it was saved). */
+    data class Edit(val profile: String?, val item: Item, val on: Boolean)
+
+    private val edits = mutableListOf<Edit>()
+
+    /** A title put on My List ([on]) or taken off, once it's saved. Any thread. */
+    @Synchronized fun note(profile: String?, item: Item, on: Boolean) {
+        edits.removeAll { it.item.id == item.id }
+        edits += Edit(profile, item, on)
+    }
+
+    /** The changes noted so far, in order, forgotten here. */
+    @Synchronized fun take(): List<Edit> = edits.toList().also { edits.clear() }
+
+    /** A title as a My List card: [poster] null shows its name instead. */
+    fun item(id: String, type: String, name: String, year: String?, poster: String?, backdrop: String?) =
+        Item(id = id, type = type, name = name, year = year, rating = null, poster = poster, backdrop = backdrop,
+            trailer = null, overview = null, reason = null, episode = null, progress = null, videoId = null)
+}
+
+/**
  * [style]: null for posters, "ranked" for a Top 10, "tiles" for Browse. [requestId] and
  * [modelVersion] identify the recommendation engine's answer a row came from, if any.
  */

@@ -44,7 +44,7 @@ func TestRealDatabase(t *testing.T) {
 		t.Fatal(err)
 	}
 	for _, q := range []string{
-		"CREATE TABLE accounts (id int)", "CREATE TABLE profiles (id int)", "CREATE TABLE youtube_matches (id int)",
+		"CREATE TABLE accounts (id int)", "CREATE TABLE profiles (id int)", "CREATE TABLE addon_cache (id int)",
 		"INSERT INTO accounts VALUES (1), (2)", "INSERT INTO profiles VALUES (1), (2), (3)",
 	} {
 		if _, err := old.Exec(ctx, q); err != nil {

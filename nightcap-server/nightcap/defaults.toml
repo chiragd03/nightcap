@@ -24,6 +24,9 @@ public_url = ""              # PUBLIC_URL: "https://nightcap.example.com"; empty
 # OWN_AIOSTREAMS_URL: your own AIOStreams' address, if this server has one ("http://localhost:3000");
 # empty = none, and households give their own
 own_aiostreams_url = ""
+# PLUGIN_URLS: the plugins running next to this server that it may reach on a private address, as
+# exact host:port pairs, comma-separated ("my-addon:8080,127.0.0.1:8081"); nothing else on those hosts
+plugin_urls = ""
 timezone = "UTC"             # TZ: for a household that hasn't set its own
 country = "US"               # DEFAULT_COUNTRY: for a household that hasn't set its own (release dates, Top 10, streaming)
 trusted_proxy = false        # TRUSTED_PROXY: behind a load balancer that adds X-Forwarded-For

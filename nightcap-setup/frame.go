@@ -90,7 +90,7 @@ func (f frame) render() string {
 
 func header(width int) string {
 	mark := accentB.Render("☾  N I G H T C A P")
-	tag := muted.Render("Setup  v" + version)
+	tag := muted.Render("Setup  " + versionLabel())
 	gap := max(width-lipgloss.Width(mark)-lipgloss.Width(tag), 1)
 	return "\n" + mark + strings.Repeat(" ", gap) + tag + "\n" + muted.Render("   Your own streaming server")
 }

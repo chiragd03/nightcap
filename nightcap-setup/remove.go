@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"time"
 
@@ -64,6 +65,14 @@ func removeServerParts(s savedServer) (string, error) {
 		if err != nil {
 			return "", err
 		}
+		for _, p := range s.Plugins { // (its plugins first: their services are its own)
+			if p.Service == "" || !ourCloudService(ctx, api, p.Service, s.Slug) {
+				continue // (a service by its name that isn't this server's is left alone)
+			}
+			if _, code, err := api.do(ctx, http.MethodDelete, api.url(p.Service), nil); err != nil && code != http.StatusNotFound {
+				return "", err
+			}
+		}
 		if _, code, err := api.do(ctx, http.MethodDelete, api.url(s.Slug), nil); err != nil && code != http.StatusNotFound {
 			return "", err
 		}
@@ -79,7 +88,14 @@ func removeServerParts(s savedServer) (string, error) {
 	}
 	if s.Where == "kubernetes" {
 		// Its own objects, by name (never by a label someone else's may carry too).
-		if _, err := kubectlQuick(s.Context, append([]string{"delete", "-n", s.Namespace, "--ignore-not-found", "--wait=false"}, kubeObjects(s.Slug)...)...); err != nil {
+		objects := kubeObjects(s.Slug)
+		for _, p := range s.Plugins { // (its plugins: by their names, as its own parts)
+			if p.Service == "" || !ourKubePlugin(s, p.Service) {
+				continue // (objects by its name that aren't this server's are left alone)
+			}
+			objects = append(objects, "deployment/"+p.Service, "service/"+p.Service, "secret/"+p.Service)
+		}
+		if _, err := kubectlQuick(s.Context, append([]string{"delete", "-n", s.Namespace, "--ignore-not-found", "--wait=false"}, objects...)...); err != nil {
 			return "", err
 		}
 		if s.MadeNamespace {
@@ -247,7 +263,11 @@ func projectNotOnlyItsOwn(ctx context.Context, api runAPI, s savedServer) string
 	}
 	items, _ := list["items"].([]any)
 	for _, it := range items {
-		if name := atString(it.(map[string]any), "metadata", "name"); name != "" && name != s.Slug {
+		name := atString(it.(map[string]any), "metadata", "name")
+		if slices.ContainsFunc(s.Plugins, func(p savedPlugin) bool { return p.Service == name }) {
+			continue // (its own plugin's, still being deleted)
+		}
+		if name != "" && name != s.Slug {
 			return "it has another service, " + name
 		}
 	}

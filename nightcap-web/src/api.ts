@@ -401,7 +401,7 @@ export const adminInvites: InviteMaker = {
 }
 
 
-export type Addon = { id: string; address: string; /** Only asked when nothing else is verified (the player sites add-on), and asleep most of the time. */ lastResort?: boolean }
+export type Addon = { id: string; address: string; /** Only asked when nothing else is verified (a plugin), and asleep most of the time. */ lastResort?: boolean }
 export type Sources = {
   aiostreams: Addon | null
   streamAddons: Addon[]

@@ -1,7 +1,7 @@
 import { youtube } from '../home/trailer'
 import type { Engine, Events, Fit, Track } from './engine'
 
-// The YouTube add-on's videos (a source with a YouTube id and no address), in YouTube's own player,
+// YouTube videos from an add-on (a source with a YouTube id and no address), in YouTube's own player,
 // behind the same Engine as the TV's: so the player's controls, resume, saving and Up next work on
 // them unchanged. YouTube's player has no audio or subtitle tracks to offer; Picture scales its frame.
 //

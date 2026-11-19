@@ -19,7 +19,7 @@ from .cache import cached
 from .config import LOOKUP_BUDGET_S as LOOKUP_BUDGET, S
 from .context import for_me, me
 from .episodes import early, is_out, next_card, out_at, ready_key, sources_known
-from .http import Blocked, cinemeta, get_json
+from .http import Blocked, cinemeta, get_json, is_plugin
 from .languages import AUDIO_LANGUAGES
 from .titles import film_releases, original_language
 from .watching import library_state
@@ -248,8 +248,8 @@ def addon_results(resource, ctype, vid, enough=None, only_extras=False):
             continue
         base = (a.get("transportUrl") or "").removesuffix("/manifest.json")
         # Add-ons running on the phone or PC (Local Files) can't be reached from here; Nightcap's own
-        # AIOStreams, next to the server, can.
-        own = bool(own_url) and base.startswith(own_url + "/")
+        # AIOStreams and the owner's plugins, next to the server, can.
+        own = bool(own_url) and base.startswith(own_url + "/") or is_plugin(base)
         if (re.match(r"^https?://(127\.|localhost)", base) and not own) or not base.startswith("http"):
             continue
         if a.get("direct") and resource != "stream":

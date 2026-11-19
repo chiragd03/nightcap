@@ -106,7 +106,7 @@ CSP = "; ".join([
     "frame-ancestors 'none'",
 ])
 # The web app's pages (/app/) and the Samsung/LG TV app's (/app/tv/) also play in YouTube's own player:
-# trailers and the YouTube add-on's videos. So its script and
+# trailers and YouTube videos from an add-on. So its script and
 # its frame are let in there. Everything else, the API too, keeps CSP as it is.
 APP_CSP = CSP.replace("script-src 'self' 'wasm-unsafe-eval'",
                      "script-src 'self' 'wasm-unsafe-eval' https://www.youtube.com https://s.ytimg.com") \

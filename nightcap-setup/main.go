@@ -33,6 +33,7 @@ const (
 	clusterScreenID
 	cloudScreenID
 	secretsKeyScreenID
+	pluginsScreenID
 )
 
 // app is the whole program: the window's size, the screen showing, and what's been chosen.
@@ -66,6 +67,7 @@ type app struct {
 	cluster       clusterScreen
 	cloud         cloudScreen
 	secrets       secretsKeyScreen
+	plugins       pluginsScreen
 	plan          plan
 }
 
@@ -105,6 +107,11 @@ func (a app) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case release:
 		a.welcome, _ = a.welcome.Update(msg) // (whatever screen is showing)
 		return a, nil
+	case pluginMsg:
+		cmd, _ := a.plugins.update(msg)
+		a.server.s = a.plugins.s
+		a.server.setActions()
+		return a, cmd
 	case checked:
 		// The checks finish on their own time, whatever screen is showing.
 		a.welcome, _ = a.welcome.Update(msg)
@@ -132,6 +139,16 @@ func (a app) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				a.confirming = false
 			}
 			return a, nil
+		}
+		if a.screen == pluginsScreenID && msg.String() != "ctrl+c" { // (its own keys, Esc and typing included)
+			cmd, leave := a.plugins.update(msg)
+			a.server.s = a.plugins.s
+			a.server.setActions()
+			if leave {
+				a.screen, a.back = serverScreenID, a.back[:max(len(a.back)-1, 0)]
+				return a, a.server.act("refresh")
+			}
+			return a, cmd
 		}
 		switch msg.String() {
 		case "ctrl+c":
@@ -457,7 +474,7 @@ func (a app) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				for _, sv := range a.servers {
 					if sv.Dir == o.value {
 						var cmd tea.Cmd
-						a.server, cmd = newServerScreen(sv)
+						a.server, cmd = newServerScreen(freshServer(sv)) // (as saved now: its plugins too)
 						return a.goTo(serverScreenID), cmd
 					}
 				}
@@ -482,7 +499,7 @@ func (a app) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				for _, sv := range a.servers {
 					if sv.Dir == a.deploy.d.dir {
 						var cmd tea.Cmd
-						a.server, cmd = newServerScreen(sv)
+						a.server, cmd = newServerScreen(freshServer(sv)) // (as saved now: its plugins too)
 						a.screen, a.back = serverScreenID, []screen{welcomeScreen, manageScreenID}
 						return a, tea.Batch(cmd, lookAtAll(a.servers))
 					}
@@ -633,8 +650,12 @@ func (a app) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			case "enter":
 				o, _ := a.server.actions.chosen()
 				if o.value == "remove" {
-					a.remove = newRemoveScreen(a.server.s)
+					a.remove = newRemoveScreen(freshServer(a.server.s)) // (with its plugins as saved)
 					return a.goTo(removeScreenID), nil
+				}
+				if o.value == "plugins" {
+					a.plugins = newPluginsScreen(a.server.s, a.server.s.Where == "cloudrun" || a.server.running())
+					return a.goTo(pluginsScreenID), nil
 				}
 				if o.value == "forget" {
 					if err := forgetServer(a.server.s.Dir); err != nil {
@@ -747,6 +768,9 @@ func (a app) View() string {
 		f.keys, f.body = a.server.keys(), a.server.View(inner)
 	case removeScreenID:
 		f.keys, f.body = a.remove.keys(), a.remove.View(inner)
+	case pluginsScreenID:
+		a.plugins.spin = a.welcome.spin.View()
+		f.keys, f.body = a.plugins.keys(), a.plugins.View(inner)
 	case secretsKeyScreenID:
 		f.step, f.keys = 1, a.secrets.keys()
 		f.body = a.secrets.View(inner)

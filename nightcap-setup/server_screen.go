@@ -161,16 +161,24 @@ func (sc *serverScreen) setActions() {
 		{value: "update", title: "Update", desc: "Get the newest version. Nothing is lost."},
 		{value: "restart", title: "Restart", desc: "Turn it off and on again."},
 	}
+	plugins := []option{}
+	var states map[string]string
+	if sc.st != nil {
+		states = sc.st.plugins
+	}
+	if title, desc := pluginsLine(sc.s, states); title != "" {
+		plugins = append(plugins, option{value: "plugins", title: title, desc: desc})
+	}
 	if sc.st != nil && sc.s.Where != "cloudrun" && !sc.running() {
 		// Stopped: start it (opening its page, restarting or updating it wait for that).
-		sc.actions = choices{opts: []option{
+		sc.actions = choices{opts: append(append([]option{
 			{value: "start", title: "Start", desc: "Bring it back."},
 			{value: "logs", title: "Logs", desc: "What it was doing."},
 			key,
-			{value: "remove", title: "Remove", desc: "Delete it and its data, for good."},
-		}}
+		}, plugins...), option{value: "remove", title: "Remove", desc: "Delete it and its data, for good."})}
 		return
 	}
+	opts = append(opts, plugins...)
 	switch {
 	case sc.s.Where == "cloudrun":
 		// (No Stop: it already runs only while someone's watching.)

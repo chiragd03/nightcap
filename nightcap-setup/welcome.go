@@ -116,7 +116,7 @@ func (w welcome) View(width, height int) string {
 		lw := lipgloss.Width(logoLines[0])
 		b.WriteString(center(width, sky(lw+16, w.tick)) + "\n")
 		b.WriteString(center(width, logo(w.tick)) + "\n")
-		b.WriteString(center(width, muted.Render("Your own streaming server  ·  setup v"+version)) + "\n\n")
+		b.WriteString(center(width, muted.Render("Your own streaming server  ·  setup "+versionLabel())) + "\n\n")
 	} else {
 		b.WriteString(plain.Render("Let's get a Nightcap server running.") + "\n\n")
 	}
