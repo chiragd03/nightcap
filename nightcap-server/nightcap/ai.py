@@ -16,7 +16,9 @@ is unknown (NULL), and the monthly limit isn't applied to it (it couldn't be kep
 import json
 import logging
 import re
+import uuid
 from collections import namedtuple
+from contextvars import ContextVar
 
 import anthropic
 import openai
@@ -193,6 +195,28 @@ def _parse(text):
 
 # ---------- Asking ----------
 
+# The model that gave this context's last answer (ask_ai), for save_picks.
+_answered_by = ContextVar("answered_by", default=None)
+
+
+def save_picks(feature, sent, picks, seed=None, query=None):
+    """Saves an AI answer that's being used (the ai_picks table), as the AI gave it: [sent], the
+    candidates' keys it was given, in that order; [picks], its picks, keys only, in its own order,
+    before anything is sorted, filtered or taken out (for Home: {"for_you": [keys], "because": [{"seed",
+    "row", "picks"}], "themes": [{"title", "row", "picks"}], …} as its answer has them; "row" is the
+    Home row it became, or null when none did). Returns the new request id, to go out with the rows it
+    makes; None if it couldn't be saved (the rows are shown all the same). Home's rows as the apps
+    name them: for_you is "foryou", shows "tv:foryou", movies "movie:foryou"; a Because row "because0"
+    is "tv:because0" or "movie:because0" on the Shows and Movies pages too."""
+    request_id = uuid.uuid4().hex
+    try:
+        store.save_ai_picks(me(), request_id, feature, _answered_by.get(), sent, picks, seed, query)
+        return request_id
+    except Exception:
+        log.exception("Couldn't save the AI's picks (%s)", feature)
+        return None
+
+
 # One call's tokens, and its cost when the service said it (OpenRouter does).
 Usage = namedtuple("Usage", "input output cost")
 # One call's answer: its text, its usage (None if the service gave none), and "refusal" or "max_tokens"
@@ -228,6 +252,7 @@ def ask_ai(system, prompt, schema, effort="medium", max_tokens=S.ai.max_tokens.r
         except ValueError:
             problem = "not JSON"
         if not problem:
+            _answered_by.set(ai["model"])
             return found
         log.warning("AI call (%s): the answer wasn't in the shape asked for (%s)", purpose, problem)
     raise AIUnavailable("failed")

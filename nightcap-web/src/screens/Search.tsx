@@ -28,7 +28,7 @@ const SUGGESTIONS = [
   'A slow-burn series with a mind-blowing ending',
 ]
 
-type Smart = { q: string; state: 'thinking' | 'done' | 'failed'; items: Card[] }
+type Smart = { q: string; state: 'thinking' | 'done' | 'failed'; items: Card[]; requestId?: string }
 type Peek = { kind: 'title' | 'smart' | 'person' | 'ask'; card?: Card }
 
 /** Lower case, letters and digits of any script (Hindi too), single spaces. */
@@ -131,7 +131,7 @@ export default function Search() {
       // The AI can't be used now (its monthly limit, no key): Smart Search goes away, the title
       // results stay.
       if (r.note) { setSmart(cur => (cur?.q === text ? undefined : cur)); setAi(false); return }
-      setSmart(cur => (cur?.q === text ? { q: text, state: 'done', items: r.items } : cur))
+      setSmart(cur => (cur?.q === text ? { q: text, state: 'done', items: r.items, requestId: r.requestId } : cur))
     }, () => setSmart(cur => (cur?.q === text ? { q: text, state: 'failed', items: [] } : cur)))
   }
 
@@ -157,7 +157,7 @@ export default function Search() {
   // (Found out late that there's no AI: a Smart Search started from the address is dropped.)
   useEffect(() => { if (!ai) setSmart(undefined) }, [ai])
 
-  const opened = (card: Card) => { remember(q); api.searchedOpened(card.id) }
+  const opened = (card: Card, row: 'titles' | 'ai', slot: number, requestId?: string) => { remember(q); api.searchedOpened(card.id, row, slot, requestId) }
 
   // The TV's long-press menu for a title: watched already, or not for you.
   const titleMenu = (card: Card) => (e: MouseEvent) => {
@@ -198,13 +198,13 @@ export default function Search() {
 
   const titlesRow = results && results.titles.length > 0 && (
     <Shelf key="titles" title="Titles" scrollKey={results.titles.length}>
-      {results.titles.map(c => <PosterCard key={c.id} card={c} onPeek={() => setPeek({ kind: 'title', card: c })} onMenu={titleMenu(c)} onOpen={() => opened(c)} />)}
+      {results.titles.map((c, i) => <PosterCard key={c.id} card={c} onPeek={() => setPeek({ kind: 'title', card: c })} onMenu={titleMenu(c)} onOpen={() => opened(c, 'titles', i)} />)}
     </Shelf>
   )
   const smartRow = searching && ai && (
     smartHere?.state === 'done' && smartHere.items.length > 0 ? (
       <Shelf key="smart" title={<><span className="spark">✦</span> Smart picks</>} scrollKey={smartHere.items.length}>
-        {smartHere.items.map(c => <PosterCard key={c.id} card={c} onPeek={() => setPeek({ kind: 'smart', card: c })} onMenu={titleMenu(c)} onOpen={() => opened(c)} />)}
+        {smartHere.items.map((c, i) => <PosterCard key={c.id} card={c} onPeek={() => setPeek({ kind: 'smart', card: c })} onMenu={titleMenu(c)} onOpen={() => opened(c, 'ai', i, smartHere.requestId)} />)}
       </Shelf>
     ) : (
       <section key="ask" className="row">

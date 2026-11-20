@@ -7,7 +7,7 @@ import org.json.JSONObject
  * Where a title was opened or played from, passed along screen to screen so the server can link
  * each play and action to it: a Home row (and the card's place in it), search, Continue
  * watching, Up next, or straight from a page. [requestId] and [modelVersion] identify the
- * recommendation engine's answer that showed it, when it came from one.
+ * AI answer that showed it, when it came from one.
  */
 data class PlaySource(
     val origin: String,

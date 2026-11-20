@@ -28,6 +28,8 @@ export type Row = {
   title: string
   style?: 'ranked' | 'tiles'
   items: Item[]
+  /** The AI's answer the row came from (the server keeps it), sent back with what's opened from it. */
+  requestId?: string
 }
 
 export type Weather = {

@@ -49,6 +49,8 @@ export default function TitlePage({ kind }: { kind: Kind }) {
   const [listSaving, setListSaving] = useState(false)
   const [error, setError] = useState<unknown>()
   const [similar, setSimilar] = useState<Card[]>([])
+  // (The AI's answer More like this came from, sent back with what's opened from it.)
+  const [similarRequest, setSimilarRequest] = useState<string>()
   const [peek, setPeek] = useState<{ section: Section; card: Card }>()
   const [menu, setMenu] = useState<{ title: string; subtitle?: string; actions: Action[] }>()
   const [rating, setRating] = useState(false)
@@ -73,7 +75,7 @@ export default function TitlePage({ kind }: { kind: Kind }) {
   }, [key])
 
   useEffect(() => {
-    setPage(opened.get(`${api.profile.get()}:${kind}${key}`)); setError(undefined); setSimilar([]); setPeek(undefined); setSeason(undefined)
+    setPage(opened.get(`${api.profile.get()}:${kind}${key}`)); setError(undefined); setSimilar([]); setSimilarRequest(undefined); setPeek(undefined); setSeason(undefined)
     // (Scrolling: components/Scroll, the top for a new page, where it was for Back.)
     reload()
     if (kind !== 'title') return
@@ -83,7 +85,10 @@ export default function TitlePage({ kind }: { kind: Kind }) {
     api.similar(params.type!, params.id!).then(r => {
       if (gone) return
       setSimilar(r.items)
-      if (!r.ai) api.rankSimilar(params.type!, params.id!).then(ranked => { if (!gone && ranked.items.length) setSimilar(ranked.items) }, () => {})
+      setSimilarRequest(r.requestId)
+      if (!r.ai) api.rankSimilar(params.type!, params.id!).then(ranked => {
+        if (!gone && ranked.items.length) { setSimilar(ranked.items); setSimilarRequest(ranked.requestId) }
+      }, () => {})
     }, () => {})
     return () => { gone = true }
   }, [key])
@@ -242,22 +247,25 @@ export default function TitlePage({ kind }: { kind: Kind }) {
         )}
         {others.map(sec => (
           <Shelf key={sec.id} title={sec.title} className={sec.kind} scrollKey={sec.items.length}>
-            {sec.items.map(card => sec.kind === 'cast' ? (
+            {sec.items.map((card, i) => sec.kind === 'cast' ? (
               <Link key={card.id} to={`/person/${card.id}`} className="card cast" onMouseEnter={() => setPeek({ section: sec, card })}>
                 <span className="cast-photo"><Img src={card.photo} fallback={card.name[0]} /></span>
                 <b>{card.name}</b>
                 {card.character && <span className="card-sub">{card.character}</span>}
               </Link>
             ) : (
-              <PosterCard key={card.id} card={card} onPeek={() => setPeek({ section: sec, card })} onMenu={onMenu(() => posterMenu(card))} />
+              // (A title from this page's rows, as the TVs report it: a Browse page's row by its page.)
+              <PosterCard key={card.id} card={card} onPeek={() => setPeek({ section: sec, card })} onMenu={onMenu(() => posterMenu(card))}
+                onOpen={() => api.opened(card.id, 'row', kind === 'browse' ? `${params.key}/${sec.id}` : sec.id, i)} />
             ))}
           </Shelf>
         ))}
         {similar.length > 0 && (
           <Shelf title="More like this" scrollKey={similar.length}>
-            {similar.map(card => {
+            {similar.map((card, i) => {
               const sec: Section = { id: 'similar', title: 'More like this', kind: 'posters', items: similar }
-              return <PosterCard key={card.id} card={card} onPeek={() => setPeek({ section: sec, card })} onMenu={onMenu(() => posterMenu(card))} />
+              return <PosterCard key={card.id} card={card} onPeek={() => setPeek({ section: sec, card })} onMenu={onMenu(() => posterMenu(card))}
+                onOpen={() => api.opened(card.id, 'similar', 'similar', i, similarRequest)} />
             })}
           </Shelf>
         )}

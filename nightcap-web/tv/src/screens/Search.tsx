@@ -12,7 +12,7 @@ import Sheet, { type Choice } from '../ui/Sheet'
 import LiveTv from './LiveTv'
 import Profiles from './Profiles'
 import Settings from './Settings'
-import Title from './Title'
+import Title, { type Source } from './Title'
 import '../home/Home.css'
 import '../screens/Title.css'
 import './Search.css'
@@ -32,7 +32,7 @@ const IDEAS = [
 const QUICK_AFTER_MS = 300
 
 type Quick = { titles: Card[]; people: Card[] }
-type Ai = { q: string; state: 'thinking' | 'done' | 'none' | 'failed'; items: Card[] }
+type Ai = { q: string; state: 'thinking' | 'done' | 'none' | 'failed'; items: Card[]; requestId?: string }
 type Menu = { title: string; subtitle?: string; choices: Choice[] }
 
 /** Lower case, letters and digits of any script (Hindi too), single spaces. */
@@ -144,7 +144,7 @@ export default function Search() {
     aiAsked.current = s
     setAi({ q: s, state: 'thinking', items: [] })
     const path = `/launcher/search/ai.json?q=${encodeURIComponent(s)}`
-    pages.get<{ items?: Card[]; note?: string }>(path, false, api.TIMEOUT.slow).then(r => {
+    pages.get<{ items?: Card[]; note?: string; requestId?: string }>(path, false, api.TIMEOUT.slow).then(r => {
       if (aiAsked.current !== s) return
       // The AI can't be used now (its monthly limit, no key): Smart Search goes away, the title results
       // stay; this answer isn't kept for when it's back.
@@ -155,7 +155,7 @@ export default function Search() {
         return
       }
       const items = r.items ?? []
-      setAi(a => (a?.q !== s ? a : { q: s, state: items.length ? 'done' : 'none', items }))
+      setAi(a => (a?.q !== s ? a : { q: s, state: items.length ? 'done' : 'none', items, requestId: r.requestId }))
       // (Only if they're still waiting on it, not typing something else or browsing.)
       const active = document.activeElement
       if (items.length && latestQ.current === s && (active === box.current || active === pill.current)) setTimeout(() => r_.focusCard(0, 0), 0)
@@ -187,9 +187,11 @@ export default function Search() {
     if (row.kind === 'prompt') return smart(c.name)
     remember(q)
     if (row.kind === 'cast') return nav.push(<Title kind="person" id={c.id} name={c.name} />)
-    // (A report: no page changes because of it.)
-    api.send('/launcher/interaction', { id: c.id, kind: 'searched_opened', origin: 'search' })
-    nav.push(<Title kind={(c.type ?? 'movie') as pages.Kind} id={c.id} name={c.name} source={{ origin: 'search' }} />)
+    // (Which results and where in them; the Smart picks with the AI's answer they came from, as the
+    // Android TV's. A report: no page changes because of it.)
+    const source: Source = { origin: 'search', row: row.id === 'smart' ? 'ai' : row.id, slot: i, requestId: row.id === 'smart' ? aiNow?.requestId : undefined }
+    api.send('/launcher/interaction', { id: c.id, kind: 'searched_opened', ...source })
+    nav.push(<Title kind={(c.type ?? 'movie') as pages.Kind} id={c.id} name={c.name} source={source} />)
   }
 
   // Long OK on a title: it stays in the results (Not interested takes it out).

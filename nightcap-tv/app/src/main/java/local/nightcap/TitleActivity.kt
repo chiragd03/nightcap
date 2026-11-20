@@ -207,7 +207,9 @@ class TitleActivity : TvActivity() {
         val cards = Pages.parseCards(json.getJSONArray("items"))
         runOnUiThread {
             if (!isFinishing && cards.isNotEmpty()) similarShown = true
-            if (!isFinishing && cards.isNotEmpty()) adapter.putSimilar(Section("similar", "More like this", "posters", cards))
+            // (Its AI answer kept with the cards: a row in use keeps showing the list before it.)
+            if (!isFinishing && cards.isNotEmpty()) adapter.putSimilar(Section("similar", "More like this", "posters", cards,
+                json.optString("requestId").takeIf { it.isNotEmpty() }))
         }
     }
 
@@ -306,7 +308,9 @@ class TitleActivity : TvActivity() {
             "cast" -> startActivity(intent(this, "person", card.id, card.name))
             else -> {
                 // A title from this page's rows (More like this, an actor's or a Browse page's titles).
-                val source = PlaySource("row", if (h.type == "browse") "${h.id}/${section.id}" else section.id, section.cards.indexOf(card))
+                val slot = section.cards.indexOf(card)
+                val source = if (section.id == "similar") PlaySource("similar", section.id, slot, section.requestId)
+                else PlaySource("row", if (h.type == "browse") "${h.id}/${section.id}" else section.id, slot)
                 Feed.interaction(card.id, "opened", source)
                 startActivity(intent(this, card.type ?: "movie", card.id, card.name, source))
             }

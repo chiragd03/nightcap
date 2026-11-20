@@ -182,10 +182,10 @@ export const titlePage = (type: string, id: string) => get<Page>(`/launcher/titl
 export const personPage = (id: string) => get<Page>(`/launcher/person/${id}.json`)
 export const browsePage = (key: string) => get<Page>(`/launcher/browse/${encodeURIComponent(key)}.json`)
 
-/** Similar titles: the AI's picks once ready (ai: true), until then TMDB's own list. */
-export const similar = (type: string, id: string) => get<{ ai: boolean; items: Card[] }>(`/launcher/similar/${type}/${id}.json`)
+/** Similar titles: the AI's picks once ready (ai: true, with the id of its answer), until then TMDB's own list. */
+export const similar = (type: string, id: string) => get<{ ai: boolean; items: Card[]; requestId?: string }>(`/launcher/similar/${type}/${id}.json`)
 /** Works out the AI's picks for More like this now (a few seconds); TMDB's list again without the AI. */
-export const rankSimilar = (type: string, id: string) => post<{ ai: boolean; items: Card[] }>(`/launcher/similar/${type}/${id}/rank`, {})
+export const rankSimilar = (type: string, id: string) => post<{ ai: boolean; items: Card[]; requestId?: string }>(`/launcher/similar/${type}/${id}/rank`, {})
 
 // ---------- Watch state ----------
 
@@ -199,8 +199,11 @@ export const rate = (id: string, value: -1 | 1 | 2 | null) => post<Ok>('/launche
 export const setMyList = (id: string, type: 'movie' | 'series', on: boolean) => post<Ok>('/launcher/mylist', { id, type, on })
 export const notInterested = (id: string, type: string, name: string, row?: string) =>
   post<Ok>('/launcher/hide', { id, kind: 'notInterested', hidden: true, name, type, ...(row ? { row } : {}) })
-export const opened = (id: string, origin: string, row?: string, slot?: number) =>
-  post<Ok>('/launcher/interaction', { id, kind: 'opened', origin, row, slot }).catch(() => {})
+/** A Home row opened (a Browse tile): when each row was last used, as the TVs report it. */
+export const rowOpened = (row: string) => post<Ok>('/launcher/opened', { row }).catch(() => {})
+/** A title opened (for the recommendations): from where, and the AI's answer it came from, if any. */
+export const opened = (id: string, origin: string, row?: string, slot?: number, requestId?: string) =>
+  post<Ok>('/launcher/interaction', { id, kind: 'opened', origin, row, slot, requestId }).catch(() => {})
 
 // ---------- Playback ----------
 
@@ -533,16 +536,17 @@ export type QuickResults = { titles: Card[]; people: Card[] }
 /** As you type: titles and people from TMDB. */
 export const quickSearch = (q: string) => get<QuickResults>(`/launcher/search/quick.json?q=${encodeURIComponent(q)}`)
 /** Smart Search: the AI reads a description ("anime like Death Note"); [note] says when it can't. */
-export const smartSearch = (q: string) => get<{ items: Card[]; note?: string }>(`/launcher/search/ai.json?q=${encodeURIComponent(q)}`)
+export const smartSearch = (q: string) => get<{ items: Card[]; note?: string; requestId?: string }>(`/launcher/search/ai.json?q=${encodeURIComponent(q)}`)
 /** This profile's recent searches (each profile has its own), and keeping one. */
 /** What Search needs when it opens: recent searches, and whether this household has the AI (it's
  * optional: without a key, nothing about Smart Search shows). A server that doesn't say has it. */
 export const searchStart = () => get<{ recent: string[]; aiAvailable?: boolean }>('/launcher/recent.json')
   .then(r => ({ recent: r.recent, ai: r.aiAvailable !== false }))
 export const rememberSearch = (q: string) => post<{ recent: string[] }>('/launcher/recent', { q }).then(r => r.recent)
-/** A title opened from Search (for the recommendations). */
-export const searchedOpened = (id: string) =>
-  post<Ok>('/launcher/interaction', { id, kind: 'searched_opened', origin: 'search' }).catch(() => {})
+/** A title opened from Search (for the recommendations): which results ("titles", "ai": the Smart
+ * picks), where in them, and the AI's answer they came from. */
+export const searchedOpened = (id: string, row: string, slot: number, requestId?: string) =>
+  post<Ok>('/launcher/interaction', { id, kind: 'searched_opened', origin: 'search', row, slot, requestId }).catch(() => {})
 
 // ---------- Play on TV ----------
 

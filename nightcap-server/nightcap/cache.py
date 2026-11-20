@@ -24,7 +24,7 @@ from .context import scoped
 log = logging.getLogger(__name__)
 
 # Kept in the database (after a profile's "<id>|", for the pages that are its own).
-KEPT = ("launcher", "browse:", "title:", "similar:", "similarpool:", "person:", "preview:", "quick:", "search:",
+KEPT = ("launcher", "browse:", "title:", "similar:", "similarpool:", "person:", "preview:", "quick:", "smart:",
         "cinemeta:", "discover:", "netflix_top10", "lookup:", "lang:", "imdb:", "extras:", "weather:", "tvmaze:",
         "ready:", "pool:", "anime_top:", "found:", "seasonlength:")
 _PROFILE = re.compile(r"^[0-9a-f-]{36}\|")

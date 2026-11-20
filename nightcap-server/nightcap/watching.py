@@ -75,7 +75,7 @@ def save_audio_pick(vid, pick):
 
 SOURCE_FIELDS = {"origin": "origin", "row": "row_key", "slot": "slot", "requestId": "request_id",
                  "modelVersion": "model_version", "audioLanguage": "audio_language"}
-ORIGINS = ("row", "search", "continue", "up_next", "direct")
+ORIGINS = ("row", "search", "continue", "up_next", "direct", "similar")
 
 
 def source_of(body):

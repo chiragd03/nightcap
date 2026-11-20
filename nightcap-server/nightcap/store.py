@@ -943,6 +943,18 @@ def record_usage(profile, purpose, model, input_tokens, output_tokens, cost):
       (account_of(profile), profile, purpose, model, input_tokens, output_tokens, cost))
 
 
+def save_ai_picks(profile, request_id, feature, model, sent, picks, seed=None, query=None):
+    q("""INSERT INTO ai_picks (request_id, profile_id, feature, model, seed, query, sent, picks)
+         VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
+      (request_id, profile, feature, model, seed, query, Jsonb(sent), Jsonb(picks)))
+
+
+def sweep_ai_picks(days):
+    """Deletes the AI's lists saved more than [days] ago; returns how many went."""
+    with pool().connection() as c:
+        return c.execute("DELETE FROM ai_picks WHERE at < now() - make_interval(days => %s)", (days,)).rowcount
+
+
 def month_spend(account, tz):
     """What the account's AI calls have cost this calendar month (in its time zone), in USD."""
     row = q("""SELECT coalesce(sum(cost_usd), 0)::float AS cost FROM ai_usage

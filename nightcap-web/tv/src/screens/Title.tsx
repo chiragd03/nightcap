@@ -35,6 +35,8 @@ export default function Title({ kind, id, name, source = { origin: 'direct' } }:
   const root = useRef<HTMLDivElement>(null)
   const [page, setPage] = useState<Page | null>(null)
   const [similar, setSimilar] = useState<Card[] | null>(null)
+  // (The AI's answer More like this came from, sent back with what's opened from it.)
+  const similarRequest = useRef<string | undefined>(undefined)
   const [status, setStatus] = useState('Loading…')
   const [failed, setFailed] = useState(false)
   const [rail, setRail] = useState(false)
@@ -96,14 +98,17 @@ export default function Title({ kind, id, name, source = { origin: 'direct' } }:
   const loadSimilar = () => {
     if (kind !== 'movie' && kind !== 'series') return
     const simPath = pages.similarPath(kind, id)
-    pages.get<{ items: Card[]; ai?: boolean }>(simPath).then(s => {
+    pages.get<{ items: Card[]; ai?: boolean; requestId?: string }>(simPath).then(s => {
       setSimilar(s.items ?? [])
+      similarRequest.current = s.requestId
       if (s.ai) return
-      api.call<{ items: Card[]; ai?: boolean }>(`/launcher/similar/${kind}/${encodeURIComponent(id)}/rank`, { body: {}, timeout: api.TIMEOUT.slow })
+      api.call<{ items: Card[]; ai?: boolean; requestId?: string }>(`/launcher/similar/${kind}/${encodeURIComponent(id)}/rank`, { body: {}, timeout: api.TIMEOUT.slow })
         .then(ranked => {
           pages.remember(simPath, ranked)
-          // (Not while it has focus: nothing moves under the viewer.)
-          setSimilar(was => (rowsRef.current[focusRef.current.row]?.id === 'similar' ? was : ranked.items ?? []))
+          // (Not while it has focus: nothing moves under the viewer. Its AI answer goes with the list shown.)
+          if (rowsRef.current[focusRef.current.row]?.id === 'similar') return
+          setSimilar(ranked.items ?? [])
+          similarRequest.current = ranked.requestId
         }, () => {})
     }, () => {})
   }
@@ -170,10 +175,12 @@ export default function Title({ kind, id, name, source = { origin: 'direct' } }:
         art={p.header.backdrop ?? undefined} source={source} />)
     }
     if (row.kind === 'cast') return nav.push(<Title kind="person" id={c.id} name={c.name} />)
-    const rowId = kind === 'browse' ? `${id}/${row.id}` : row.id
-    // (A report: no page changes because of it.)
-    api.send('/launcher/interaction', { id: c.id, kind: 'opened', origin: 'row', row: rowId, slot: i })
-    nav.push(<Title kind={(c.type ?? 'movie') as Kind} id={c.id} name={c.name} source={source} />)
+    // A title from this page's rows (More like this, an actor's or a Browse page's titles), as the
+    // Android TV's: More like this with the AI's answer it came from. (A report: no page changes.)
+    const from: Source = row.id === 'similar' ? { origin: 'similar', row: 'similar', slot: i, requestId: similarRequest.current }
+      : { origin: 'row', row: kind === 'browse' ? `${id}/${row.id}` : row.id, slot: i }
+    api.send('/launcher/interaction', { id: c.id, kind: 'opened', ...from })
+    nav.push(<Title kind={(c.type ?? 'movie') as Kind} id={c.id} name={c.name} source={from} />)
   }
 
   // ---------- Changes ----------

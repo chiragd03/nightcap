@@ -29,7 +29,7 @@ MIN_REBUILD_S = S.advanced.refresh.min_rebuild_seconds
 
 # Kept lookups past their use, deleted once a day (each kind well after it would be worked out again
 # anyway): lists with dates in them would otherwise pile up for good (a new key every day).
-SWEEP = [("discover:", 3), ("pool:", 3), ("quick:", 2), ("search:", 3), ("cinemeta:", 3), ("extras:", 7),
+SWEEP = [("discover:", 3), ("pool:", 3), ("quick:", 2), ("smart:", 3), ("cinemeta:", 3), ("extras:", 7),
          ("similarpool:", 3), ("similar:", 14), ("title:", 3), ("browse:", 3), ("preview:", 3), ("person:", 3),
          ("weather:", 1), ("tvmaze:", 3), ("ready:", 3), ("lang:", 3),
          ("lookup:", 60), ("imdb:", 60), ("found:", 150), ("seasonlength:", 14)]
@@ -45,6 +45,10 @@ def sweep():
         log.info("Swept %d old lookups", store.sweep_lookups(SWEEP))
     except Exception:
         log.exception("Couldn't sweep old lookups")
+    try:
+        log.info("Swept %d old AI answers", store.sweep_ai_picks(S.advanced.recommendations.ai_picks_days))
+    except Exception:
+        log.exception("Couldn't sweep old AI answers")
 
 
 def _build():

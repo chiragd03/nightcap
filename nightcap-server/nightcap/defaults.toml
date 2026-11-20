@@ -308,6 +308,7 @@ because_size = 12            # without the AI: a Because row
 because_same_language = 9    # without the AI: of those, in its title's language
 theme_min_titles = 6         # an AI themed row with fewer left (after the rows above it) isn't shown
 plot_chars = 100             # of each candidate's plot the AI is shown
+ai_picks_days = 90           # the AI's answers as saved for the recommendations (ai_picks) are kept this long
 ai_effort = "low"            # how hard the AI works at its answer
 min_ai_picks = 15             # an AI answer with fewer For You picks is asked again, then ranked in code
 ai_thinking = true           # whether it thinks first. Thinking is 3/4 of a rebuild's cost, but without it

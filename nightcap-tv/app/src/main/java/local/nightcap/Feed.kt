@@ -65,7 +65,7 @@ object MyListEdits {
 
 /**
  * [style]: null for posters, "ranked" for a Top 10, "tiles" for Browse. [requestId] and
- * [modelVersion] identify the recommendation engine's answer a row came from, if any.
+ * [modelVersion] identify the AI answer a row came from, if any.
  */
 data class Row(
     val id: String, val title: String, val items: List<Item>, val style: String? = null,

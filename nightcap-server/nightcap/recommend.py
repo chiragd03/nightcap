@@ -7,7 +7,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 from . import catalogue, store
 from .cache import cached
-from .ai import AIUnavailable, ask_ai
+from .ai import AIUnavailable, ask_ai, save_picks
 from .config import BECAUSE_ROWS, MAX_AGE_HOURS, MIN_REBUILD_HOURS, S
 from .context import me
 from .http import tmdb
@@ -341,18 +341,22 @@ def build_catalogs():
     # Netflix-style: a title shows up in one row only.
     used = watched | {m["id"] for m in catalogs["foryou"]}
     seed_names = []
-    for seed, b in zip(seeds, picks["because"]):
+    # (Which row each of the AI's Because and theme lists became, if any: see save_picks.)
+    rows_of = {}
+    for i, (seed, b) in enumerate(zip(seeds, picks["because"])):
         metas = to_metas(b["picks"], by_key, skip=used, prefix=f"Because you watched {seed['name']}: ")
         if not metas:
             continue
         catalogs[f"because{len(seed_names)}"] = metas
+        rows_of["because", i] = f"because{len(seed_names)}"
         seed_names.append(seed["name"])
         used |= {m["id"] for m in metas}
     themes = []
-    for th in picks["themes"]:
+    for i, th in enumerate(picks["themes"]):
         metas = to_metas([{"key": k, "reason": ""} for k in th["picks"]], by_key, skip=used)
         if len(metas) >= R.theme_min_titles:
             catalogs[f"theme{len(themes)}"] = metas
+            rows_of["themes", i] = f"theme{len(themes)}"
             themes.append(th["title"].strip()[:60])
             used |= {m["id"] for m in metas}
     # The Shows and Movies pages' own: picks and themes of their kind, none of Home's picks, a title
@@ -364,15 +368,30 @@ def build_catalogs():
         catalogs[f"{page}:picks"] = to_metas(own(picks[picks_key]), by_key, skip=taken)
         taken |= {m["id"] for m in catalogs[f"{page}:picks"]}
         names = []
-        for th in picks[themes_key]:
+        for i, th in enumerate(picks[themes_key]):
             metas = to_metas(own([{"key": k, "reason": ""} for k in th["picks"]]), by_key, skip=taken)
             if len(metas) >= R.theme_min_titles:
                 catalogs[f"{page}:theme{len(names)}"] = metas
+                rows_of[themes_key, i] = f"{page}:theme{len(names)}"
                 names.append(th["title"].strip()[:60])
                 taken |= {m["id"] for m in metas}
         pages[page] = names
     for cid, metas in catalogs.items():
         log.info("Row %s: %d titles", cid, len(metas))
+    request_id = None
+    if by_ai:
+        keys = lambda ps: [p["key"] for p in ps]
+        seed_key = lambda s: f"{'m' if s['kind'] == 'movie' else 't'}{s['tmdb_id']}" if s["tmdb_id"] else s["id"]
+        listed = lambda name: [{"title": th["title"], "row": rows_of.get((name, i)), "picks": th["picks"]}
+                               for i, th in enumerate(picks[name])]
+        request_id = save_picks("home", [c["key"] for c in shortlist], {
+            "for_you": keys(picks["for_you"]),
+            "because": [{"seed": seed_key(seeds[i]) if i < len(seeds) else None, "row": rows_of.get(("because", i)),
+                         "picks": keys(b["picks"])} for i, b in enumerate(picks["because"])],
+            "themes": listed("themes"),
+            "shows": keys(picks["shows"]), "show_themes": listed("show_themes"),
+            "movies": keys(picks["movies"]), "movie_themes": listed("movie_themes"),
+        })
 
     return {
         "version": VERSION,
@@ -380,6 +399,8 @@ def build_catalogs():
         "history_fingerprint": fingerprint(movies, series),
         "taste_summary": picks["taste_summary"],
         "by_ai": by_ai,
+        # (The AI's answer these rows came from, as saved in ai_picks: goes out with them.)
+        "request_id": request_id,
         "seeds": seed_names,
         "seed_kinds": [next(("movie" if s["kind"] == "movie" else "tv") for s in seeds if s["name"] == n) for n in seed_names],
         "themes": themes,

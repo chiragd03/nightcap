@@ -736,6 +736,12 @@ def launcher_feed(page=None):
                  # (As this profile: its audio language picks the trailers.) The genres row's are tiles already.
                  "items": items if cid == "genres" else list(pool.map(for_me(lambda r: feed_item(r[0], r[1], **r[2])), items))}
                 for cid, title, items in rows_out]
+    # The AI's rows carry the id of its answer they came from (ai_picks), sent back with what's opened
+    # or played from them.
+    if cache.get("by_ai") and cache.get("request_id"):
+        for r, (cid, _, _) in zip(rows, rows_out):
+            if cid == "foryou" or cid.startswith(("because", "theme")):
+                r["requestId"] = cache["request_id"]
     # (A page's rows are kept apart from Home's: each its own streak of days shown.)
     note_rows_shown([r["id"] for r in rows], page)
 

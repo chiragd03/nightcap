@@ -1,5 +1,6 @@
 import { memo, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import * as api from '../api'
 import type { Item, Row } from '../types'
 import Shelf from './Shelf'
 import { useLongPress } from './longPress'
@@ -17,8 +18,8 @@ const RowView = memo(function RowView({ row, onFocus, onMenu }: Props) {
   const style = row.style ?? 'posters'
   return (
     <Shelf title={row.title} className={style} scrollKey={row.items.length}>
-      {row.items.map(item => (
-        <RowItem key={item.id} row={row} item={item} style={style} onFocus={onFocus}
+      {row.items.map((item, slot) => (
+        <RowItem key={item.id} row={row} item={item} slot={slot} style={style} onFocus={onFocus}
           menu={onMenu && item.type !== 'tile' ? () => onMenu(row, item) : undefined} />
       ))}
     </Shelf>
@@ -27,7 +28,7 @@ const RowView = memo(function RowView({ row, onFocus, onMenu }: Props) {
 export default RowView
 
 /** One card of a row; a long press opens its menu on a touch screen. */
-function RowItem({ row, item, style, onFocus, menu }: { row: Row; item: Item; style: string; onFocus: (item: Item) => void; menu?: () => void }) {
+function RowItem({ row, item, slot, style, onFocus, menu }: { row: Row; item: Item; slot: number; style: string; onFocus: (item: Item) => void; menu?: () => void }) {
   const press = useLongPress(menu)
   return (
     <Link
@@ -36,6 +37,9 @@ function RowItem({ row, item, style, onFocus, menu }: { row: Row; item: Item; st
       className="card"
       onMouseEnter={() => onFocus(item)}
       onFocus={() => onFocus(item)}
+      // (A title opened, for the recommendations: its row, where in it, and the AI's answer the row
+      // came from, as the TVs report it.)
+      onClick={() => { if (item.type === 'tile') api.rowOpened(row.id); else api.opened(item.id, row.id === 'continue' ? 'continue' : 'row', row.id, slot, row.requestId) }}
       onContextMenu={e => { if (menu) { e.preventDefault(); menu() } }}
       {...press}
     >

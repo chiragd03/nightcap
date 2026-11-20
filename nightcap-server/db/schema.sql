@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS episode_watched (
 );
 CREATE INDEX IF NOT EXISTS episode_watched_show ON episode_watched (profile_id, imdb_id);
 
--- Every play session, for the recommendation engine: when, how much was really watched,
+-- Every play session, for the recommendations: when, how much was really watched,
 -- how far, whether it finished, why it was left early (an optional tap), and where it came from.
 CREATE TABLE IF NOT EXISTS watch_events (
     id              bigserial PRIMARY KEY,
@@ -104,10 +104,10 @@ CREATE TABLE IF NOT EXISTS watch_events (
     finished        boolean NOT NULL DEFAULT false,
     exit_reason     text CHECK (exit_reason IN ('not_my_taste', 'pausing')),
     audio_language  text,
-    origin          text CHECK (origin IN ('row', 'search', 'continue', 'up_next', 'direct')),
+    origin          text CHECK (origin IN ('row', 'search', 'continue', 'up_next', 'direct', 'similar')),
     row_key         text,                            -- the Home row it came from, if any
     slot            int,                             -- its position in that row
-    request_id      text,                            -- the engine response it came from
+    request_id      text,                            -- the AI answer it came from
     model_version   text
 );
 ALTER TABLE watch_events DROP COLUMN IF EXISTS updated_at;
@@ -116,7 +116,7 @@ ALTER TABLE watch_events
     ADD COLUMN IF NOT EXISTS played_ms bigint NOT NULL DEFAULT 0,
     ADD COLUMN IF NOT EXISTS exit_reason text CHECK (exit_reason IN ('not_my_taste', 'pausing')),
     ADD COLUMN IF NOT EXISTS audio_language text,
-    ADD COLUMN IF NOT EXISTS origin text CHECK (origin IN ('row', 'search', 'continue', 'up_next', 'direct')),
+    ADD COLUMN IF NOT EXISTS origin text CHECK (origin IN ('row', 'search', 'continue', 'up_next', 'direct', 'similar')),
     ADD COLUMN IF NOT EXISTS row_key text,
     ADD COLUMN IF NOT EXISTS slot int,
     ADD COLUMN IF NOT EXISTS request_id text,
@@ -136,20 +136,54 @@ CREATE TABLE IF NOT EXISTS not_interested (
 ALTER TABLE not_interested DROP COLUMN IF EXISTS name, DROP COLUMN IF EXISTS type;
 
 -- Deliberate actions only (nothing passive: a TV left on proves nothing). Each is linked to
--- where it happened and, for engine rows, to the engine response that showed it.
+-- where it happened and, for the AI's rows, to the AI answer that showed it.
 CREATE TABLE IF NOT EXISTS interactions (
     id             bigserial PRIMARY KEY,
     profile_id     uuid NOT NULL REFERENCES profiles ON DELETE CASCADE,
     imdb_id        text NOT NULL,
     kind           text NOT NULL CHECK (kind IN ('opened', 'played', 'searched_opened', 'not_interested', 'remind_me')),
     at             timestamptz NOT NULL DEFAULT now(),
-    origin         text CHECK (origin IN ('row', 'search', 'continue', 'up_next', 'direct')),
+    origin         text CHECK (origin IN ('row', 'search', 'continue', 'up_next', 'direct', 'similar')),
     row_key        text,
     slot           int,
     request_id     text,
     model_version  text
 );
 CREATE INDEX IF NOT EXISTS interactions_recent ON interactions (profile_id, at DESC);
+
+-- 'similar' (More like this) added to where a play or action came from: a table made before it has its
+-- origin check put in again (any copy of it too). NOT VALID: the rows already there are all allowed, so
+-- they aren't read through again each time this file is applied (new ones are checked).
+DO $$ DECLARE r record; BEGIN
+    FOR r IN SELECT conrelid::regclass AS tbl, conname FROM pg_constraint
+             WHERE conrelid IN ('watch_events'::regclass, 'interactions'::regclass) AND contype = 'c'
+               AND conname ~ '^(watch_events|interactions)_origin_check' LOOP
+        EXECUTE format('ALTER TABLE %s DROP CONSTRAINT %I', r.tbl, r.conname);
+    END LOOP;
+END $$;
+ALTER TABLE watch_events ADD CONSTRAINT watch_events_origin_check
+    CHECK (origin IN ('row', 'search', 'continue', 'up_next', 'direct', 'similar')) NOT VALID;
+ALTER TABLE interactions ADD CONSTRAINT interactions_origin_check
+    CHECK (origin IN ('row', 'search', 'continue', 'up_next', 'direct', 'similar')) NOT VALID;
+
+-- Each AI answer that was used (Home's rows, More like this, a Smart Search): what the AI was given
+-- and what it picked, in its own order, as TMDB keys (m123 a film, t456 a series) the way the AI saw
+-- them. Only ever added to; deleted after advanced.recommendations.ai_picks_days (refresh.sweep).
+-- [request_id] goes out with the rows it made, and the apps send it back with what's opened or
+-- played from them (interactions, watch_events). [picks]: see ai.save_picks.
+CREATE TABLE IF NOT EXISTS ai_picks (
+    id          bigserial PRIMARY KEY,               -- in the order saved
+    request_id  text NOT NULL,
+    profile_id  uuid NOT NULL REFERENCES profiles ON DELETE CASCADE,  -- Smart Search: who asked first
+    feature     text NOT NULL CHECK (feature IN ('home', 'similar', 'search')),
+    at          timestamptz NOT NULL DEFAULT now(),
+    model       text,
+    seed        text,                                -- More like this: the title it's for
+    query       text,                                -- Smart Search: what was asked
+    sent        jsonb NOT NULL,                      -- the keys the AI was given, in that order
+    picks       jsonb NOT NULL
+);
+CREATE INDEX IF NOT EXISTS ai_picks_at ON ai_picks (at);
 
 -- How a profile rated a title: -1 dislike, 1 like, 2 love (asked at the end, or on its page).
 CREATE TABLE IF NOT EXISTS ratings (
@@ -266,7 +300,7 @@ CREATE TABLE IF NOT EXISTS titles (
     trailer     text,                           -- YouTube key
     updated_at  timestamptz NOT NULL DEFAULT now()
 );
--- What the recommendation engine reads about a title (all from the same TMDB request).
+-- What the recommendations read about a title (all from the same TMDB request).
 ALTER TABLE titles
     ADD COLUMN IF NOT EXISTS keywords        text[] NOT NULL DEFAULT '{}',  -- "heist", "time travel"
     ADD COLUMN IF NOT EXISTS keyword_ids     int[]  NOT NULL DEFAULT '{}',
@@ -318,6 +352,8 @@ CREATE TABLE IF NOT EXISTS lookups (
     value     jsonb,
     saved_at  timestamptz NOT NULL DEFAULT now()
 );
+-- Smart Search answers were kept as "search:…", now as "smart:…" (with their request id): the old ones go.
+DELETE FROM lookups WHERE key LIKE 'search:%';
 
 -- Add-ons that failed and streams that wouldn't play, so a bad source can be found and dropped.
 CREATE TABLE IF NOT EXISTS source_failures (

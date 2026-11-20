@@ -15,7 +15,7 @@ from . import accounts, cache, store
 from .config import S
 from .cache import cached
 from .context import scoped
-from .ai import AIUnavailable, ask_ai
+from .ai import AIUnavailable, ask_ai, save_picks
 from .http import get_json, tmdb
 from .recommend import PICKS, candidate_line, merge_candidates, to_metas
 from .titles import TMDB_IMG, genre_lists, genre_names, imdb_id_for, title_extras
@@ -156,6 +156,8 @@ def today():
 
 
 def ai_search(query):
+    """{"metas": the results, "requestId": the AI's picks as saved in ai_picks (None when it named
+    the titles itself, or they couldn't be saved)}."""
     plan = ask_ai(SEARCH_SYSTEM.format(today=today()), query, SEARCH_SCHEMA, effort="low", max_tokens=S.ai.max_tokens.search_plan,
                       purpose="search")
     log.info("Search %r: %d titles, filters=%s", query, len(plan["titles"]), plan["filters"])
@@ -164,14 +166,16 @@ def ai_search(query):
     raw = [(item, kind, t["reason"]) for t, (item, kind) in zip(plan["titles"], found) if item]
     if plan["plain_title"]:
         pool = merge_candidates(raw)
-        return to_metas([{"key": k, "reason": c["via"][0]} for k, c in pool.items()], pool, limit=S.advanced.search.ai_results)
+        return {"metas": to_metas([{"key": k, "reason": c["via"][0]} for k, c in pool.items()], pool,
+                                  limit=S.advanced.search.ai_results), "requestId": None}
     raw += filter_results(plan["filters"])[:80]
     pool = merge_candidates(raw)
     genres = genre_names()
     prompt = f"SEARCH: {query}\n\nCANDIDATE POOL:\n" + "\n".join(candidate_line(c, genres) for c in pool.values())
     picks = ask_ai(PICK_SYSTEM.format(today=today()), prompt, PICKS_SCHEMA, effort="low", max_tokens=S.ai.max_tokens.search_picks,
                        purpose="search")["picks"]
-    return to_metas(picks, pool, limit=S.advanced.search.ai_results)
+    request_id = save_picks("search", list(pool), [p["key"] for p in picks], query=query)
+    return {"metas": to_metas(picks, pool, limit=S.advanced.search.ai_results), "requestId": request_id}
 
 
 
@@ -349,7 +353,10 @@ def known_matches(q, found):
 def ai_search_cards(q):
     """The Stremio AI search, as launcher cards with the AI's reason for each."""
     try:
-        metas = cached(f"search:{q.lower()}", lambda: ai_search(q), ttl=S.advanced.cache.ai_search_hours * 3600)
+        # (Kept for everyone who asks the same, as the AI isn't told who asks: everyone gets the first
+        # asker's answer and its request id, which links each one's openings and plays to it.)
+        found = cached(f"smart:{q.lower()}", lambda: ai_search(q), ttl=S.advanced.cache.ai_search_hours * 3600)
+        metas = found["metas"]
     except AIUnavailable as e:
         if e.reason == "failed":
             # Only this time: an error, so the apps offer to try again and keep Smart Search.
@@ -373,4 +380,4 @@ def ai_search_cards(q):
             "poster": (m.get("poster") or "").replace("/w500/", "/w342/"), "reason": reason, "overview": overview[:300],
             "backdrop": backdrop,
         }.items() if v})
-    return {"items": cards}
+    return {"items": cards, **({"requestId": found["requestId"]} if found["requestId"] else {})}

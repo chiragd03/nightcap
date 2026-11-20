@@ -8,7 +8,7 @@ from concurrent.futures import ThreadPoolExecutor
 from . import cache, store
 from .config import S
 from .cache import cached
-from .ai import ask_ai
+from .ai import ask_ai, save_picks
 from .context import me, scoped
 from .http import cinemeta, tmdb
 from .recommend import PICKS, candidate_line, merge_candidates, recs, related, same_kind
@@ -215,7 +215,11 @@ def rank_similar(ctype, imdb_id):
                   "CANDIDATE POOL:\n" + "\n".join(candidate_line(c, genres) for c in pool.values()))
         picks = ask_ai(SIMILAR_SYSTEM, prompt, SIMILAR_SCHEMA, effort="low", max_tokens=S.ai.max_tokens.similar,
                        purpose="similar")["picks"]
-        page = {"ai": True, "items": similar_items(picks, pool)}
+        # (The title as the AI's keys are: m123 a film, t456 a series.)
+        tmdb_id = tmdb_find(imdb_id, ctype)
+        seed = f"{'m' if ctype == 'movie' else 't'}{tmdb_id}" if tmdb_id else None
+        request_id = save_picks("similar", list(pool), [p["key"] for p in picks], seed=seed)
+        page = {"ai": True, "items": similar_items(picks, pool), **({"requestId": request_id} if request_id else {})}
         cache.put(key, page, started)
         return page
     finally:

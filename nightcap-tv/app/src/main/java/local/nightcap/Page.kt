@@ -30,7 +30,8 @@ data class Card(
     val progress: Float? = null,
 )
 
-data class Section(val id: String, val title: String, val kind: String, val cards: List<Card>)
+/** [requestId]: the AI's answer the cards came from (the server's ai_picks), sent back with what's opened. */
+data class Section(val id: String, val title: String, val kind: String, val cards: List<Card>, val requestId: String? = null)
 
 data class Header(
     val id: String,

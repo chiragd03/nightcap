@@ -307,7 +307,7 @@ class SearchActivity : TvActivity() {
                     }
                     val cards = Pages.parseCards(json.getJSONArray("items"))
                     ai = if (cards.isEmpty()) Section("ai", "✦  Smart Search found nothing — try describing it differently", "prompt", listOf(promptCard(q)))
-                    else Section("ai", "✦  Smart picks", "posters", cards)
+                    else Section("ai", "✦  Smart picks", "posters", cards, json.optString("requestId").takeIf { it.isNotEmpty() })
                     show()
                     // (Only if they're still waiting on it, not typing something else or browsing.)
                     if (q == latest && (query.hasFocus() || askAi.hasFocus())) focusFirstResult()
@@ -443,8 +443,10 @@ class SearchActivity : TvActivity() {
             "prompt" -> askSmart(card.name)
             "cast" -> startActivity(TitleActivity.intent(this, "person", card.id, card.name))
             else -> {
-                Feed.interaction(card.id, "searched_opened", SEARCH)
-                startActivity(TitleActivity.intent(this, card.type ?: "movie", card.id, card.name, SEARCH))
+                // (Which results and where in them; the Smart picks with the AI's answer they came from.)
+                val source = PlaySource("search", section.id, section.cards.indexOf(card), section.requestId)
+                Feed.interaction(card.id, "searched_opened", source)
+                startActivity(TitleActivity.intent(this, card.type ?: "movie", card.id, card.name, source))
             }
         }
     }
@@ -493,8 +495,6 @@ class SearchActivity : TvActivity() {
     }
 
     private fun encode(q: String) = URLEncoder.encode(q, "UTF-8")
-
-    private val SEARCH = PlaySource("search")
 
     companion object {
         private const val TAG = "Nightcap"
